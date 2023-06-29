@@ -1,0 +1,98 @@
+<body>
+    <section>
+        <div class="login-box">
+            <form [formGroup]="signupForm" (ngSubmit)="onSaveForm()" class="">
+                <img src="./assets/img/Logo_TIC_IS.png" alt="">
+                <h2>Registrarse</h2>
+
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="person-outline"></ion-icon></span>
+                    <input type="text" formControlName="name" name="name" id="name" required>
+                    <label>Nombre</label>
+                </div>
+                <div class="alert-danger" *ngIf="name?.invalid && (name?.dirty || name?.touched)">
+                    <div class="container-error-message" *ngIf="name && name.errors && name.errors['required']">
+                        Nombre es requerido.
+                    </div>
+                    <div class="container-error-message" *ngIf="name && name.errors && name.errors['minlength']">
+                        Minimo 4 caracteres.
+                    </div>
+                </div>
+
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="person-outline"></ion-icon></span>
+                    <input type="lastname" name="lastname" id="lastname" formControlName="lastname" required>
+                    <label>Apellido</label>
+                </div>
+                <div class="alert-danger" *ngIf="lastname?.invalid && (lastname?.dirty || lastname?.touched)">
+                    <div class="container-error-message"
+                        *ngIf="lastname && lastname.errors && lastname.errors['required']">
+                        Nombre es requerido.
+                    </div>
+                    <div class="container-error-message"
+                        *ngIf="lastname && lastname.errors && lastname.errors['minlength']">
+                        Minimo 4 caracteres.
+                    </div>
+                </div>
+
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="mail-outline"></ion-icon></span>
+                    <input type="text" formControlName="email" name="email" id="email" required>
+                    <label>Email</label>
+                </div>
+                <div class="alert-danger" *ngIf="email?.invalid && (email?.dirty || email?.touched)">
+                    <div class="container-error-message" *ngIf="email && email.errors && email.errors['required']">
+                        Email es requerido.
+                    </div>
+                    <div class="container-error-message" *ngIf="email && email.errors && email.errors['minlength']">
+                        Minimo 10 caracteres.
+                    </div>
+                    <div class="container-error-message"
+                        *ngIf="(email?.dirty || email?.touched) && email?.invalid && email?.hasError('pattern')">
+                        Escriba un email válido.
+                    </div>
+                </div>
+
+
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="call-outline"></ion-icon></span>
+                    <input type="text" name="phone" id="phone" formControlName="phone" required>
+                    <label>Celular</label>
+                </div>
+                <div class="alert-danger" *ngIf="phone?.invalid && (phone?.dirty || phone?.touched)">
+                    <div class="container-error-message" *ngIf="phone && phone.errors && phone.errors['required']">
+                        Numero de celular es requerido.
+                    </div>
+                    <div class="container-error-message" *ngIf="phone && phone.errors && phone.errors['minlength']">
+                        Minimo 10 caracteres.
+                    </div>
+                    <div class="container-error-message" *ngIf="phone && phone.errors && phone.errors['maxlength']">
+                        Maximo 10 caracteres.
+                    </div>
+                    <div class="container-error-message"
+                        *ngIf="(phone?.dirty || phone?.touched) && phone?.invalid && phone?.hasError('pattern')">
+                        Solo caracteres numericos válidos.
+                    </div>
+                </div>
+
+                <div class="input-box">
+                    <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
+                    <input type="password" name="password" id="password" formControlName="password" required>
+                    <label>Contraseña</label>
+                </div>
+                <div class="alert-danger" *ngIf="password?.invalid && (password?.dirty || password?.touched)">
+                    <div class="container-error-message"
+                        *ngIf="password && password.errors && password.errors['required']">
+                        Contraseña es requerido.
+                    </div>
+                    <div class="container-error-message"
+                        *ngIf="password && password.errors && password.errors['maxlength']">
+                        La Contraseña debe tener al menos 10 caracteres.
+                    </div>
+                </div>
+
+                <button type="submit" [disabled]="signupForm.invalid" routerLink="">Registrar</button>
+            </form>
+        </div>
+    </section>
+</body>
