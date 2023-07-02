@@ -7,7 +7,7 @@ import { NgForm }   from '@angular/forms';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'your-drink-frontend';
+  title = 'Campeonato Deportivo de la Escuela de T.I.';
   onSubmit(form: NgForm){
   	console.log(form.value);
   }

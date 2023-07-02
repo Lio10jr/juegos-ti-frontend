@@ -1,18 +1,30 @@
-import { Component , OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { UsersService } from 'src/app/service/user/users.service';
 import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
+import { environment } from 'src/app/environments/environment';
+import { ApiService } from 'src/app/service/api/api.service';
+import { Credenciales } from 'src/app/models';
+
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  protected loginForm: FormGroup;
+  loginForm: FormGroup;
   private emailPattern: any = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  
-  constructor( private router: Router, private ts: UsersService){
+  private apiUrl: string = environment.apiUrl;
+  creds: Credenciales = {
+    email: '',
+    password: ''
+  };
+
+  constructor(private _http: HttpClient, private router: Router, private ts: UsersService, private apiService: ApiService) {
     this.loginForm = this.createFormGroup();
+
   }
 
   get email() { return this.loginForm.get('email'); }
@@ -20,7 +32,7 @@ export class LoginComponent implements OnInit {
 
   createFormGroup() {
     return new FormGroup({
-      email: new FormControl('',[ 
+      email: new FormControl('', [
         Validators.required,
         Validators.pattern(this.emailPattern),
         Validators.minLength(10),
@@ -33,19 +45,24 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void{}
+  ngOnInit(): void {
+  }
 
   onResetForm() {
     this.loginForm.reset();
   }
 
-  onSaveForm() {
+  onLogForm(): void {
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
     if (this.loginForm.valid) {
-      const formValues = this.loginForm.value;
-      //this.ts.addUsers(formValues.name,formValues.lastname,formValues.email,formValues.phone,formValues.password).subscribe( data => console.log(data));
-      this.onResetForm();
-      /* window.location.href="task";
-      this.router.navigateByUrl('task'); */
-    }    
+      this.apiService.login(this.loginForm.getRawValue())
+        .subscribe(response => {
+          this.router.navigate(["/home"]);
+        });
+    }
   }
 }

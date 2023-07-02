@@ -1,5 +1,6 @@
 import { Component , OnInit } from '@angular/core';
 import { UsersService } from 'src/app/service/user/users.service';
+import { Router } from '@angular/router';
 import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
 @Component({    
   selector: 'app-signup',
@@ -12,7 +13,7 @@ export class SignupComponent implements OnInit {
 
   private emailPattern: any = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   
-  constructor( private ts: UsersService){
+  constructor( private router: Router, private ts: UsersService){
     this.signupForm = this.createFormGroup();
   }
 
@@ -60,10 +61,12 @@ export class SignupComponent implements OnInit {
   onSaveForm() {
     if (this.signupForm.valid) {
       const formValues = this.signupForm.value;
-      //this.ts.addUsers(formValues.name,formValues.lastname,formValues.email,formValues.phone,formValues.password).subscribe( data => console.log(data));
-      this.onResetForm();
-      /* window.location.href="task";
-      this.router.navigateByUrl('task'); */
+      this.ts.addUsers(formValues.name,formValues.lastname,formValues.email,formValues.phone,formValues.password).subscribe( 
+        () => this.router.navigate(['/login'])
+      );
+      //this.onResetForm();
+      /* window.location.href="login";
+      this.router.navigateByUrl('login'); */
     }    
   }
 

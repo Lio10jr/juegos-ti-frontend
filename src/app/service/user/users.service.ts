@@ -3,6 +3,7 @@ import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { Users } from 'src/app/Users';
 import { Observable } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
+import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -21,15 +22,14 @@ export class UsersService {
 
   constructor(private _http: HttpClient) { }
 
-  //  USERS
-  getUsers(): Observable<Users[]> {
-    return this._http.get<Users[]>(this.apiUrl+'getUser');
+  loginUser():Observable<Users>
+  {
+    return this._http.get<Users>(this.apiUrl+'user');
   }
 
-  addUsers(name:string,lastname:string,email:string,phone:number,passwors:string):Observable<Users>
+  addUsers(name:string,lastname:string,email:string,phone:number,password:string):Observable<Users>
   {
-    const newUsers = new Users(name,lastname,email,phone,passwors);
-    return this._http.post<Users>(this.apiUrl+'addUser', newUsers);
-    //return this.http.post<Task>(`${this.apiUrl+'add'}`, newTask, { headers: this.headers });
+    const newUsers = new Users(name,lastname,email,phone,password);
+    return this._http.post<Users>(this.apiUrl+'registro', newUsers);
   }
 }

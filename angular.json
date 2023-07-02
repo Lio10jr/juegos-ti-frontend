@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "your-drink-frontend": {
+    "juegos-ti-frontend": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/your-drink-frontend",
+            "outputPath": "dist/juegos-ti-frontend",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -66,10 +66,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "your-drink-frontend:build:production"
+              "browserTarget": "juegos-ti-frontend:build:production"
             },
             "development": {
-              "browserTarget": "your-drink-frontend:build:development"
+              "browserTarget": "juegos-ti-frontend:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -77,7 +77,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "your-drink-frontend:build"
+            "browserTarget": "juegos-ti-frontend:build"
           }
         },
         "test": {
@@ -106,24 +106,24 @@
         "ionic-cordova-serve": {
           "builder": "@ionic/angular-toolkit:cordova-serve",
           "options": {
-            "cordovaBuildTarget": "your-drink-frontend:ionic-cordova-build",
-            "devServerTarget": "your-drink-frontend:serve"
+            "cordovaBuildTarget": "juegos-ti-frontend:ionic-cordova-build",
+            "devServerTarget": "juegos-ti-frontend:serve"
           },
           "configurations": {
             "production": {
-              "cordovaBuildTarget": "your-drink-frontend:ionic-cordova-build:production",
-              "devServerTarget": "your-drink-frontend:serve:production"
+              "cordovaBuildTarget": "juegos-ti-frontend:ionic-cordova-build:production",
+              "devServerTarget": "juegos-ti-frontend:serve:production"
             }
           }
         },
         "ionic-cordova-build": {
           "builder": "@ionic/angular-toolkit:cordova-build",
           "options": {
-            "browserTarget": "your-drink-frontend:build"
+            "browserTarget": "juegos-ti-frontend:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "your-drink-frontend:build:production"
+              "browserTarget": "juegos-ti-frontend:build:production"
             }
           }
         }
