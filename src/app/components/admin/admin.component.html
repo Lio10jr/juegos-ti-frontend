@@ -1,0 +1,200 @@
+<div class="body">
+    <app-sidebar></app-sidebar>
+    <div class="main-content">
+
+        <div class="header-wrapper" *ngIf="selectedOption === 'equipos'">
+            <div class="header-title">
+                <span>Universidad Técnica de Machala | Carrera de Tecnologías de la Información</span>
+                <h2>Equipos</h2>
+            </div>
+            <div class="user-info">
+                <img src="./assets/img/Logo_TIC_IS.png" alt="">
+            </div>
+        </div>
+
+        <div class="header-wrapper" *ngIf="selectedOption === 'participantes'">
+            <div class="header-title">
+                <span>Universidad Técnica de Machala | Carrera de Tecnologías de la Información</span>
+                <h2>Participantes</h2>
+            </div>
+            <div class="user-info">
+                <img src="./assets/img/Logo_TIC_IS.png" alt="">
+            </div>
+        </div>
+
+        <div class="header-wrapper" *ngIf="selectedOption === 'campeonato'">
+            <div class="header-title">
+                <span>Universidad Técnica de Machala | Carrera de Tecnologías de la Información</span>
+                <h2>Campeonatos</h2>
+            </div>
+            <div class="user-info">
+                <img src="./assets/img/Logo_TIC_IS.png" alt="">
+            </div>
+        </div>
+
+        <div class="header-wrapper" *ngIf="selectedOption === 'usuarios'">
+            <div class="header-title">
+                <span>Universidad Técnica de Machala | Carrera de Tecnologías de la Información</span>
+                <h2>Usuarios</h2>
+            </div>
+            <div class="user-info">
+                <img src="./assets/img/Logo_TIC_IS.png" alt="">
+            </div>
+        </div>
+
+        <div class="tabular-wrapper" *ngIf="selectedOption === 'equipos'">
+            <div class="combo-box">
+                <form>
+                    <select>
+                        <option>Seleccione una opción</option>
+                        <option>Campeonato 2022</option>
+                        <option>Campeonato 2023</option>
+                    </select>
+                    <button class="search" type="submit"> <i class="fa-solid fa-search"></i> </button>
+                </form>
+            </div>
+            <div class="table-container">
+                <button  class="ins" (click)="openModal()" type="submit"><i class="fa-solid fa-plus"></i> Crear Equipo</button>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Nombre</th>
+                            <th>Logo</th>
+                            <th>Semestre</th>
+                            <th>Representante</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Ponchadores FC</td>
+                            <td><img src="./assets/img/LogoUtmach.png" alt=""></td>
+                            <td>7mo</td>
+                            <td>Javier Matamoros</td>
+                            <td class="d-flex justify-content-evenly">
+                                <button class="jugadores" type="submit"><i class="fa-solid fa-circle-exclamation"></i>
+                                    Ver</button>
+                                <button class="edit" type="submit"><i class="fa-solid fa-pen-to-square"></i>
+                                    Edit</button>
+                                <button class="delete" type="submit"><i class="fa-solid fa-trash"></i> Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Byte Legion</td>
+                            <td><img src="./assets/img/LogoUtmach.png" alt=""></td>
+                            <td>6to</td>
+                            <td>Jeremy Lopez</td>
+                            <td class="d-flex justify-content-evenly">
+                                <button class="jugadores" type="submit"><i class="fa-solid fa-circle-exclamation"></i>
+                                    Ver</button>
+                                <button class="edit" type="submit"><i class="fa-solid fa-pen-to-square"></i>
+                                    Edit</button>
+                                <button class="delete" type="submit"><i class="fa-solid fa-trash"></i> Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Pythoners</td>
+                            <td><img src="./assets/img/LogoUtmach.png" alt=""></td>
+                            <td>5to</td>
+                            <td>Kevin Mendoza</td>
+                            <td class="d-flex justify-content-evenly">
+                                <button class="jugadores" type="submit"><i class="fa-solid fa-circle-exclamation"></i>
+                                    Ver</button>
+                                <button class="edit" type="submit"><i class="fa-solid fa-pen-to-square"></i>
+                                    Edit</button>
+                                <button class="delete" type="submit"><i class="fa-solid fa-trash"></i>
+                                    Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Pythoners</td>
+                            <td><img src="./assets/img/LogoUtmach.png" alt=""></td>
+                            <td>5to</td>
+                            <td>Kevin Mendoza</td>
+                            <td class="d-flex justify-content-evenly">
+                                <button class="jugadores" type="submit"><i class="fa-solid fa-circle-exclamation"></i>
+                                    Ver</button>
+                                <button class="edit" type="submit"><i class="fa-solid fa-pen-to-square"></i>
+                                    Edit</button>
+                                <button class="delete" type="submit"><i class="fa-solid fa-trash"></i>
+                                    Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Pythoners</td>
+                            <td><img src="./assets/img/LogoUtmach.png" alt=""></td>
+                            <td>5to</td>
+                            <td>Kevin Mendoza</td>
+                            <td class="d-flex justify-content-evenly">
+                                <button class="jugadores" type="submit"><i class="fa-solid fa-circle-exclamation"></i>
+                                    Ver</button>
+                                <button class="edit" type="submit"><i class="fa-solid fa-pen-to-square"></i>
+                                    Edit</button>
+                                <button class="delete" type="submit"><i class="fa-solid fa-trash"></i>
+                                    Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Pythoners</td>
+                            <td><img src="./assets/img/LogoUtmach.png" alt=""></td>
+                            <td>5to</td>
+                            <td>Kevin Mendoza</td>
+                            <td class="d-flex justify-content-evenly">
+                                <button class="jugadores" type="submit"><i class="fa-solid fa-circle-exclamation"></i>
+                                    Ver</button>
+                                <button class="edit" type="submit"><i class="fa-solid fa-pen-to-square"></i>
+                                    Edit</button>
+                                <button class="delete" type="submit"><i class="fa-solid fa-trash"></i>
+                                    Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="tabular-wrapper" *ngIf="selectedOption === 'participantes'">
+            <h2>perras</h2>
+        </div>
+        <div class="tabular-wrapper" *ngIf="selectedOption === 'campeonato'"></div>
+        <div class="tabular-wrapper" *ngIf="selectedOption === 'usuarios'"></div>
+
+    </div>
+</div>
+
+<section class="modal" [class.modal--show]="showModal">
+    <div class="modal-container">
+        <h2 class="modal-title">Bienvenido</h2>
+        
+        <div class="input-box">
+            <input type="name" required>
+            <label>Nombre</label>
+        </div>
+
+        <div class="input-box">
+            <input class="form-control" type="file" multiple>
+            <label>Logo</label>
+        </div>
+
+        <div class="input-box">
+            <input type="email" required>
+            <label>Semestre</label>
+        </div>
+
+        <div class="input-box">
+            <input type="phone" required>
+            <label>Representante</label>
+        </div>
+
+        <button type="submit" class="modal-save">Registrar</button> 
+        <button type="submit"  (click)="closeModal()" class="modal-close">Cerrar</button>
+
+    </div>
+</section>

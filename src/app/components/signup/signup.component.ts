@@ -21,6 +21,7 @@ export class SignupComponent implements OnInit {
   get lastname() { return this.signupForm.get('lastname'); }
   get email() { return this.signupForm.get('email'); }
   get phone() { return this.signupForm.get('phone'); }
+  get rol() { return this.signupForm.get('rol'); }
   get password() { return this.signupForm.get('password'); }
 
   createFormGroup() {
@@ -45,6 +46,7 @@ export class SignupComponent implements OnInit {
         Validators.maxLength(10),
         Validators.pattern(/^[0-9]{10}$/)
       ]),
+      rol: new FormControl(''),
       password: new FormControl(null, [
         Validators.required,
         Validators.minLength(10)
@@ -61,7 +63,7 @@ export class SignupComponent implements OnInit {
   onSaveForm() {
     if (this.signupForm.valid) {
       const formValues = this.signupForm.value;
-      this.ts.addUsers(formValues.name,formValues.lastname,formValues.email,formValues.phone,formValues.password).subscribe( 
+      this.ts.addUsers(formValues.name,formValues.lastname,formValues.email,formValues.phone,formValues.rol,formValues.password).subscribe( 
         () => this.router.navigate(['/login'])
       );
       //this.onResetForm();

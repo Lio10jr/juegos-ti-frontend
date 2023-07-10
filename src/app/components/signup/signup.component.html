@@ -73,7 +73,7 @@
                         *ngIf="(phone?.dirty || phone?.touched) && phone?.invalid && phone?.hasError('pattern')">
                         Solo caracteres numericos válidos.
                     </div>
-                </div>
+                </div>                
 
                 <div class="input-box">
                     <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
@@ -89,6 +89,11 @@
                         *ngIf="password && password.errors && password.errors['maxlength']">
                         La Contraseña debe tener al menos 10 caracteres.
                     </div>
+                </div>
+
+                <div class="input-box2">
+                    <label class="label">Rol</label>
+                    <input class="checkbox" type="checkbox" data-name="Presidente" formControlName="rol" name="rol" id="rol">
                 </div>
 
                 <button type="submit" [disabled]="signupForm.invalid">Registrar</button>

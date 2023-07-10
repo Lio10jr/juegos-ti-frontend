@@ -22,14 +22,10 @@ export class UsersService {
 
   constructor(private _http: HttpClient) { }
 
-  loginUser():Observable<Users>
-  {
-    return this._http.get<Users>(this.apiUrl+'user');
-  }
 
-  addUsers(name:string,lastname:string,email:string,phone:number,password:string):Observable<Users>
+  addUsers(name:string,lastname:string,email:string,phone:number,rol:string,password:string):Observable<Users>
   {
-    const newUsers = new Users(name,lastname,email,phone,password);
+    const newUsers = new Users(name,lastname,email,phone,rol,password);
     return this._http.post<Users>(this.apiUrl+'registro', newUsers);
   }
 }

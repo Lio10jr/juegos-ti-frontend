@@ -1,0 +1,41 @@
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<div class="sidebar">
+    <div class="logo">
+        <img src="./assets/img/Logo_TIC_IS.png" alt="">
+    </div>
+    <ul class="menu">
+        <a (click)="onSidebarOptionSelected('equipos')">
+            <li class="">
+                <i class="fa-sharp fa-solid fa-shield-halved"></i>
+                <span>Equipos</span>
+            </li>
+        </a>
+        <a (click)="onSidebarOptionSelected('participantes')">
+            <li>
+                <i class="fa-solid fa-user"></i>
+                <span>Participantes</span>
+            </li>
+        </a>
+        <a (click)="onSidebarOptionSelected('campeonato')">
+            <li>
+                <i class="fa-solid fa-notes-medical"></i>
+                <span>Campeonato</span>
+            </li>
+        </a>
+        <a (click)="onSidebarOptionSelected('usuarios')">
+            <li>
+                <i class="fa-solid fa-circle-user"></i>
+                <span>Usuarios</span>
+            </li>
+        </a>
+        <a href="">
+            <li class="logout">
+                <i class="fa-solid fa-right-to-bracket"></i>
+                <span>Logout</span>
+            </li>
+        </a>
+    </ul>
+</div>

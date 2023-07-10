@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
         withCredentials: true
       }).subscribe(
         (response: any) => {
-          this.message = `Hi ${response.name}`;
+          this.message = `Hi ${response.user.name}`;
         },
         err => {
           this.message = 'No estas logeado';
