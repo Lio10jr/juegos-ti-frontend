@@ -32,10 +32,10 @@
             </div>
         </div>
 
-        <div class="header-wrapper" *ngIf="selectedOption === 'usuarios'">
+        <div class="header-wrapper" *ngIf="selectedOption === 'generarCampeonato'">
             <div class="header-title">
                 <span>Universidad Técnica de Machala | Carrera de Tecnologías de la Información</span>
-                <h2>Usuarios</h2>
+                <h2>Generar Campeonato</h2>
             </div>
             <div class="user-info">
                 <img src="./assets/img/Logo_TIC_IS.png" alt="">
@@ -161,11 +161,295 @@
         </div>
 
         <div class="tabular-wrapper" *ngIf="selectedOption === 'participantes'">
-            <h2>perras</h2>
+            <div class="combo-box">
+                <form>
+                    <select>
+                        <option>Seleccione una opción</option>
+                        <option>Campeonato 2022</option>
+                        <option>Campeonato 2023</option>
+                    </select>
+                    <button class="search" type="submit"> <i class="fa-solid fa-search"></i> </button>
+                </form>
+            </div>
+            <div class="table-container">
+                <button  class="ins" (click)="openModal()" type="submit"><i class="fa-solid fa-plus"></i> Insertar Participante</button>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Cedula</th>
+                            <th>Nombre</th>
+                            <th>Fecha de Nacimiento</th>
+                            <th>Semestre</th>
+                            <th>Equipo</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>0706277712</td>
+                            <td>Leonardo Sanchez</td>
+                            <td>15/09/2001</td>
+                            <td>7mo Semestre</td>
+                            <td>Ponchadores FC</td>
+                            <td class="d-flex justify-content-evenly">
+                                <button class="jugadores" type="submit"><i class="fa-solid fa-circle-exclamation"></i>
+                                    Ver</button>
+                                <button class="edit" type="submit"><i class="fa-solid fa-pen-to-square"></i>
+                                    Edit</button>
+                                <button class="delete" type="submit"><i class="fa-solid fa-trash"></i> Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <div class="tabular-wrapper" *ngIf="selectedOption === 'campeonato'"></div>
-        <div class="tabular-wrapper" *ngIf="selectedOption === 'usuarios'"></div>
 
+        <div class="tabular-wrapper" *ngIf="selectedOption === 'campeonato'">
+            <div class="combo-box">
+                <form>
+                    <select>
+                        <option>Seleccione una opción</option>
+                        <option>Campeonato 2022</option>
+                        <option>Campeonato 2023</option>
+                    </select>
+                    <button class="search" type="submit"> <i class="fa-solid fa-search"></i> </button>
+                </form>
+            </div>
+            <div class="table-container">
+                <button  class="ins" (click)="openModal()" type="submit"><i class="fa-solid fa-plus"></i> Crear Campeonato</button>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Nombre</th>
+                            <th>AñO Lectivo</th>
+                            <th>Estado</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Jornadas Deportivas TI</td>
+                            <td>2022-2</td>
+                            <td>Activo</td>
+                            <td class="d-flex justify-content-evenly">
+                                <button class="jugadores" type="submit"><i class="fa-solid fa-circle-exclamation"></i>
+                                    Ver</button>
+                                <button class="edit" type="submit"><i class="fa-solid fa-pen-to-square"></i>
+                                    Edit</button>
+                                <button class="delete" type="submit"><i class="fa-solid fa-trash"></i> Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="tabular-wrapper d-flex" *ngIf="selectedOption === 'generarCampeonato'">
+            
+            <div class="columna1">
+
+                <form>
+                    <select>
+                        <option>Seleccione una opción</option>
+                        <option>Campeonato 1</option>
+                        <option>Campeonato 2</option>
+                    </select>
+                    <button class="search border border-0 mx-1" type="submit"> <i class="fa-sharp fa-solid fa-rotate-right"></i> </button>
+                </form>
+
+                <h6 class="text-center fw-bold">Equipos Participantes</h6>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th>N°</th>
+                            <th>Logo</th>
+                            <th>Nombre</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td><img src="img/LogoUtmach.png" alt=""></td>
+                            <td>Ponchadores FC</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td><img src="img/LogoUtmach.png" alt=""></td>
+                            <td>Ponchadores FC</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td><img src="img/LogoUtmach.png" alt=""></td>
+                            <td>Ponchadores FC</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="columna2">
+
+                <button class="generar border border-0" type="submit"><i class="fa-solid fa-plus"></i> Generar Fase de Grupos</button>
+
+                <div class="grupos">
+
+                    <div class="fase  justify-content-evenly">
+                        <h6 class="text-center fw-bold">Grupo 1</h6>
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Logo</th>
+                                    <th>Nombre</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><img src="img/LogoUtmach.png" alt=""></td>
+                                    <td>Ponchadores FC</td>
+                                </tr>
+                                <tr>
+                                    <td><img src="img/LogoUtmach.png" alt=""></td>
+                                    <td>Ponchadores FC</td>
+                                </tr>
+                                <tr>
+                                    <td><img src="img/LogoUtmach.png" alt=""></td>
+                                    <td>Ponchadores FC</td>
+                                </tr>
+                                <tr>
+                                    <td><img src="img/LogoUtmach.png" alt=""></td>
+                                    <td>Ponchadores FC</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="fase">
+                        <h6 class="text-center fw-bold">Grupo 2</h6>
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Logo</th>
+                                    <th>Nombre</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><img src="img/LogoUtmach.png" alt=""></td>
+                                    <td>Ponchadores FC</td>
+                                </tr>
+                                <tr>
+                                    <td><img src="img/LogoUtmach.png" alt=""></td>
+                                    <td>Ponchadores FC</td>
+                                </tr>
+                                <tr>
+                                    <td><img src="img/LogoUtmach.png" alt=""></td>
+                                    <td>Ponchadores FC</td>
+                                </tr>
+                                <tr>
+                                    <td><img src="img/LogoUtmach.png" alt=""></td>
+                                    <td>Ponchadores FC</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="fase">
+                        <h6 class="text-center fw-bold">Grupo 3</h6>
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Logo</th>
+                                    <th>Nombre</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><img src="img/LogoUtmach.png" alt=""></td>
+                                    <td>Ponchadores FC</td>
+                                </tr>
+                                <tr>
+                                    <td><img src="img/LogoUtmach.png" alt=""></td>
+                                    <td>Ponchadores FC</td>
+                                </tr>
+                                <tr>
+                                    <td><img src="img/LogoUtmach.png" alt=""></td>
+                                    <td>Ponchadores FC</td>
+                                </tr>
+                                <tr>
+                                    <td><img src="img/LogoUtmach.png" alt=""></td>
+                                    <td>Ponchadores FC</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="fase">
+                        <h6 class="text-center fw-bold">Grupo 4</h6>
+
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Logo</th>
+                                    <th>Nombre</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><img src="img/LogoUtmach.png" alt=""></td>
+                                    <td>Ponchadores FC</td>
+                                </tr>
+                                <tr>
+                                    <td><img src="img/LogoUtmach.png" alt=""></td>
+                                    <td>Ponchadores FC</td>
+                                </tr>
+                                <tr>
+                                    <td><img src="img/LogoUtmach.png" alt=""></td>
+                                    <td>Ponchadores FC</td>
+                                </tr>
+                                <tr>
+                                    <td><img src="img/LogoUtmach.png" alt=""></td>
+                                    <td>Ponchadores FC</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <hr>
+                <div class="encuentros" *ngIf="selectedOption === 'generarCampeonato'">
+    
+                    <button class="generar2 mb-2 border border-0" type="submit"><i class="fa-solid fa-plus"></i> Generar Encuentros</button>
+
+                    <div class="partidos">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Logo</th>
+                                    <th>Local</th>
+                                    <th>vs</th>
+                                    <th>Visitante</th>
+                                    <th>Logo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><img src="img/LogoUtmach.png" alt=""></td>
+                                    <td>Ponchadores FC</td>
+                                    <td>vs</td>
+                                    <td>Ponchadores FC</td>
+                                    <td><img src="img/LogoUtmach.png" alt=""></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
     </div>
 </div>
 
@@ -193,8 +477,17 @@
             <label>Representante</label>
         </div>
 
-        <button type="submit" class="modal-save">Registrar</button> 
-        <button type="submit"  (click)="closeModal()" class="modal-close">Cerrar</button>
+        <div class=""> 
+            <select  class="form-select" required>
+                <option selected>Seleccione una opción</option>
+                <option value="Campeonato 1">Campeonato 1</option>
+                <option value="Campeonato 2">Campeonato 2</option>
+            </select>
+        </div>
 
+        <div class="container d-flex justify-content-evenly">
+            <button type="submit"  (click)="closeModal()" class="modal-close mx-2">Cerrar</button>
+            <button type="submit" class="modal-save mx-2">Registrar</button> 
+        </div>
     </div>
 </section>

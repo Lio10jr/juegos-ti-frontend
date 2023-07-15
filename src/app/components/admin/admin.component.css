@@ -1,11 +1,3 @@
-/* * {
-    margin: 0;
-    padding: 0;
-    border: none;
-    outline: none;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
-} */
 
 .body {
     display: flex;
@@ -15,7 +7,6 @@
     position: relative;
     background: #ebe9e9;
     width: 90%;
-    height: 100%;
     padding: 1rem;
 }
 .header-wrapper {
@@ -83,6 +74,7 @@
     background: #fff;
     border-radius: 10px;
     padding: 2rem;
+    box-sizing: border-box;
 }
 
 .table-container {
@@ -279,4 +271,161 @@ tr:nth-child(even) {
     background: #40CFFF;
     color: #000000;
 
+}
+
+/* Generar */
+
+.columna1 {
+    width: 30%;
+    padding: 25px;
+}
+
+.columna1 form{
+    display: flex;
+}
+
+.columna1 img{
+    width: 90%;
+    height: 90%;
+}
+.columna1 td  {
+    font-size: 13px;
+}
+.columna1 select{
+    width: 70%;
+    height: 30px;
+    font-size: 13px;
+}
+
+.columna1 .search {
+    width: 15%;
+    background: rgba(113, 99, 186, 255);
+    color: #fff;
+    cursor: pointer;
+}
+
+.columna2 {
+    width: 70%;
+    padding: 25px;
+}
+
+.generar {
+    color: rgb(255, 255, 255);
+    background: rgba(113, 99, 186, 255);
+    cursor: pointer;
+    padding: 7px;
+    border-radius: 4px;
+    margin-left: 40px;
+}
+
+.generar2 {
+    color: rgb(255, 255, 255);
+    background: rgba(113, 99, 186, 255);
+    cursor: pointer;
+    padding: 7px;
+    border-radius: 4px;
+}
+
+.grupos {
+    width: 100%;
+    padding: 20px;
+    flex-wrap: wrap;
+    display: flex;
+}
+
+.grupos table {
+    width: 90%;
+    margin: 2% 0;
+    border-collapse: collapse;
+}
+
+.grupos thead {
+    background: rgba(113, 99, 186, 255);
+    color: #fff;
+}
+
+.grupos th {
+    padding:  2%;
+    text-align: center;
+}
+
+.grupos tr {
+    text-align: center;
+}
+
+.grupos tbody {
+    background: #f2f2f2;
+}
+
+.grupos td {
+    width: 50%;
+    padding: 4%;
+    font-size: 13px;
+    color: #333;
+}
+
+.grupos td img{
+    width: 50%;
+    height: 50%;
+}
+
+.grupos tr:nth-child(even) {
+    background: #fff;
+}
+
+.fase {
+    width: 100%;
+    padding: 10px;
+    flex-basis: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centrado horizontal */
+    align-items: center;
+}
+
+
+.encuentros {
+    width: 100%;
+    background: #fff;
+    margin-top: 1rem;
+    border-radius: 10px;
+    padding: 2rem;
+}
+
+.encuentros table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.encuentros thead {
+    background: rgba(113, 99, 186, 255);
+    color: #fff;
+}
+
+.encuentros th {
+    padding:  15px;
+    text-align: center;
+}
+
+.encuentros tr {
+    text-align: center;
+}
+
+.encuentros tbody {
+    background: #f2f2f2;
+}
+
+.encuentros td {
+    padding: 15px;
+    font-size: 14px;
+    color: #333;
+}
+
+.encuentros td img{
+    width: 50px;
+    height: 50px;
+}
+
+.encuentros tr:nth-child(even) {
+    background: #fff;
 }
