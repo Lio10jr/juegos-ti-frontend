@@ -1,0 +1,165 @@
+<div class="combo-box">
+    <form>
+        <select class=" border borcer-0">
+            <option>Seleccione una opción</option>
+            <option>Campeonato 2022</option>
+            <option>Campeonato 2023</option>
+        </select>
+        <button class="search border borcer-0" type="submit"> <i class="fa-solid fa-search"></i> </button>
+    </form>
+</div>
+<div class="table-container">
+    <button  class="ins" (click)="openModal()" type="submit"><i class="fa-solid fa-plus"></i> Crear Equipo</button>
+    <table>
+        <thead>
+            <tr>
+                <th>N°</th>
+                <th>Nombre</th>
+                <th>Logo</th>
+                <th>Semestre</th>
+                <th>Representante</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>Ponchadores FC</td>
+                <td><img src="./assets/img/LogoUtmach.png" alt=""></td>
+                <td>7mo</td>
+                <td>Javier Matamoros</td>
+                <td class="d-flex justify-content-evenly">
+                    <button class="jugadores" type="submit"><i class="fa-solid fa-circle-exclamation"></i>
+                        Ver</button>
+                    <button class="edit" type="submit"><i class="fa-solid fa-pen-to-square"></i>
+                        Edit</button>
+                    <button class="delete" type="submit"><i class="fa-solid fa-trash"></i> Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>Byte Legion</td>
+                <td><img src="./assets/img/LogoUtmach.png" alt=""></td>
+                <td>6to</td>
+                <td>Jeremy Lopez</td>
+                <td class="d-flex justify-content-evenly">
+                    <button class="jugadores" type="submit"><i class="fa-solid fa-circle-exclamation"></i>
+                        Ver</button>
+                    <button class="edit" type="submit"><i class="fa-solid fa-pen-to-square"></i>
+                        Edit</button>
+                    <button class="delete" type="submit"><i class="fa-solid fa-trash"></i> Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Pythoners</td>
+                <td><img src="./assets/img/LogoUtmach.png" alt=""></td>
+                <td>5to</td>
+                <td>Kevin Mendoza</td>
+                <td class="d-flex justify-content-evenly">
+                    <button class="jugadores" type="submit"><i class="fa-solid fa-circle-exclamation"></i>
+                        Ver</button>
+                    <button class="edit" type="submit"><i class="fa-solid fa-pen-to-square"></i>
+                        Edit</button>
+                    <button class="delete" type="submit"><i class="fa-solid fa-trash"></i>
+                        Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Pythoners</td>
+                <td><img src="./assets/img/LogoUtmach.png" alt=""></td>
+                <td>5to</td>
+                <td>Kevin Mendoza</td>
+                <td class="d-flex justify-content-evenly">
+                    <button class="jugadores" type="submit"><i class="fa-solid fa-circle-exclamation"></i>
+                        Ver</button>
+                    <button class="edit" type="submit"><i class="fa-solid fa-pen-to-square"></i>
+                        Edit</button>
+                    <button class="delete" type="submit"><i class="fa-solid fa-trash"></i>
+                        Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Pythoners</td>
+                <td><img src="./assets/img/LogoUtmach.png" alt=""></td>
+                <td>5to</td>
+                <td>Kevin Mendoza</td>
+                <td class="d-flex justify-content-evenly">
+                    <button class="jugadores" type="submit"><i class="fa-solid fa-circle-exclamation"></i>
+                        Ver</button>
+                    <button class="edit" type="submit"><i class="fa-solid fa-pen-to-square"></i>
+                        Edit</button>
+                    <button class="delete" type="submit"><i class="fa-solid fa-trash"></i>
+                        Delete</button>
+                </td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>Pythoners</td>
+                <td><img src="./assets/img/LogoUtmach.png" alt=""></td>
+                <td>5to</td>
+                <td>Kevin Mendoza</td>
+                <td class="d-flex justify-content-evenly">
+                    <button class="jugadores" type="submit"><i class="fa-solid fa-circle-exclamation"></i>
+                        Ver</button>
+                    <button class="edit" type="submit"><i class="fa-solid fa-pen-to-square"></i>
+                        Edit</button>
+                    <button class="delete" type="submit"><i class="fa-solid fa-trash"></i>
+                        Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<section class="modal" [class.modal--show]="showModal">
+    <div class="modal-container">
+        <h2 class="modal-title">Bienvenido</h2>
+        
+        <div class="input-box">
+            <input type="text" required>
+            <label>Nombre</label>
+        </div>
+
+        <div class="input-box">
+            <input class="form-control" type="file" multiple>
+            <label>Logo</label>
+        </div>
+
+        <div class="input-box">
+            <select  class="form-select" required>
+                <option selected>Seleccione un Semestre</option>
+                <option value="primero">Primero</option>
+                <option value="segundo">Segundo</option>
+                <option value="tercero">Tercero</option>
+                <option value="cuarto">Cuarto</option>
+                <option value="quinto">Quinto</option>
+                <option value="sexto">Sexto</option>
+                <option value="septimo">Septimo</option>
+                <option value="octavo">Octavo</option>
+                <option value="noveno">Noveno</option>
+                <option value="decimo">Decimo</option>
+            </select>
+        </div>
+
+        <div class="input-box">
+            <input type="text" required>
+            <label>Representante</label>
+        </div>
+
+        <div class="input-box"> 
+            <select  class="form-select" required>
+                <option selected>Seleccione una opción</option>
+                <option value="Campeonato 1">Campeonato 1</option>
+                <option value="Campeonato 2">Campeonato 2</option>
+            </select>
+        </div>
+
+        <div class="container d-flex justify-content-evenly">
+            <button type="submit"  (click)="closeModal()" class="modal-close mx-2">Cerrar</button>
+            <button type="submit" class="modal-save mx-2">Registrar</button> 
+        </div>
+    </div>
+</section>

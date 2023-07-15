@@ -16,6 +16,10 @@ import { NavComponent } from './components/nav/nav.component';
 import { AuthInterceptor } from './helpers/auth.interceptor';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { AdminComponent } from './components/admin/admin.component';
+import { AdminEquiposComponent } from './components/admin-equipos/admin-equipos.component';
+import { AdminParticipantesComponent } from './components/admin-participantes/admin-participantes.component';
+import { AdminCampeonatoComponent } from './components/admin-campeonato/admin-campeonato.component';
+import { AdminGenCampeonatoComponent } from './components/admin-gen-campeonato/admin-gen-campeonato.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +32,10 @@ import { AdminComponent } from './components/admin/admin.component';
     NavComponent,
     SidebarComponent,
     AdminComponent,
+    AdminEquiposComponent,
+    AdminParticipantesComponent,
+    AdminCampeonatoComponent,
+    AdminGenCampeonatoComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,7 +43,7 @@ import { AdminComponent } from './components/admin/admin.component';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    IonicModule.forRoot()
+    IonicModule.forRoot(),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

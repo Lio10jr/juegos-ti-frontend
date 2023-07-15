@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders } from '@angular/common/http';
-import { Users } from 'src/app/Users';
+import { Users } from 'src/app/models/Users';
 import { Observable } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
 import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';

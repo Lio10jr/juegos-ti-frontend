@@ -5,7 +5,7 @@ import { UsersService } from 'src/app/service/user/users.service';
 import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
 import { environment } from 'src/app/environments/environment';
 import { ApiService } from 'src/app/service/api/api.service';
-import { Credenciales } from 'src/app/models';
+import { Credenciales } from 'src/app/models/models';
 
 
 @Component({

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpRequest, HttpResponse } from '@angular/common/http';
 import { environment } from 'src/app/environments/environment';
-import { Credenciales } from 'src/app/models';
+import { Credenciales } from 'src/app/models/models';
 import { map } from 'rxjs/operators';
 import { CookieService } from 'ngx-cookie-service';
 
