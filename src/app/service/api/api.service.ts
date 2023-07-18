@@ -42,8 +42,8 @@ export class ApiService {
         }).pipe(map((response: HttpResponse<any>) => {
             const body = response.body;
 
-            const token = body.jwt;
-            this.cookieService.set('jwt', token || '', 1);
+            const token = body.access_token;
+            this.cookieService.set('access_token', token || '', 1);
 
             return body;
         }));
@@ -51,6 +51,6 @@ export class ApiService {
 
     /* Metodo para retornar el token */
     getToken() {
-        return this.cookieService.get('jwt');
+        return this.cookieService.get('access_token');
     }
 }

@@ -46,7 +46,7 @@ export class SignupComponent implements OnInit {
         Validators.maxLength(10),
         Validators.pattern(/^[0-9]{10}$/)
       ]),
-      rol: new FormControl(''),
+      rol: new FormControl(null),
       password: new FormControl(null, [
         Validators.required,
         Validators.minLength(10)
@@ -61,11 +61,21 @@ export class SignupComponent implements OnInit {
   }
 
   onSaveForm() {
-    if (this.signupForm.valid) {
+    if (this.signupForm.valid) {      
       const formValues = this.signupForm.value;
-      this.ts.addUsers(formValues.name,formValues.lastname,formValues.email,formValues.phone,formValues.rol,formValues.password).subscribe( 
-        () => this.router.navigate(['/login'])
-      );
+      const rolSeleccionado = formValues.rol;
+      if (rolSeleccionado) {
+        const rol = '28d2850c-2418-11ee-b6b0-088fc34793bc';
+        this.ts.addUsers(formValues.name,formValues.lastname,formValues.email,formValues.phone,rol,formValues.password).subscribe( 
+          () => this.router.navigate(['/login'])
+        );
+      } else {
+        const rol = '04cbf312-2418-11ee-b6b0-088fc34793bc';
+        this.ts.addUsers(formValues.name,formValues.lastname,formValues.email,formValues.phone,rol,formValues.password).subscribe( 
+          () => this.router.navigate(['/login'])
+        );
+      }
+      
       //this.onResetForm();
       /* window.location.href="login";
       this.router.navigateByUrl('login'); */

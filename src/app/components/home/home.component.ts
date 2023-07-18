@@ -18,13 +18,13 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const token = this.apiService.getToken();
-    if (token) {
+    const access_token = this.apiService.getToken();
+    if (access_token) {
 
       // Crear los encabezados de la solicitud
       const headers = new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${access_token}`
       });
 
       this.http.get(this.apiUrl + 'user', {
@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
         withCredentials: true
       }).subscribe(
         (response: any) => {
-          this.message = `Hi ${response.user.name}`;
+          this.message = `Hi ${response.user.nombre}`;
         },
         err => {
           this.message = 'No estas logeado';

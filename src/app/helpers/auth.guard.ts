@@ -5,9 +5,9 @@ import { ApiService } from '../service/api/api.service';
 export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(ApiService) as ApiService;
   const router = inject(Router);
-  const token = authService.getToken();
+  const access_token = authService.getToken();
 
-  if (token) {
+  if (access_token) {
     return true;
 
   }
