@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ComponentesService } from 'src/app/service/components/componentes.service';
 import { CampeonatoService } from 'src/app/service/api/campeonato.service';
 import { Router } from '@angular/router';
-import { FormBuilder, Validators, FormControl, FormGroup, AbstractControl } from '@angular/forms';
+import { Validators, FormControl, FormGroup, AbstractControl } from '@angular/forms';
 import { Campeonato } from 'src/app/models/Campeonato';
 
 @Component({
@@ -89,13 +88,7 @@ export class AdminCampeonatoComponent implements OnInit {
   }
 
   setView(data: any)
-  {   
-    const formValues = this.campeonatoForm.value;
-    this.ts.deleteCampeonato(formValues).subscribe((resultData: any)=>
-    {
-      this.ts.getAllCampeonato();   
-    });
-  }
+  {  }
 
   setUpdate(data: any)
   {  

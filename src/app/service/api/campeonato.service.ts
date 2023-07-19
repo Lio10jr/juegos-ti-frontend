@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient , HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Campeonato } from 'src/app/models/Campeonato';
 import { Observable } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
@@ -11,7 +11,7 @@ import { environment } from 'src/app/environments/environment';
 export class CampeonatoService {
 
   private apiUrl: string = environment.apiUrl;
-  options:any;
+  options: any;
 
   private headers: HttpHeaders = new HttpHeaders({
     'enctype': 'multipart/form-data',
@@ -21,25 +21,21 @@ export class CampeonatoService {
 
   constructor(private _http: HttpClient) { }
 
-  getAllCampeonato()
-  { 
-    return this._http.get(this.apiUrl+'campeonatos');
+  getAllCampeonato() {
+    return this._http.get(this.apiUrl + 'campeonatos');
   }
 
-  addCampeonato(name:string,anio:string,estado:string):Observable<Campeonato>
-  {
-    const newCampeonato = new Campeonato(name,anio,estado);
-    return this._http.post<Campeonato>(this.apiUrl+'campeonatossave', newCampeonato);
+  addCampeonato(name: string, anio: string, estado: string): Observable<Campeonato> {
+    const newCampeonato = new Campeonato(name, anio, estado);
+    return this._http.post<Campeonato>(this.apiUrl + 'campeonatossave', newCampeonato);
   }
 
-  updateCampeonato(dataID:string, data: any)
-  {    
+  updateCampeonato(dataID: string, data: any) {
     const campeonato = data;
-    return this._http.put(this.apiUrl+'campeonatosupdate/'+ dataID, campeonato);
+    return this._http.put(this.apiUrl + 'campeonatosupdate/' + dataID, campeonato);
   }
 
-  deleteCampeonato(data: any)
-  {    
-    return this._http.delete(this.apiUrl+'campeonatosdelete/'+ data);
+  deleteCampeonato(data: any) {
+    return this._http.delete(this.apiUrl + 'campeonatosdelete/' + data);
   }
 }

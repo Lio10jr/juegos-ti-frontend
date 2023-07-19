@@ -9,86 +9,199 @@
     </form>
 </div>
 <div class="table-container">
-    <button  class="ins" (click)="openModal()" type="submit"><i class="fa-solid fa-plus"></i> Insertar Participante</button>
+    <button class="ins" (click)="openModalINS()" type="submit"><i class="fa-solid fa-plus"></i> Insertar
+        Participante</button>
     <table>
         <thead>
             <tr>
-                <th>N°</th>
                 <th>Cedula</th>
-                <th>Nombre</th>
-                <th>Fecha de Nacimiento</th>
+                <th>Nombres</th>
                 <th>Semestre</th>
+                <th>Fecha de Nacimiento</th>
                 <th>Equipo</th>
                 <th>Acción</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td>0706277712</td>
-                <td>Leonardo Sanchez</td>
-                <td>15/09/2001</td>
-                <td>7mo Semestre</td>
-                <td>Ponchadores FC</td>
+            <tr *ngFor="let ParticipanteItem of PlayersArray">
+                <td>{{ParticipanteItem.pk_ced}}</td>
+                <td>{{ParticipanteItem.nombre}} {{' '}} {{ParticipanteItem.apellido}}</td>
+                <td>{{ParticipanteItem.semestre}}</td>
+                <td>{{ParticipanteItem.f_nacimiento}}</td>
+                <td>
+                    {{obtenerNombreEquipo(ParticipanteItem.fk_idequ)}}
+                </td>
+
                 <td class="d-flex justify-content-evenly">
-                    <button class="jugadores" type="submit"><i class="fa-solid fa-circle-exclamation"></i>
+                    <button class="jugadores" type="submit" (click)="setView(ParticipanteItem)"><i
+                            class="fa-solid fa-circle-exclamation"></i>
                         Ver</button>
-                    <button class="edit" type="submit"><i class="fa-solid fa-pen-to-square"></i>
+                    <button class="edit" type="submit" (click)="setUpdate(ParticipanteItem)"><i
+                            class="fa-solid fa-pen-to-square"></i>
                         Edit</button>
-                    <button class="delete" type="submit"><i class="fa-solid fa-trash"></i> Delete</button>
+                    <button class="delete" type="submit" (click)="setDelete(ParticipanteItem)"><i
+                            class="fa-solid fa-trash"></i> Delete</button>
                 </td>
             </tr>
         </tbody>
     </table>
 </div>
 
+<!-- INSERT -->
 <section class="modal" [class.modal--show]="showModal">
     <div class="modal-container">
         <h2 class="modal-title">Nuevo Participante</h2>
-        
-        <div class="input-box">
-            <input type="text" required>
-            <label>Cedula</label>
-        </div>
+        <form [formGroup]="playersForm" (ngSubmit)="onSaveForm()">
 
-        <div class="input-box">
-            <input type="text" required>
-            <label>Nombre</label>
-        </div>
+            <div class="input-box">
+                <input type="text" formControlName="pk_ced" name="pk_ced" id="pk_ced" required>
+                <label>Cedula</label>
+            </div>
+            <div class="alert-danger" *ngIf="pk_ced?.invalid && (pk_ced?.dirty || pk_ced?.touched)">
+                <div class="container-error-message" *ngIf="pk_ced && pk_ced.errors && pk_ced.errors['required']">
+                    Cédula es requerido.
+                </div>
+                <div class="container-error-message" *ngIf="pk_ced && pk_ced.errors && pk_ced.errors['minlength']">
+                    Minimo 4 caracteres.
+                </div>
+            </div>
+            
+            <div class="input-box">
+                <input type="text" formControlName="nombre" name="nombre" id="nombre" required>
+                <label>Nombres</label>
+            </div>
+            <div class="alert-danger" *ngIf="nombre?.invalid && (nombre?.dirty || nombre?.touched)">
+                <div class="container-error-message" *ngIf="nombre && nombre.errors && nombre.errors['required']">
+                    Nombre es requerido.
+                </div>
+                <div class="container-error-message" *ngIf="nombre && nombre.errors && nombre.errors['minlength']">
+                    Minimo 4 caracteres.
+                </div>
+            </div>
 
-        <div class="input-box">
-            <h6 class="label-input">Fecha de Nacimiento</h6>
-            <input class="form-control" type="date" required>
-        </div>
+            <div class="input-box">
+                <input type="text" formControlName="apellido" name="apellido" id="apellido" required>
+                <label>Apellidos</label>
+            </div>
+            <div class="alert-danger" *ngIf="apellido?.invalid && (apellido?.dirty || apellido?.touched)">
+                <div class="container-error-message" *ngIf="apellido && apellido.errors && apellido.errors['required']">
+                    Apellido es requerido.
+                </div>
+                <div class="container-error-message" *ngIf="apellido && apellido.errors && apellido.errors['minlength']">
+                    Minimo 4 caracteres.
+                </div>
+            </div>
 
-        <div class="input-box">
-            <select  class="form-select" required>
-                <option selected>Seleccione un Semestre</option>
-                <option value="primero">Primero</option>
-                <option value="segundo">Segundo</option>
-                <option value="tercero">Tercero</option>
-                <option value="cuarto">Cuarto</option>
-                <option value="quinto">Quinto</option>
-                <option value="sexto">Sexto</option>
-                <option value="septimo">Septimo</option>
-                <option value="octavo">Octavo</option>
-                <option value="noveno">Noveno</option>
-                <option value="decimo">Decimo</option>
-            </select>
-        </div>
+            <div class="input-box">
+                <select class="form-select" formControlName="semestre" name="semestre" id="semestre" required>
+                    <option value="">Seleccione un Semestre</option>
+                    <option value="primero">Primero</option>
+                    <option value="segundo">Segundo</option>
+                    <option value="tercero">Tercero</option>
+                    <option value="cuarto">Cuarto</option>
+                    <option value="quinto">Quinto</option>
+                    <option value="sexto">Sexto</option>
+                    <option value="septimo">Septimo</option>
+                    <option value="octavo">Octavo</option>
+                    <option value="noveno">Noveno</option>
+                    <option value="decimo">Decimo</option>
+                </select>
+            </div>
 
-        <div class="input-box">
-            <select  class="form-select" required>
-                <option selected>Elija un Equipo</option>
-                <option value="primero">BSC</option>
-                <option value="segundo">CSM</option>
-            </select>
-        </div>
+            <div
+                *ngIf="playersForm.controls['semestre'].invalid && (playersForm.controls['semestre'].dirty || playersForm.controls['semestre'].touched)">
+                <div class="container-error-message" *ngIf="semestre && semestre.errors && semestre.errors['required']">
+                    Seleccione un semestre válido.
+                </div>
+                <div *ngIf="semestre && semestre.errors && semestre.errors['semestreInvalido']">
+                    Seleccione un semestre válido.
+                </div>
+            </div>
 
-        <div class="container d-flex justify-content-evenly">
-            <button type="submit"  (click)="closeModal()" class="modal-close mx-2">Cerrar</button>
-            <button type="submit" class="modal-save mx-2">Registrar</button> 
-        </div>
+            <div class="input-box">
+                <h6 class="label-input">Fecha de Nacimiento</h6>
+                <input class="form-control" type="date" formControlName="f_nacimiento" name="f_nacimiento"
+                    id="f_nacimiento" required pattern="\d{4}-\d{2}-\d{2}" required>
+            </div>
+            <div *ngIf="f_nacimiento?.invalid && (f_nacimiento?.dirty || f_nacimiento?.touched)">
+                <div class="container-error-message" *ngIf="f_nacimiento && f_nacimiento.errors && f_nacimiento.errors['required']">
+                    La fecha de nacimiento es requerida.
+                </div>
+                <div class="container-error-message" *ngIf="f_nacimiento && f_nacimiento.errors && f_nacimiento.errors['minDate']">
+                    Debes ser mayor de 18 años.
+                </div>
+            </div>
+
+            <div class="input-box">
+                <select class="form-select" formControlName="fk_idequ" name="fk_idequ" id="fk_idequ" required>
+                    <option value="">Seleccione un Equipo</option>
+                    <option *ngFor="let equipo of EquipoArray" [value]="equipo.pk_idequ">{{ equipo.nom_equ }}</option>
+                </select>
+            </div>
+
+            <div class="container d-flex justify-content-evenly">
+                <button type="submit" (click)="closeModalINS()" class="modal-close mx-2">Cerrar</button>
+                <button type="submit" class="modal-save mx-2">Registrar</button>
+            </div>
+        </form>
+
     </div>
 </section>
+<!-- UPDATE -->
+<section class="modal" [class.modal--show]="showModalUP">
+    <div class="modal-container">
+        <h2 class="modal-title">Editar Participante</h2>
+        <form>
 
+            <div class="input-box">
+                <input type="text" [(ngModel)]="ced" [ngModelOptions]="{standalone: true}" name="ced" id="ced" required>
+                <label>Cedula</label>
+            </div>
+
+            <div class="input-box">
+                <input type="text" [(ngModel)]="name" [ngModelOptions]="{standalone: true}" name="name" id="name" required>
+                <label>Nombres</label>
+            </div>
+
+            <div class="input-box">
+                <input type="text" [(ngModel)]="ape" [ngModelOptions]="{standalone: true}" name="ape" id="epe" required>
+                <label>Apellidos</label>
+            </div>
+
+            <div class="input-box">
+                <select class="form-select" [(ngModel)]="semest" [ngModelOptions]="{standalone: true}" name="semest" id="semest" required>
+                    <option value="">Seleccione un Semestre</option>
+                    <option value="primero">Primero</option>
+                    <option value="segundo">Segundo</option>
+                    <option value="tercero">Tercero</option>
+                    <option value="cuarto">Cuarto</option>
+                    <option value="quinto">Quinto</option>
+                    <option value="sexto">Sexto</option>
+                    <option value="septimo">Septimo</option>
+                    <option value="octavo">Octavo</option>
+                    <option value="noveno">Noveno</option>
+                    <option value="decimo">Decimo</option>
+                </select>
+            </div>
+
+            <div class="input-box">
+                <h6 class="label-input">Fecha de Nacimiento</h6>
+                <input class="form-control" type="date"  [(ngModel)]="fecha" [ngModelOptions]="{standalone: true}" name="fecha"
+                    id="fecha" required pattern="\d{4}-\d{2}-\d{2}" required>
+            </div>
+
+            <div class="input-box">
+                <select class="form-select" [(ngModel)]="idequ" [ngModelOptions]="{standalone: true}" name="idequ" id="idequ" required>
+                    <option value="">Seleccione un Equipo</option>
+                    <option *ngFor="let equipo of EquipoArray" [value]="equipo.pk_idequ">{{ equipo.nom_equ }}</option>
+                </select>
+            </div>
+
+            <div class="container d-flex justify-content-evenly">
+                <button type="submit" (click)="closeModalUP()" class="modal-close mx-2">Cerrar</button>
+                <button type="submit" class="modal-save mx-2" (click)="onUpdateForm(playersData?.pk_ced)">Registrar</button>
+            </div>
+        </form>
+
+    </div>
+</section>
