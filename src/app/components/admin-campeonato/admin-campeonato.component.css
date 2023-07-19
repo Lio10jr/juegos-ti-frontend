@@ -226,3 +226,20 @@ tr:nth-child(even) {
     background: #40CFFF;
     color: #000000;
 }
+
+/* Validacion */
+.alert-danger {
+    color: #721c24;
+    background: #f8d7da;
+    border-color: #f5c6cb;
+    position: relative;
+    width: 100%;
+    margin-top: 2px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-size: 11px;
+}
+
+.container-error-message {
+    padding: 2px;
+}

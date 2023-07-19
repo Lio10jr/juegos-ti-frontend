@@ -3,7 +3,6 @@ import { HttpClient , HttpHeaders } from '@angular/common/http';
 import { Campeonato } from 'src/app/models/Campeonato';
 import { Observable } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
-import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'

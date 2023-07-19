@@ -13,7 +13,6 @@
     <table>
         <thead>
             <tr>
-                <th>N°</th>
                 <th>Nombre</th>
                 <th>AñO Lectivo</th>
                 <th>Estado</th>
@@ -22,7 +21,6 @@
         </thead>
         <tbody>
             <tr *ngFor="let CampeonatoItem of CampeonatoArray">
-                <td>{{CampeonatoItem.pk_idcamp}}</td>
                 <td>{{CampeonatoItem.name_camp}}</td>
                 <td>{{CampeonatoItem.anio_camp}}</td>
                 <td>{{CampeonatoItem.estado}}</td>
@@ -38,7 +36,7 @@
     </table>
 </div>
 <!-- INSERT -->
-<section class="modal" [class.modal--show]="showModalUP">
+<section class="modal" [class.modal--show]="showModal">
     <div class="modal-container">
         <h2 class="modal-title">Nuevo Campeonato</h2>
         <form [formGroup]="campeonatoForm" (ngSubmit)="onSaveForm()">
@@ -72,7 +70,7 @@
                 <select  class="form-select" formControlName="estado" name="estado" id="estado" required>
                     <option value="">Seleccione un Estado</option>
                     <option [value]="true">Activo</option>
-                    <option [value]="false" >Finalizado</option>
+                    <option [value]="false">Finalizado</option>
                 </select>
             </div>
             <div *ngIf="campeonatoForm.controls['estado'].invalid && (campeonatoForm.controls['estado'].dirty || campeonatoForm.controls['estado'].touched)">
