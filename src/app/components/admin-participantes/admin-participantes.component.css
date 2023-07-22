@@ -11,6 +11,7 @@
 .combo-box select{
     width: 40%;
     height: 30px;
+    padding: 4px;
 }
 
 .combo-box option{
@@ -140,13 +141,27 @@ tr:nth-child(even) {
 }
 
 
-.input-box{
-    position: relative;
-    width: 400px;
-    margin: 5px 0;
-    border-bottom: 2px solid white;
+.form-modal{
+    width: 90%;
 }
 
+.input-box{
+    position: relative;
+    width: 100%;
+    margin-top: 17px;
+    border-bottom: 1px solid white;
+}
+.input-box-fech{
+    position: relative;
+    margin-top: 10px;
+    width: 100%;
+    border-bottom: 1px solid white;
+}
+
+.label-input{
+    font-size: 1em;
+
+}
 .input-box label{
     position: absolute;
     top: 50%;
@@ -156,34 +171,28 @@ tr:nth-child(even) {
     color: white;
     pointer-events: none;
     transition: .5s;
-}
-
-.label-input{
-    padding-left: 5px;
+    font-weight: bold;
 }
 
 .input-box input:focus~label,
 .input-box input:valid~label {
-    top: -5px;
+    top: -6px;
 }
 
 .input-box input{
     width: 100%;
-    height: 50px;
+    height: 9%;
     background: transparent;
     border: none;
     outline: none;
     font-size: 1em;
     color: white;
-    padding: 0 35px 0 5px;
+    padding: 4px 7px;
 }
 
-.form-control {
-    margin-top: 12px;
-}
 
 .modal-title {
-    font-size: 2.5rem;
+    font-size: 1.8rem;
 }
 
 .modal-paragraph {
@@ -225,4 +234,40 @@ tr:nth-child(even) {
 .modal-save:hover {
     background: #40CFFF;
     color: #000000;
+}
+
+.container button{
+    width: 100%;
+    height: 40px;
+    background: white;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 1em;
+    color: black;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.container button:hover{
+    background: #40CFFF;
+    color: #000000;
+}
+/* Validacion */
+.alert-danger {
+    color: #721c24;
+    background: #f8d7da;
+    border-color: #f5c6cb;
+    position: relative;
+    width: 100%;
+    margin-top: 2px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-size: 11px;
+}
+
+.container-error-message {
+    padding: 2px;
 }

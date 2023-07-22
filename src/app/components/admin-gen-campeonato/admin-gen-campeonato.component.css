@@ -49,20 +49,24 @@ th {
 tr {
     text-align: center;
 }
+table th:first-child,
+table td:first-child {
+  width: 10px;
+}
 
 tbody {
     background: #f2f2f2;
 }
 
 td {
-    padding: 15px;
+    padding: 5px;
     font-size: 14px;
     color: #333;
 }
 
 td img{
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
 }
 
 tr:nth-child(even) {
@@ -228,10 +232,13 @@ tr:nth-child(even) {
 }
 
 /* Generar */
-
+.gen-img {
+    width: 100px;
+    height: 100px;
+}
 .columna1 {
     width: 30%;
-    padding: 25px;
+    padding: 5px;
 }
 
 .columna1 form{
@@ -239,7 +246,7 @@ tr:nth-child(even) {
 }
 
 .columna1 img{
-    width: 90%;
+    width: 40%;
     height: 90%;
 }
 .columna1 td  {
@@ -313,14 +320,13 @@ tr:nth-child(even) {
 
 .grupos td {
     width: 50%;
-    padding: 4%;
     font-size: 13px;
     color: #333;
 }
 
 .grupos td img{
-    width: 50%;
-    height: 50%;
+    width: 25%;
+    height: 25%;
 }
 
 .grupos tr:nth-child(even) {
@@ -329,11 +335,11 @@ tr:nth-child(even) {
 
 .fase {
     width: 100%;
+    height: 300px;
     padding: 10px;
     flex-basis: 50%;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Centrado horizontal */
     align-items: center;
 }
 

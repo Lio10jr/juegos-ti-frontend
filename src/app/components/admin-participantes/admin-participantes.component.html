@@ -1,11 +1,12 @@
 <div class="combo-box">
     <form>
-        <select class=" border borcer-0">
-            <option>Seleccione una opción</option>
-            <option>Campeonato 2022</option>
-            <option>Campeonato 2023</option>
+        <select class="form-select" [(ngModel)]="opcionSeleccionadaEquipo" [ngModelOptions]="{standalone: true}"
+            (change)="onSelectEquipo($event)">
+            <option value="">Seleccione un equipo para filtrar los participantes</option>
+            <option class="p-3" *ngFor="let opcion of EquipoArray" [value]="opcion.pk_idequ">{{
+                opcion.nom_equ }}
+            </option>
         </select>
-        <button class="search border borcer-0" type="submit"> <i class="fa-solid fa-search"></i> </button>
     </form>
 </div>
 <div class="table-container">
@@ -23,7 +24,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let ParticipanteItem of PlayersArray">
+            <tr *ngFor="let ParticipanteItem of PlayersFiltrados">
                 <td>{{ParticipanteItem.pk_ced}}</td>
                 <td>{{ParticipanteItem.nombre}} {{' '}} {{ParticipanteItem.apellido}}</td>
                 <td>{{ParticipanteItem.semestre}}</td>
@@ -51,7 +52,7 @@
 <section class="modal" [class.modal--show]="showModal">
     <div class="modal-container">
         <h2 class="modal-title">Nuevo Participante</h2>
-        <form [formGroup]="playersForm" (ngSubmit)="onSaveForm()">
+        <form class="form-modal" [formGroup]="playersForm" (ngSubmit)="onSaveForm()">
 
             <div class="input-box">
                 <input type="text" formControlName="pk_ced" name="pk_ced" id="pk_ced" required>
@@ -65,7 +66,7 @@
                     Minimo 4 caracteres.
                 </div>
             </div>
-            
+
             <div class="input-box">
                 <input type="text" formControlName="nombre" name="nombre" id="nombre" required>
                 <label>Nombres</label>
@@ -87,7 +88,8 @@
                 <div class="container-error-message" *ngIf="apellido && apellido.errors && apellido.errors['required']">
                     Apellido es requerido.
                 </div>
-                <div class="container-error-message" *ngIf="apellido && apellido.errors && apellido.errors['minlength']">
+                <div class="container-error-message"
+                    *ngIf="apellido && apellido.errors && apellido.errors['minlength']">
                     Minimo 4 caracteres.
                 </div>
             </div>
@@ -108,26 +110,29 @@
                 </select>
             </div>
 
-            <div
+            <div class="alert-danger"
                 *ngIf="playersForm.controls['semestre'].invalid && (playersForm.controls['semestre'].dirty || playersForm.controls['semestre'].touched)">
                 <div class="container-error-message" *ngIf="semestre && semestre.errors && semestre.errors['required']">
                     Seleccione un semestre válido.
                 </div>
-                <div *ngIf="semestre && semestre.errors && semestre.errors['semestreInvalido']">
+                <div class="container-error-message"
+                    *ngIf="semestre && semestre.errors && semestre.errors['semestreInvalido']">
                     Seleccione un semestre válido.
                 </div>
             </div>
 
-            <div class="input-box">
-                <h6 class="label-input">Fecha de Nacimiento</h6>
+            <div class="input-box-fech">
+                <h4 class="fw-bold label-input">Fecha de Nacimiento</h4>
                 <input class="form-control" type="date" formControlName="f_nacimiento" name="f_nacimiento"
                     id="f_nacimiento" required pattern="\d{4}-\d{2}-\d{2}" required>
             </div>
-            <div *ngIf="f_nacimiento?.invalid && (f_nacimiento?.dirty || f_nacimiento?.touched)">
-                <div class="container-error-message" *ngIf="f_nacimiento && f_nacimiento.errors && f_nacimiento.errors['required']">
+            <div class="alert-danger" *ngIf="f_nacimiento?.invalid && (f_nacimiento?.dirty || f_nacimiento?.touched)">
+                <div class="container-error-message"
+                    *ngIf="f_nacimiento && f_nacimiento.errors && f_nacimiento.errors['required']">
                     La fecha de nacimiento es requerida.
                 </div>
-                <div class="container-error-message" *ngIf="f_nacimiento && f_nacimiento.errors && f_nacimiento.errors['minDate']">
+                <div class="container-error-message"
+                    *ngIf="f_nacimiento && f_nacimiento.errors && f_nacimiento.errors['minDate']">
                     Debes ser mayor de 18 años.
                 </div>
             </div>
@@ -138,7 +143,6 @@
                     <option *ngFor="let equipo of EquipoArray" [value]="equipo.pk_idequ">{{ equipo.nom_equ }}</option>
                 </select>
             </div>
-
             <div class="container d-flex justify-content-evenly">
                 <button type="submit" (click)="closeModalINS()" class="modal-close mx-2">Cerrar</button>
                 <button type="submit" class="modal-save mx-2">Registrar</button>
@@ -151,7 +155,7 @@
 <section class="modal" [class.modal--show]="showModalUP">
     <div class="modal-container">
         <h2 class="modal-title">Editar Participante</h2>
-        <form>
+        <form class="form-modal">
 
             <div class="input-box">
                 <input type="text" [(ngModel)]="ced" [ngModelOptions]="{standalone: true}" name="ced" id="ced" required>
@@ -159,7 +163,8 @@
             </div>
 
             <div class="input-box">
-                <input type="text" [(ngModel)]="name" [ngModelOptions]="{standalone: true}" name="name" id="name" required>
+                <input type="text" [(ngModel)]="name" [ngModelOptions]="{standalone: true}" name="name" id="name"
+                    required>
                 <label>Nombres</label>
             </div>
 
@@ -169,7 +174,8 @@
             </div>
 
             <div class="input-box">
-                <select class="form-select" [(ngModel)]="semest" [ngModelOptions]="{standalone: true}" name="semest" id="semest" required>
+                <select class="form-select" [(ngModel)]="semest" [ngModelOptions]="{standalone: true}" name="semest"
+                    id="semest" required>
                     <option value="">Seleccione un Semestre</option>
                     <option value="primero">Primero</option>
                     <option value="segundo">Segundo</option>
@@ -186,12 +192,13 @@
 
             <div class="input-box">
                 <h6 class="label-input">Fecha de Nacimiento</h6>
-                <input class="form-control" type="date"  [(ngModel)]="fecha" [ngModelOptions]="{standalone: true}" name="fecha"
-                    id="fecha" required pattern="\d{4}-\d{2}-\d{2}" required>
+                <input class="form-control" type="date" [(ngModel)]="fecha" [ngModelOptions]="{standalone: true}"
+                    name="fecha" id="fecha" required pattern="\d{4}-\d{2}-\d{2}" required>
             </div>
 
             <div class="input-box">
-                <select class="form-select" [(ngModel)]="idequ" [ngModelOptions]="{standalone: true}" name="idequ" id="idequ" required>
+                <select class="form-select" [(ngModel)]="idequ" [ngModelOptions]="{standalone: true}" name="idequ"
+                    id="idequ" required>
                     <option value="">Seleccione un Equipo</option>
                     <option *ngFor="let equipo of EquipoArray" [value]="equipo.pk_idequ">{{ equipo.nom_equ }}</option>
                 </select>
@@ -199,7 +206,8 @@
 
             <div class="container d-flex justify-content-evenly">
                 <button type="submit" (click)="closeModalUP()" class="modal-close mx-2">Cerrar</button>
-                <button type="submit" class="modal-save mx-2" (click)="onUpdateForm(playersData?.pk_ced)">Registrar</button>
+                <button type="submit" class="modal-save mx-2"
+                    (click)="onUpdateForm(playersData?.pk_ced)">Registrar</button>
             </div>
         </form>
 

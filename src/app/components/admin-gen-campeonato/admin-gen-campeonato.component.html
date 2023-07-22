@@ -2,13 +2,13 @@
     <div class="columna1">
 
         <form>
-            <select>
-                <option>Seleccione una opción</option>
-                <option>Campeonato 1</option>
-                <option>Campeonato 2</option>
+            <select class="form-select" [(ngModel)]="opcionSeleccionada" [ngModelOptions]="{standalone: true}"
+                (change)="onSelectCampeonato($event)">
+                <option value="">Seleccione un Campeonato</option>
+                <option class="p-3" *ngFor="let opcion of CampeonatoArray" [value]="opcion.pk_idcamp">{{
+                    opcion.name_camp }}
+                </option>
             </select>
-            <button class="search border border-0 mx-1" type="submit"> <i class="fa-sharp fa-solid fa-rotate-right"></i>
-            </button>
         </form>
 
         <h6 class="text-center fw-bold">Equipos Participantes</h6>
@@ -17,38 +17,46 @@
             <thead>
                 <tr>
                     <th>N°</th>
-                    <th>Logo</th>
+                    <th style="width: 30%;">Logo</th>
                     <th>Nombre</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>1</td>
-                    <td><img src="img/LogoUtmach.png" alt=""></td>
-                    <td>Ponchadores FC</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td><img src="img/LogoUtmach.png" alt=""></td>
-                    <td>Ponchadores FC</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td><img src="img/LogoUtmach.png" alt=""></td>
-                    <td>Ponchadores FC</td>
+                <tr *ngFor="let EquipoItem of EquipoArray; let i = index">
+                    <td>{{i + 1}}</td>
+                    <td *ngIf="EquipoItem.logo"><img [src]="apiUrlImg  + EquipoItem.logo" alt="Logo Equipo"></td>
+                    <td *ngIf="!EquipoItem.logo"><img src="./assets/img/Logo_TIC_IS.png" alt="Logo Equipo"></td>
+                    <td>{{EquipoItem.nom_equ}}</td>
                 </tr>
             </tbody>
         </table>
     </div>
 
     <div class="columna2">
-
-        <button class="generar border border-0" type="submit"><i class="fa-solid fa-plus"></i> Generar Fase de
-            Grupos</button>
-
+        <div class="d-flex">
+            <h6 class="fw-bold">Numero de grupo recomendado: </h6>
+            <h6 class="fw-bold link-danger px-3">{{numGrupoRecomendado}} </h6>
+        </div>
+        <form #formulario="ngForm">
+            <select class="form-select" name="numGroups" id="numGroups" [(ngModel)]="numGroupsSelected" [ngModelOptions]="{standalone: true}" (change)="onSelect($event)" required>
+                <option value="">Selecciona el número de Grupos</option>
+                <option value="2">Dos</option>
+                <option value="3">Tres</option>
+                <option value="4">Cuatro</option>
+                <option value="5">Cinco</option>
+            </select>
+        </form>
+        <div class="d-flex  justify-content-evenly">
+            <button class="generar border border-0" type="submit" (click)="validarSorteArrayEquipos()"><i
+                class="fa-solid fa-plus"></i> Sorteo Aleatorio</button>
+        <button class="btn btn-danger border border-0" type="submit" (click)="limpiarGrupos()"><i
+                class="fa-solid fa-plus"></i> Limpiar Grupos</button>
+        <button class="btn btn-success border border-0" type="submit" (click)="generarEncuentros()"><i
+                class="fa-solid fa-plus"></i> Generar Encuentros</button>
+        </div>
+        
         <div class="grupos">
-
-            <div class="fase  justify-content-evenly">
+            <div class="fase" *ngIf="numGroupsSelected >= '1'">
                 <h6 class="text-center fw-bold">Grupo 1</h6>
 
                 <table>
@@ -59,27 +67,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><img src="img/LogoUtmach.png" alt=""></td>
-                            <td>Ponchadores FC</td>
-                        </tr>
-                        <tr>
-                            <td><img src="img/LogoUtmach.png" alt=""></td>
-                            <td>Ponchadores FC</td>
-                        </tr>
-                        <tr>
-                            <td><img src="img/LogoUtmach.png" alt=""></td>
-                            <td>Ponchadores FC</td>
-                        </tr>
-                        <tr>
-                            <td><img src="img/LogoUtmach.png" alt=""></td>
-                            <td>Ponchadores FC</td>
+                        <tr *ngFor="let EquipoItem of grupo1">
+                            <td *ngIf="EquipoItem.logo"><img [src]="apiUrlImg  + EquipoItem.logo" alt="Logo Equipo"
+                                    width="100px">
+                            </td>
+                            <td *ngIf="!EquipoItem.logo"><img src="./assets/img/Logo_TIC_IS.png" alt="Logo Equipo"></td>
+                            <td>{{EquipoItem.nom_equ}}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-
-            <div class="fase">
+            <div class="fase" *ngIf="numGroupsSelected >= '2'">
                 <h6 class="text-center fw-bold">Grupo 2</h6>
 
                 <table>
@@ -90,26 +88,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><img src="img/LogoUtmach.png" alt=""></td>
-                            <td>Ponchadores FC</td>
-                        </tr>
-                        <tr>
-                            <td><img src="img/LogoUtmach.png" alt=""></td>
-                            <td>Ponchadores FC</td>
-                        </tr>
-                        <tr>
-                            <td><img src="img/LogoUtmach.png" alt=""></td>
-                            <td>Ponchadores FC</td>
-                        </tr>
-                        <tr>
-                            <td><img src="img/LogoUtmach.png" alt=""></td>
-                            <td>Ponchadores FC</td>
+                        <tr *ngFor="let EquipoItem of grupo2">
+                            <td *ngIf="EquipoItem.logo"><img [src]="apiUrlImg  + EquipoItem.logo" alt="Logo Equipo"
+                                    width="100px">
+                            </td>
+                            <td *ngIf="!EquipoItem.logo"><img src="./assets/img/Logo_TIC_IS.png" alt="Logo Equipo"></td>
+                            <td>{{EquipoItem.nom_equ}}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="fase">
+            <div class="fase" *ngIf="numGroupsSelected >= '3'">
                 <h6 class="text-center fw-bold">Grupo 3</h6>
 
                 <table>
@@ -120,26 +109,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><img src="img/LogoUtmach.png" alt=""></td>
-                            <td>Ponchadores FC</td>
-                        </tr>
-                        <tr>
-                            <td><img src="img/LogoUtmach.png" alt=""></td>
-                            <td>Ponchadores FC</td>
-                        </tr>
-                        <tr>
-                            <td><img src="img/LogoUtmach.png" alt=""></td>
-                            <td>Ponchadores FC</td>
-                        </tr>
-                        <tr>
-                            <td><img src="img/LogoUtmach.png" alt=""></td>
-                            <td>Ponchadores FC</td>
+                        <tr *ngFor="let EquipoItem of grupo3">
+                            <td *ngIf="EquipoItem.logo"><img [src]="apiUrlImg  + EquipoItem.logo" alt="Logo Equipo"
+                                    width="100px">
+                            </td>
+                            <td *ngIf="!EquipoItem.logo"><img src="./assets/img/Logo_TIC_IS.png" alt="Logo Equipo"></td>
+                            <td>{{EquipoItem.nom_equ}}</td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="fase">
+            <div class="fase" *ngIf="numGroupsSelected >= '4'">
                 <h6 class="text-center fw-bold">Grupo 4</h6>
 
                 <table>
@@ -150,21 +130,33 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td><img src="img/LogoUtmach.png" alt=""></td>
-                            <td>Ponchadores FC</td>
+                        <tr *ngFor="let EquipoItem of grupo4">
+                            <td *ngIf="EquipoItem.logo"><img [src]="apiUrlImg  + EquipoItem.logo" alt="Logo Equipo"
+                                    width="100px">
+                            </td>
+                            <td *ngIf="!EquipoItem.logo"><img src="./assets/img/Logo_TIC_IS.png" alt="Logo Equipo"></td>
+                            <td>{{EquipoItem.nom_equ}}</td>
                         </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="fase" *ngIf="numGroupsSelected >= '5'">
+                <h6 class="text-center fw-bold">Grupo 5</h6>
+
+                <table>
+                    <thead>
                         <tr>
-                            <td><img src="img/LogoUtmach.png" alt=""></td>
-                            <td>Ponchadores FC</td>
+                            <th>Logo</th>
+                            <th>Nombre</th>
                         </tr>
-                        <tr>
-                            <td><img src="img/LogoUtmach.png" alt=""></td>
-                            <td>Ponchadores FC</td>
-                        </tr>
-                        <tr>
-                            <td><img src="img/LogoUtmach.png" alt=""></td>
-                            <td>Ponchadores FC</td>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let EquipoItem of grupo5">
+                            <td *ngIf="EquipoItem.logo"><img [src]="apiUrlImg  + EquipoItem.logo" alt="Logo Equipo"
+                                    width="100px">
+                            </td>
+                            <td *ngIf="!EquipoItem.logo"><img src="./assets/img/Logo_TIC_IS.png" alt="Logo Equipo"></td>
+                            <td>{{EquipoItem.nom_equ}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -201,3 +193,41 @@
         </div>
     </div>
 </div>
+
+<section class="modal" [class.modal--show]="showModal">
+    <div class="modal-container">
+        <h2 class="modal-title">Equipo Asigando a {{numGrupo}}</h2>
+        <img [src]="apiUrlImg  + EquipoSelected.logo" alt="Logo Equipo" width="150px" height="150px">
+        <h5>{{EquipoSelected.nom_equ}}</h5>
+        <div class="container d-flex justify-content-evenly">
+            <button type="submit" (click)="closeModal()" class="modal-close mx-2">Cerrar</button>
+            <button type="submit" class="modal-save mx-2" (click)="closeModal()">Registrar</button>
+        </div>
+    </div>
+</section>
+
+<section class="modal" [class.modal--show]="showModalNULL">
+    <div class="modal-container">
+        <h4 class="modal-title text-center">Todos los Equipos ya fueron asignados</h4>
+        <div class="container d-flex justify-content-evenly">
+            <button type="submit" (click)="closeModalNULL()" class="modal-close mx-2">OK</button>
+        </div>
+    </div>
+</section>
+<section class="modal" [class.modal--show]="showModalError">
+    <div class="modal-container">
+        <h4 class="text-center">{{errorValidacion}}</h4>
+        <div class="container d-flex justify-content-evenly">
+            <button type="submit" (click)="closeModalError()" class="modal-close mx-2">OK</button>
+        </div>
+    </div>
+</section>
+
+<section class="modal" [class.modal--show]="showModalEncuentros">
+    <div class="modal-container">
+        <h4 class="text-center">{{errorValidacion}}</h4>
+        <div class="container d-flex justify-content-evenly">
+            <button type="submit" (click)="closeModalEncuentros()" class="modal-close mx-2">OK</button>
+        </div>
+    </div>
+</section>

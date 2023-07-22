@@ -10,16 +10,17 @@ import { EquipoService } from 'src/app/service/api/equipo.service';
   templateUrl: './admin-participantes.component.html',
   styleUrls: ['./admin-participantes.component.css']
 })
-export class AdminParticipantesComponent implements OnInit {
+export class AdminParticipantesComponent {
   showModal = false;
   showModalUP = false;
   protected playersForm: FormGroup;
   EquipoArray: any[] = [];
+  PlayersFiltrados: any[] = [];
   PlayersArray: any[] = [];
   isResultLoaded = false;
   isUpdateFormActive = false;
   playersData: any;
-
+  opcionSeleccionadaEquipo: string = '';
   ced: string = "";
   name: string = "";
   ape: string = "";
@@ -29,6 +30,15 @@ export class AdminParticipantesComponent implements OnInit {
 
   constructor(private router: Router, private ts: PlayersService, private tsE: EquipoService) {
     this.playersForm = this.createFormGroup();
+    this.ts.getAllPlayers().subscribe((resultData: any) => {
+      this.isResultLoaded = true;
+      this.PlayersArray = resultData;
+      this.PlayersFiltrados = resultData;
+    });
+    this.tsE.getAllEquipo().subscribe((resultData: any) => {
+      this.isResultLoaded = true;
+      this.EquipoArray = resultData;
+    });
   }
 
   get pk_ced() { return this.playersForm.get('pk_ced'); }
@@ -37,6 +47,16 @@ export class AdminParticipantesComponent implements OnInit {
   get semestre() { return this.playersForm.get('semestre'); }
   get f_nacimiento() { return this.playersForm.get('f_nacimiento'); }
   get fk_idequ() { return this.playersForm.get('fk_idequ'); }
+
+  onSelectEquipo(event: any) {
+    this.opcionSeleccionadaEquipo = event.target.value;
+    if (this.opcionSeleccionadaEquipo != '') {
+      this.isResultLoaded = true;
+      this.PlayersFiltrados = this.PlayersArray.filter((player) => player.fk_idequ == this.opcionSeleccionadaEquipo);
+    } else {
+      this.PlayersFiltrados = this.PlayersArray;
+    }
+  }
 
   createFormGroup() {
     return new FormGroup({
@@ -91,22 +111,11 @@ export class AdminParticipantesComponent implements OnInit {
     return null;
   }
 
-  ngOnInit() {
-    this.ts.getAllPlayers().subscribe((resultData: any) => {
-      this.isResultLoaded = true;
-      this.PlayersArray = resultData;
-    });
-    this.tsE.getAllEquipo().subscribe((resultData: any) => {
-      this.isResultLoaded = true;
-      this.EquipoArray = resultData;
-    });
-  }
-
   onResetForm() {
     this.playersForm.reset();
   }
 
-  obtenerNombreEquipo(fkEquipo: number): string {
+  obtenerNombreEquipo(fkEquipo: string): string {
     const equipo = this.EquipoArray.find(equipo => equipo.pk_idequ === fkEquipo);
     return equipo ? equipo.nom_equ : '';
   }
@@ -123,6 +132,7 @@ export class AdminParticipantesComponent implements OnInit {
             this.ts.getAllPlayers().subscribe((resultData: any) => {
               this.isResultLoaded = true;
               this.PlayersArray = resultData;
+              this.PlayersFiltrados = resultData;
             });
             this.closeModalINS();
           }
@@ -165,6 +175,7 @@ export class AdminParticipantesComponent implements OnInit {
       this.isResultLoaded = true;
       this.PlayersArray.splice(0, this.EquipoArray.length);
       this.PlayersArray = resultData;
+      this.PlayersFiltrados = resultData;
     });
   }
 
@@ -174,6 +185,7 @@ export class AdminParticipantesComponent implements OnInit {
         this.isResultLoaded = true;
         this.PlayersArray.splice(0, this.PlayersArray.length);
         this.PlayersArray = resultData;
+        this.PlayersFiltrados = resultData;
       });
 
     });
@@ -181,19 +193,6 @@ export class AdminParticipantesComponent implements OnInit {
 
   openModalINS() {
     this.showModal = true;
-    const openModal = document.querySelector('.ins');
-    const modal = document.querySelector('.modal');
-    const closeModal = document.querySelector('.modal-close');
-
-    openModal!.addEventListener('click', (e) => {
-      e.preventDefault();
-      modal!.classList.add('modal--show');
-    });
-
-    closeModal!.addEventListener('click', (e) => {
-      e.preventDefault();
-      modal!.classList.remove('modal--show');
-    });
   }
 
   closeModalINS() {
@@ -202,19 +201,6 @@ export class AdminParticipantesComponent implements OnInit {
 
   openModalUP() {
     this.showModalUP = true;
-    const openModal = document.querySelector('.ins');
-    const modal = document.querySelector('.modal');
-    const closeModal = document.querySelector('.modal-close');
-
-    openModal!.addEventListener('click', (e) => {
-      e.preventDefault();
-      modal!.classList.add('modal--show');
-    });
-
-    closeModal!.addEventListener('click', (e) => {
-      e.preventDefault();
-      modal!.classList.remove('modal--show');
-    });
   }
 
   closeModalUP() {

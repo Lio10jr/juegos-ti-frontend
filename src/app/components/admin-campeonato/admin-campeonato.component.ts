@@ -9,26 +9,43 @@ import { Campeonato } from 'src/app/models/Campeonato';
   templateUrl: './admin-campeonato.component.html',
   styleUrls: ['./admin-campeonato.component.css']
 })
-export class AdminCampeonatoComponent implements OnInit {
+export class AdminCampeonatoComponent {
   showModal = false;
   showModalUP = false;
   protected campeonatoForm: FormGroup;
-  CampeonatoArray : any[] = [];
+  CampeonatoArray: any[] = [];
+  CampeonatosFiltrados: any[] = [];
+  opcionSeleccionadaEstado: string = '';
   isResultLoaded = false;
   isUpdateFormActive = false;
   campeonatoData: any;
 
-  name: string ="";
-  anio: string ="";
-  estado_camp: string ="";
+  name: string = "";
+  anio: string = "";
+  estado_camp: string = "";
 
-  constructor( private router: Router, private ts: CampeonatoService){
+  constructor(private router: Router, private ts: CampeonatoService) {
     this.campeonatoForm = this.createFormGroup();
+    this.ts.getAllCampeonato().subscribe((resultData: any) => {
+      this.isResultLoaded = true;
+      this.CampeonatoArray = resultData;
+      this.CampeonatosFiltrados = resultData;
+    });
   }
 
   get name_camp() { return this.campeonatoForm.get('name_camp'); }
   get anio_camp() { return this.campeonatoForm.get('anio_camp'); }
   get estado() { return this.campeonatoForm.get('estado'); }
+
+  onSelectCampeonato(event: any) {
+    this.opcionSeleccionadaEstado = event.target.value;
+    if (this.opcionSeleccionadaEstado != '') {
+      this.isResultLoaded = true;
+      this.CampeonatosFiltrados = this.CampeonatoArray.filter((camp) => (camp.estado + '') == this.opcionSeleccionadaEstado);
+    } else {
+      this.CampeonatosFiltrados = this.CampeonatoArray;
+    }
+  }
 
   createFormGroup() {
     return new FormGroup({
@@ -36,11 +53,11 @@ export class AdminCampeonatoComponent implements OnInit {
         Validators.required,
         Validators.minLength(4),
       ]),
-      anio_camp: new FormControl('',[
+      anio_camp: new FormControl('', [
         Validators.required,
         Validators.minLength(4),
       ]),
-      estado: new FormControl('',[ 
+      estado: new FormControl('', [
         Validators.required,
         this.validarEstadoSeleccionado,
       ]),
@@ -54,44 +71,33 @@ export class AdminCampeonatoComponent implements OnInit {
     return null;
   }
 
-  ngOnInit() {
-    this.ts.getAllCampeonato().subscribe((resultData: any)=>
-    {
-        this.isResultLoaded = true;
-        this.CampeonatoArray = resultData;
-    });
-  }
-
   onResetForm() {
     this.campeonatoForm.reset();
   }
 
   onSaveForm() {
-    if (this.campeonatoForm.valid) {      
+    if (this.campeonatoForm.valid) {
       const formValues = this.campeonatoForm.value;
       const estadoSeleccionado = formValues.estado;
-      if (estadoSeleccionado == "" ) {
-        console.log('Seleccione un estado');        
+      if (estadoSeleccionado == "") {
+        console.log('Seleccione un estado');
       } else {
-        this.ts.addCampeonato(formValues.name_camp,formValues.anio,formValues.estado).subscribe(
-          ()=>{ 
-            this.ts.getAllCampeonato().subscribe((resultData: any)=>
-            {
-                this.isResultLoaded = true;
-                this.CampeonatoArray = resultData;
+        this.ts.addCampeonato(formValues.name_camp, formValues.anio, formValues.estado).subscribe(
+          () => {
+            this.ts.getAllCampeonato().subscribe((resultData: any) => {
+              this.isResultLoaded = true;
+              this.CampeonatoArray = resultData;
             });
             this.closeModalINS();
           }
         );
       }
-    }    
+    }
   }
 
-  setView(data: any)
-  {  }
+  setView(data: any) { }
 
-  setUpdate(data: any)
-  {  
+  setUpdate(data: any) {
     this.name = data.name_camp;
     this.anio = data.anio_camp;
     this.estado_camp = data.estado;
@@ -100,40 +106,36 @@ export class AdminCampeonatoComponent implements OnInit {
   }
 
   onUpdateForm(dataID: any) {
-    
+
     let bodyData = {
-      "name" : this.name,
-      "anio" : this.anio,
-      "estado_camp" : this.estado_camp
+      "name": this.name,
+      "anio": this.anio,
+      "estado_camp": this.estado_camp
     };
 
-    const obCmap = new Campeonato(bodyData.name,bodyData.anio,bodyData.estado_camp);
+    const obCmap = new Campeonato(bodyData.name, bodyData.anio, bodyData.estado_camp);
 
-    this.ts.updateCampeonato(dataID,obCmap).subscribe((resultData: any)=>
-      {
-        this.onResetForm();
-        this.closeModalUP();  
-      });
-    this.ts.getAllCampeonato().subscribe((resultData: any)=>
-    {
-        this.isResultLoaded = true;
-        this.CampeonatoArray.splice(0, this.CampeonatoArray.length);
-        this.CampeonatoArray = resultData;
+    this.ts.updateCampeonato(dataID, obCmap).subscribe((resultData: any) => {
+      this.onResetForm();
+      this.closeModalUP();
+    });
+    this.ts.getAllCampeonato().subscribe((resultData: any) => {
+      this.isResultLoaded = true;
+      this.CampeonatoArray.splice(0, this.CampeonatoArray.length);
+      this.CampeonatoArray = resultData;
+      this.CampeonatosFiltrados = resultData;
     });
   }
 
-  setDelete(data: any)
-  {   
-    this.ts.deleteCampeonato(data.pk_idcamp).subscribe((resultData: any)=>
-    {
-      this.ts.getAllCampeonato().subscribe((resultData: any)=>
-      {
-          this.isResultLoaded = true;
-          this.CampeonatoArray.splice(0, this.CampeonatoArray.length);
-          this.CampeonatoArray = resultData;
+  setDelete(data: any) {
+    this.ts.deleteCampeonato(data.pk_idcamp).subscribe((resultData: any) => {
+      this.ts.getAllCampeonato().subscribe((resultData: any) => {
+        this.isResultLoaded = true;
+        this.CampeonatoArray.splice(0, this.CampeonatoArray.length);
+        this.CampeonatoArray = resultData;
+        this.CampeonatosFiltrados = resultData;
       });
-   
-    });    
+    });
   }
 
   openModalINS() {
@@ -143,13 +145,13 @@ export class AdminCampeonatoComponent implements OnInit {
     const closeModal = document.querySelector('.modal-close');
 
     openModal!.addEventListener('click', (e) => {
-        e.preventDefault();
-        modal!.classList.add('modal--show');
+      e.preventDefault();
+      modal!.classList.add('modal--show');
     });
 
     closeModal!.addEventListener('click', (e) => {
-        e.preventDefault();
-        modal!.classList.remove('modal--show');
+      e.preventDefault();
+      modal!.classList.remove('modal--show');
     });
   }
 
@@ -164,18 +166,18 @@ export class AdminCampeonatoComponent implements OnInit {
     const closeModal = document.querySelector('.modal-close');
 
     openModal!.addEventListener('click', (e) => {
-        e.preventDefault();
-        modal!.classList.add('modal--show');
+      e.preventDefault();
+      modal!.classList.add('modal--show');
     });
 
     closeModal!.addEventListener('click', (e) => {
-        e.preventDefault();
-        modal!.classList.remove('modal--show');
+      e.preventDefault();
+      modal!.classList.remove('modal--show');
     });
   }
 
   closeModalUP() {
     this.showModalUP = false;
   }
-  
+
 }

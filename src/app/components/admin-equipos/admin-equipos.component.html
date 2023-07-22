@@ -1,15 +1,16 @@
 <div class="combo-box">
     <form>
-        <select class=" border borcer-0">
-            <option>Seleccione una opción</option>
-            <option>Campeonato 2022</option>
-            <option>Campeonato 2023</option>
+        <select class="form-select" [(ngModel)]="opcionSeleccionadaCamp" [ngModelOptions]="{standalone: true}"
+            (change)="onSelectCampeonato($event)">
+            <option value="">Seleccione un campeonato para filtrar los equipos</option>
+            <option class="p-3" *ngFor="let opcion of CampeonatoArray" [value]="opcion.pk_idcamp">{{
+                opcion.name_camp }}
+            </option>
         </select>
-        <button class="search border borcer-0" type="submit"> <i class="fa-solid fa-search"></i> </button>
     </form>
 </div>
 <div class="table-container">
-    <button  class="ins" (click)="openModalINS()" type="submit"><i class="fa-solid fa-plus"></i> Crear Equipo</button>
+    <button class="ins" (click)="openModalINS()" type="submit"><i class="fa-solid fa-plus"></i> Crear Equipo</button>
     <table>
         <thead>
             <tr>
@@ -21,22 +22,25 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let EquipoItem of EquipoArray">
+            <tr *ngFor="let EquipoItem of EquiposFiltrados">
                 <td>{{EquipoItem.nom_equ}}</td>
                 <!-- <td><img src="./assets/img/LogoUtmach.png" alt=""></td> -->
-                <td *ngIf="EquipoItem.logo"><img  [src]="apiUrlImg  + EquipoItem.logo" alt=""></td>
+                <td *ngIf="EquipoItem.logo"><img [src]="apiUrlImg  + EquipoItem.logo" alt=""></td>
                 <td *ngIf="!EquipoItem.logo"><img src="./assets/img/Logo_TIC_IS.png" alt=""></td>
                 <td>{{EquipoItem.semestre}}</td>
                 <td>{{EquipoItem.representante}}</td>
                 <td class="d-flex justify-content-evenly">
-                    <button class="jugadores" type="submit" (click)="setView(EquipoItem)"><i class="fa-solid fa-circle-exclamation"></i>
+                    <button class="jugadores" type="submit" (click)="setView(EquipoItem)"><i
+                            class="fa-solid fa-circle-exclamation"></i>
                         Ver</button>
-                    <button class="edit" type="submit" (click)="setUpdate(EquipoItem)"><i class="fa-solid fa-pen-to-square"></i>
+                    <button class="edit" type="submit" (click)="setUpdate(EquipoItem)"><i
+                            class="fa-solid fa-pen-to-square"></i>
                         Edit</button>
-                    <button class="delete" type="submit" (click)="setDelete(EquipoItem)"><i class="fa-solid fa-trash"></i> Delete</button>
+                    <button class="delete" type="submit" (click)="setDelete(EquipoItem)"><i
+                            class="fa-solid fa-trash"></i> Delete</button>
                 </td>
             </tr>
-            
+
         </tbody>
     </table>
 </div>
@@ -45,8 +49,8 @@
 <section class="modal" [class.modal--show]="showModal">
     <div class="modal-container">
         <h2 class="modal-title">Nuevo Equipo</h2>
-        <form [formGroup]="equipoForm" (ngSubmit)="onSaveForm()"  #miFormulario>
-        
+        <form class="form-modal" [formGroup]="equipoForm" (ngSubmit)="onSaveForm()" #miFormulario>
+
             <div class="input-box">
                 <input type="text" formControlName="nom_equ" name="nom_equ" id="nom_equ" required>
                 <label>Nombre</label>
@@ -61,12 +65,13 @@
             </div>
 
             <div class="input-box">
-                <input class="form-control" type="file" accept="image/*" id="archivo" name="archivo"  (change)="onFileSelected($event)">
+                <input class="form-control" type="file" accept="image/*" id="archivo" name="archivo"
+                    (change)="onFileSelected($event)">
                 <label>Logo</label>
             </div>
 
             <div class="input-box">
-                <select  class="form-select" formControlName="semestre" name="semestre" id="semestre" required>
+                <select class="form-select" formControlName="semestre" name="semestre" id="semestre" required>
                     <option value="">Seleccione un Semestre</option>
                     <option value="primero">Primero</option>
                     <option value="segundo">Segundo</option>
@@ -80,46 +85,54 @@
                     <option value="decimo">Decimo</option>
                 </select>
             </div>
-            <div *ngIf="equipoForm.controls['semestre'].invalid && (equipoForm.controls['semestre'].dirty || equipoForm.controls['semestre'].touched)">
+            <div class="alert-danger"
+                *ngIf="equipoForm.controls['semestre'].invalid && (equipoForm.controls['semestre'].dirty || equipoForm.controls['semestre'].touched)">
                 <div class="container-error-message" *ngIf="semestre && semestre.errors && semestre.errors['required']">
-                  Seleccione un semestre válido.
+                    Seleccione un semestre válido.
                 </div>
-                <div *ngIf="semestre && semestre.errors && semestre.errors['semestreInvalido']">
-                  Seleccione un semestre válido.
+                <div class="container-error-message"
+                    *ngIf="semestre && semestre.errors && semestre.errors['semestreInvalido']">
+                    Seleccione un semestre válido.
                 </div>
             </div>
 
             <div class="input-box">
-                <input type="text" formControlName="representante" name="representante" id="representante"  required>
+                <input type="text" formControlName="representante" name="representante" id="representante" required>
                 <label>Representante</label>
             </div>
-            <div class="alert-danger" *ngIf="representante?.invalid && (representante?.dirty || representante?.touched)">
-                <div class="container-error-message" *ngIf="representante && representante.errors && representante.errors['required']">
+            <div class="alert-danger"
+                *ngIf="representante?.invalid && (representante?.dirty || representante?.touched)">
+                <div class="container-error-message"
+                    *ngIf="representante && representante.errors && representante.errors['required']">
                     Representante es requerido.
                 </div>
-                <div class="container-error-message" *ngIf="representante && representante.errors && representante.errors['minlength']">
+                <div class="container-error-message"
+                    *ngIf="representante && representante.errors && representante.errors['minlength']">
                     Minimo 4 caracteres.
                 </div>
             </div>
 
-            <div class="input-box"> 
-                <select  class="form-select" formControlName="fk_idcamp" name="fk_idcamp" id="fk_idcamp" required>
+            <div class="input-box">
+                <select class="form-select" formControlName="fk_idcamp" name="fk_idcamp" id="fk_idcamp" required>
                     <option value="">Seleccione un Campeonato</option>
-                    <option *ngFor="let campeonato of CampeonatoArray" [value]="campeonato.pk_idcamp">{{ campeonato.name_camp }}</option>
+                    <option *ngFor="let campeonato of CampeonatoArray" [value]="campeonato.pk_idcamp">{{
+                        campeonato.name_camp }}</option>
                 </select>
             </div>
             <div class="alert-danger" *ngIf="fk_idcamp?.invalid && (fk_idcamp?.dirty || fk_idcamp?.touched)">
-                <div class="container-error-message" *ngIf="fk_idcamp && fk_idcamp.errors && fk_idcamp.errors['required']">
+                <div class="container-error-message"
+                    *ngIf="fk_idcamp && fk_idcamp.errors && fk_idcamp.errors['required']">
                     Campeonato es requerido.
                 </div>
-                <div class="container-error-message"*ngIf="semestre && semestre.errors && semestre.errors['campeonatoInvalido']">
+                <div class="container-error-message"
+                    *ngIf="semestre && semestre.errors && semestre.errors['campeonatoInvalido']">
                     Seleccione un campeonato válido.
                 </div>
             </div>
 
             <div class="container d-flex justify-content-evenly">
-                <button type="submit"  (click)="closeModalINS()" class="modal-close mx-2">Cerrar</button>
-                <button type="submit" class="modal-save mx-2">Registrar</button> 
+                <button type="submit" (click)="closeModalINS()" class="modal-close mx-2">Cerrar</button>
+                <button type="submit" class="modal-save mx-2">Registrar</button>
             </div>
         </form>
 
@@ -129,17 +142,20 @@
 <section class="modal" [class.modal--show]="showModalUP">
     <div class="modal-container">
         <h2 class="modal-title">Editar Equipo</h2>
-        <form>
+        <form class="form-modal">
             <div class="input-box">
-                <input type="text" [(ngModel)]="name" [ngModelOptions]="{standalone: true}" name="name" id="name" required>
+                <input type="text" [(ngModel)]="name" [ngModelOptions]="{standalone: true}" name="name" id="name"
+                    required>
                 <label>Nombre</label>
             </div>
             <div class="input-box">
-                <input class="form-control" type="file" accept="image/*" id="archivo" name="archivo" (change)="onFileSelected($event)">
+                <input class="form-control" type="file" accept="image/*" id="archivo" name="archivo"
+                    (change)="onFileSelected($event)">
                 <label>Logo</label>
             </div>
             <div class="input-box">
-                <select  class="form-select" [(ngModel)]="semest" [ngModelOptions]="{standalone: true}" name="semest" id="semest" required>
+                <select class="form-select" [(ngModel)]="semest" [ngModelOptions]="{standalone: true}" name="semest"
+                    id="semest" required>
                     <option value="">Seleccione un Semestre</option>
                     <option value="primero">Primero</option>
                     <option value="segundo">Segundo</option>
@@ -154,20 +170,24 @@
                 </select>
             </div>
             <div class="input-box">
-                <input class="form-control" [(ngModel)]="repre" [ngModelOptions]="{standalone: true}" name="repre" id="repre" required>
+                <input class="form-control" [(ngModel)]="repre" [ngModelOptions]="{standalone: true}" name="repre"
+                    id="repre" required>
                 <label>Representante</label>
             </div>
 
-            <div class="input-box"> 
-                <select  class="form-select" [(ngModel)]="idcamp" [ngModelOptions]="{standalone: true}" name="idcamp" id="idcamp" required>
+            <div class="input-box">
+                <select class="form-select" [(ngModel)]="idcamp" [ngModelOptions]="{standalone: true}" name="idcamp"
+                    id="idcamp" required>
                     <option value="">Seleccione un Campeonato</option>
-                    <option *ngFor="let campeonato of CampeonatoArray" [value]="campeonato.pk_idcamp">{{ campeonato.name_camp }}</option>
+                    <option *ngFor="let campeonato of CampeonatoArray" [value]="campeonato.pk_idcamp">{{
+                        campeonato.name_camp }}</option>
                 </select>
             </div>
 
             <div class="container d-flex justify-content-evenly">
-                <button type="submit"  (click)="closeModalUP()" class="modal-close mx-2">Cerrar</button>
-                <button type="submit" class="modal-save mx-2" (click)="onUpdateForm(equipoData?.pk_idequ)">Registrar</button> 
+                <button type="submit" (click)="closeModalUP()" class="modal-close mx-2">Cerrar</button>
+                <button type="submit" class="modal-save mx-2"
+                    (click)="onUpdateForm(equipoData?.pk_idequ)">Registrar</button>
             </div>
         </form>
     </div>

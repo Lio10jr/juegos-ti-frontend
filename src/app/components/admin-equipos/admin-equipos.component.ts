@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentesService } from 'src/app/service/components/componentes.service';
 import { EquipoService } from 'src/app/service/api/equipo.service';
 import { Router } from '@angular/router';
-import { FormBuilder, Validators, FormControl, FormGroup, AbstractControl } from '@angular/forms';
+import { Validators, FormControl, FormGroup, AbstractControl } from '@angular/forms';
 import { Equipo } from 'src/app/models/Equipo';
 import { CampeonatoService } from 'src/app/service/api/campeonato.service';
 import { environment } from 'src/app/environments/environment';
@@ -13,17 +13,19 @@ import { environment } from 'src/app/environments/environment';
   styleUrls: ['./admin-equipos.component.css']
 })
 
-export class AdminEquiposComponent implements OnInit {
+export class AdminEquiposComponent {
   protected apiUrlImg: string = environment.apiUrlImg;
 
   showModal = false;
   showModalUP = false;
   protected equipoForm: FormGroup;
-  EquipoArray: any[] = [];
+  EquipoArray: Equipo[] = [];
   CampeonatoArray: any[] = [];
+  EquiposFiltrados: Equipo[] = [];
   isResultLoaded = false;
   isUpdateFormActive = false;
   equipoData: any;
+  opcionSeleccionadaCamp: string = '';
   selectedFile: File | null = null;
   urlImg: string | null = null;
   name: string = "";
@@ -34,6 +36,15 @@ export class AdminEquiposComponent implements OnInit {
 
   constructor(private router: Router, private ts: EquipoService, private tsC: CampeonatoService) {
     this.equipoForm = this.createFormGroup();
+    this.ts.getAllEquipo().subscribe((resultData: any) => {
+      this.isResultLoaded = true;
+      this.EquipoArray = resultData;
+      this.EquiposFiltrados = resultData;
+    });
+    this.tsC.getAllCampeonato().subscribe((resultData: any) => {
+      this.isResultLoaded = true;
+      this.CampeonatoArray = resultData;
+    });
   }
 
   get nom_equ() { return this.equipoForm.get('nom_equ'); }
@@ -41,15 +52,16 @@ export class AdminEquiposComponent implements OnInit {
   get representante() { return this.equipoForm.get('representante'); }
   get fk_idcamp() { return this.equipoForm.get('fk_idcamp'); }
 
-  ngOnInit() {
-    this.ts.getAllEquipo().subscribe((resultData: any) => {
+  onSelectCampeonato(event: any) {
+    /* this.numGroupsSelected = event.target.value; */
+    this.opcionSeleccionadaCamp = event.target.value;
+
+    if (this.opcionSeleccionadaCamp != '') {
       this.isResultLoaded = true;
-      this.EquipoArray = resultData;
-    });
-    this.tsC.getAllCampeonato().subscribe((resultData: any) => {
-      this.isResultLoaded = true;
-      this.CampeonatoArray = resultData;
-    });
+      this.EquiposFiltrados = this.EquipoArray.filter((equipo) => equipo.fk_idcamp === this.opcionSeleccionadaCamp);
+    } else {
+      this.EquiposFiltrados = this.EquipoArray;
+    }
   }
 
   createFormGroup() {
@@ -105,6 +117,7 @@ export class AdminEquiposComponent implements OnInit {
               this.ts.getAllEquipo().subscribe((resultData: any) => {
                 this.isResultLoaded = true;
                 this.EquipoArray = resultData;
+                this.EquiposFiltrados = resultData;
               });
               this.closeModalINS();
             }
@@ -129,7 +142,7 @@ export class AdminEquiposComponent implements OnInit {
 
   setUpdate(data: any) {
     this.name = data.nom_equ;
-    this.log ='';
+    this.log = '';
     this.semest = data.semestre;
     this.repre = data.representante;
     this.idcamp = data.fk_idcamp;
@@ -145,8 +158,8 @@ export class AdminEquiposComponent implements OnInit {
       "idcamp": this.idcamp
     };
     if (this.selectedFile) {
-      
-      const obEq = new Equipo(bodyData.name,'',bodyData.semest,bodyData.repre, bodyData.idcamp);
+
+      const obEq = new Equipo(bodyData.name, '', bodyData.semest, bodyData.repre, bodyData.idcamp);
       this.ts.updateEquipo(dataID, obEq, this.selectedFile!).subscribe((resultData: any) => {
         this.onResetForm();
         this.closeModalUP();
@@ -155,10 +168,11 @@ export class AdminEquiposComponent implements OnInit {
         this.isResultLoaded = true;
         this.EquipoArray.splice(0, this.EquipoArray.length);
         this.EquipoArray = resultData;
+        this.EquiposFiltrados = resultData;
         this.selectedFile = null;
       });
-    }else {
-      const obEq = new Equipo(bodyData.name,'',bodyData.semest,bodyData.repre, bodyData.idcamp);
+    } else {
+      const obEq = new Equipo(bodyData.name, '', bodyData.semest, bodyData.repre, bodyData.idcamp);
 
       this.ts.updateEquipoEdit(dataID, obEq).subscribe((resultData: any) => {
         this.onResetForm();
@@ -169,6 +183,7 @@ export class AdminEquiposComponent implements OnInit {
         this.isResultLoaded = true;
         this.EquipoArray.splice(0, this.EquipoArray.length);
         this.EquipoArray = resultData;
+        this.EquiposFiltrados = resultData;
       });
     }
   }
@@ -179,26 +194,14 @@ export class AdminEquiposComponent implements OnInit {
         this.isResultLoaded = true;
         this.EquipoArray.splice(0, this.EquipoArray.length);
         this.EquipoArray = resultData;
+        this.EquiposFiltrados = resultData;
       });
 
     });
   }
 
-  openModalINS() {    
+  openModalINS() {
     this.showModal = true;
-    const openModal = document.querySelector('.ins');
-    const modal = document.querySelector('.modal');
-    const closeModal = document.querySelector('.modal-close');
-
-    openModal!.addEventListener('click', (e) => {
-      e.preventDefault();
-      modal!.classList.add('modal--show');
-    });
-
-    closeModal!.addEventListener('click', (e) => {
-      e.preventDefault();
-      modal!.classList.remove('modal--show');
-    });
   }
 
   closeModalINS() {
@@ -206,21 +209,8 @@ export class AdminEquiposComponent implements OnInit {
     this.showModal = false;
   }
 
-  openModalUP() {    
+  openModalUP() {
     this.showModalUP = true;
-    const openModal = document.querySelector('.ins');
-    const modal = document.querySelector('.modal');
-    const closeModal = document.querySelector('.modal-close');
-
-    openModal!.addEventListener('click', (e) => {
-      e.preventDefault();
-      modal!.classList.add('modal--show');
-    });
-
-    closeModal!.addEventListener('click', (e) => {
-      e.preventDefault();
-      modal!.classList.remove('modal--show');
-    });
   }
 
   closeModalUP() {

@@ -11,6 +11,7 @@
 .combo-box select{
     width: 40%;
     height: 30px;
+    padding: 4px;
 }
 
 .combo-box option{
@@ -132,19 +133,22 @@ tr:nth-child(even) {
     background-color: rgba(113, 99, 186, 255);;
     color: #fff;
     border-radius: 6px;
-    padding: 3em 2.5em;
+    padding: 3% 2.5%;
     display: grid;
     gap: 1em;
     place-items: center;
     grid-auto-columns: 100%;
 }
 
+.form-modal{
+    width: 90%;
+}
 
 .input-box{
     position: relative;
-    width: 400px;
-    margin: 5px 0;
-    border-bottom: 2px solid white;
+    width: 100%;
+    margin-top: 15px;
+    border-bottom: 1px solid white;
 }
 
 .input-box label{
@@ -156,30 +160,31 @@ tr:nth-child(even) {
     color: white;
     pointer-events: none;
     transition: .5s;
+    font-weight: bold;
 }
 
 .input-box input:focus~label,
 .input-box input:valid~label {
-    top: -5px;
+    top: -5.5px;
 }
 
 .input-box input{
     width: 100%;
-    height: 50px;
+    height: 12%;
     background: transparent;
     border: none;
     outline: none;
     font-size: 1em;
     color: white;
-    padding: 0 35px 0 5px;
+    padding: 4px 7px;
 }
 
 .form-control {
-    margin-top: 12px;
+    margin-top: 30px;
 }
 
 .modal-title {
-    font-size: 2.5rem;
+    font-size: 1.8rem;
 }
 
 .modal-paragraph {
@@ -223,6 +228,25 @@ tr:nth-child(even) {
     color: #000000;
 }
 
+.container button{
+    width: 100%;
+    height: 40px;
+    background: white;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 1em;
+    color: black;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.container button:hover{
+    background: #40CFFF;
+    color: #000000;
+}
 /* Validacion */
 .alert-danger {
     color: #721c24;
