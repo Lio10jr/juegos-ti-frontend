@@ -1,0 +1,67 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Encuentros } from 'src/app/models/Encuentros';
+import { Fase_Encuentros } from 'src/app/models/Fase_Encuentros';
+import { Observable } from 'rxjs';
+import { environment } from 'src/app/environments/environment';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class EncuentrosService {
+  private apiUrl: string = environment.apiUrl;
+  options: any;
+
+  private headers: HttpHeaders = new HttpHeaders({
+    'enctype': 'multipart/form-data',
+    'Content-Type': 'application/json',
+    'X-Requested-With': 'XMLHttpRequest',
+  });
+
+  constructor(private _http: HttpClient) { }
+
+  getAllEncuentros() {
+    return this._http.get(this.apiUrl + 'encuentros');
+  }
+
+  getEncuentrosById(id_enc: string) {
+    return this._http.get(this.apiUrl + 'encuentros/' + id_enc);
+  }
+
+  addEncuentros(data: Encuentros): Observable<Encuentros> {
+    return this._http.post<Encuentros>(this.apiUrl + 'encuentrossave', data);
+  }
+
+  updateEncuentros(dataID: string, data: any) {
+    const newEncuentros = data;
+    return this._http.put(this.apiUrl + 'encuentrosupdate/' + dataID, newEncuentros);
+  }
+
+  deleteEncuentros(data: any) {
+    return this._http.delete(this.apiUrl + 'encuentrosdelete/' + data);
+  }
+
+  /* Fase Encuentros */
+  addFase_Encuentros(data: Fase_Encuentros): Observable<Fase_Encuentros> {
+    return this._http.post<Fase_Encuentros>(this.apiUrl + 'fencuentrossave', data);
+  }
+
+  updateFase_Encuentros(dataID: string, data: any) {
+    const newEncuentros = data;
+    return this._http.put(this.apiUrl + 'fencuentrosupdate/' + dataID, newEncuentros);
+  }
+
+  deleteFase_Encuentros(data: any) {
+    return this._http.delete(this.apiUrl + 'fencuentrosdelete/' + data);
+  }
+
+  /* View Encuentros Fase */
+  getAllViewEncuentros() {
+    return this._http.get(this.apiUrl + 'viewencuentros');
+  }
+
+  /* View Encuentros Fase */
+  getAllViewEncuentrosByCamp(campeonato: string) {
+    return this._http.get(this.apiUrl + 'viewencuentros/' + campeonato);
+  }
+}

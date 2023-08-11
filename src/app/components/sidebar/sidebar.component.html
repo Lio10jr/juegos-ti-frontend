@@ -31,8 +31,14 @@
                 <span>Generar Campeonato</span>
             </li>
         </a>
-        <a href="">
-            <li class="logout">
+        <a (click)="onSidebarOptionSelected('encuentros')">
+            <li>
+                <i class="fa-solid fa-circle-user"></i>
+                <span>Encuentros</span>
+            </li>
+        </a>
+        <a  routerLink="/login"  (click)="logout()">
+            <li >
                 <i class="fa-solid fa-right-to-bracket"></i>
                 <span>Logout</span>
             </li>

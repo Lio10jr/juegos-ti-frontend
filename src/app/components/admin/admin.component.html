@@ -41,6 +41,15 @@
                 <img src="./assets/img/Logo_TIC_IS.png" alt="">
             </div>
         </div>
+        <div class="header-wrapper" *ngIf="selectedOption === 'encuentros'">
+            <div class="header-title">
+                <span>Universidad Técnica de Machala | Carrera de Tecnologías de la Información</span>
+                <h2>Encuentros</h2>
+            </div>
+            <div class="user-info">
+                <img src="./assets/img/Logo_TIC_IS.png" alt="">
+            </div>
+        </div>
 
         <div class="tabular-wrapper" *ngIf="selectedOption === 'equipos'">
             <app-admin-equipos></app-admin-equipos>
@@ -57,6 +66,11 @@
         <div class="tabular-wrapper" *ngIf="selectedOption === 'generarCampeonato'">
             <app-admin-gen-campeonato></app-admin-gen-campeonato>
         </div>
+
+        <div class="tabular-wrapper" *ngIf="selectedOption === 'encuentros'">
+            <app-admin-encuentros></app-admin-encuentros>
+        </div>
+
         
     </div>
 </div>

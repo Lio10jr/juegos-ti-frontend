@@ -20,6 +20,7 @@ import { AdminEquiposComponent } from './components/admin-equipos/admin-equipos.
 import { AdminParticipantesComponent } from './components/admin-participantes/admin-participantes.component';
 import { AdminCampeonatoComponent } from './components/admin-campeonato/admin-campeonato.component';
 import { AdminGenCampeonatoComponent } from './components/admin-gen-campeonato/admin-gen-campeonato.component';
+import { AdminEncuentrosComponent } from './components/admin-encuentros/admin-encuentros.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { AdminGenCampeonatoComponent } from './components/admin-gen-campeonato/a
     AdminParticipantesComponent,
     AdminCampeonatoComponent,
     AdminGenCampeonatoComponent,
+    AdminEncuentrosComponent,
   ],
   imports: [
     BrowserModule,

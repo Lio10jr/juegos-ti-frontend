@@ -38,7 +38,8 @@
             <h6 class="fw-bold link-danger px-3">{{numGrupoRecomendado}} </h6>
         </div>
         <form #formulario="ngForm">
-            <select class="form-select" name="numGroups" id="numGroups" [(ngModel)]="numGroupsSelected" [ngModelOptions]="{standalone: true}" (change)="onSelect($event)" required>
+            <select class="form-select" name="numGroups" id="numGroups" [(ngModel)]="numGroupsSelected"
+                [ngModelOptions]="{standalone: true}" (change)="onSelect($event)" required>
                 <option value="">Selecciona el número de Grupos</option>
                 <option value="2">Dos</option>
                 <option value="3">Tres</option>
@@ -48,13 +49,15 @@
         </form>
         <div class="d-flex  justify-content-evenly">
             <button class="generar border border-0" type="submit" (click)="validarSorteArrayEquipos()"><i
-                class="fa-solid fa-plus"></i> Sorteo Aleatorio</button>
-        <button class="btn btn-danger border border-0" type="submit" (click)="limpiarGrupos()"><i
-                class="fa-solid fa-plus"></i> Limpiar Grupos</button>
-        <button class="btn btn-success border border-0" type="submit" (click)="generarEncuentros()"><i
-                class="fa-solid fa-plus"></i> Generar Encuentros</button>
+                    class="fa-solid fa-plus"></i> Sorteo Aleatorio</button>
+            <button class="btn btn-danger border border-0" type="submit" (click)="limpiarGrupos()"><i
+                    class="fa-solid fa-plus"></i> Limpiar Grupos</button>
+            <button class="btn btn-success border border-0" type="submit" (click)="generarEncuentros()"><i
+                    class="fa-solid fa-plus"></i> Generar
+                Encuentros</button>
+
         </div>
-        
+
         <div class="grupos">
             <div class="fase" *ngIf="numGroupsSelected >= '1'">
                 <h6 class="text-center fw-bold">Grupo 1</h6>
@@ -162,35 +165,6 @@
                 </table>
             </div>
         </div>
-        <hr>
-        <div class="encuentros">
-
-            <button class="generar2 mb-2 border border-0" type="submit"><i class="fa-solid fa-plus"></i> Generar
-                Encuentros</button>
-
-            <div class="partidos">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Logo</th>
-                            <th>Local</th>
-                            <th>vs</th>
-                            <th>Visitante</th>
-                            <th>Logo</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><img src="img/LogoUtmach.png" alt=""></td>
-                            <td>Ponchadores FC</td>
-                            <td>vs</td>
-                            <td>Ponchadores FC</td>
-                            <td><img src="img/LogoUtmach.png" alt=""></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
     </div>
 </div>
 
@@ -225,7 +199,43 @@
 
 <section class="modal" [class.modal--show]="showModalEncuentros">
     <div class="modal-container">
-        <h4 class="text-center">{{errorValidacion}}</h4>
+        <div class="">
+            <div class="">
+                <h4 class="text-center">Encuentros</h4>
+                <div class="partidos">
+                    <table class="table">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Grupo</th>
+                                <th>Logo</th>
+                                <th>Local</th>
+                                <th>Vs</th>
+                                <th>Visitante</th>
+                                <th>Logo</th>
+                                <th>Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider table-dark text-light">
+                            <tr *ngFor="let EncuentroItem of ViewEncuentros">
+                                <td>{{EncuentroItem.numero_fase}}</td>
+                                <td *ngIf="EncuentroItem.logo_local"><img [src]="apiUrlImg  + EncuentroItem.logo_local"
+                                        alt="Logo Equipo"></td>
+                                <td *ngIf="!EncuentroItem.logo_local"><img src="./assets/img/Logo_TIC_IS.png"
+                                        alt="Logo Equipo" style="width: 30px; height: 30px;"></td>
+                                <td>{{EncuentroItem.fk_idequlocal}}</td>
+                                <td>vs</td>
+                                <td>{{EncuentroItem.fk_idequvisit}}</td>
+                                <td *ngIf="EncuentroItem.logo_visit"><img [src]="apiUrlImg  + EncuentroItem.logo_visit"
+                                        alt="Logo Equipo" style="width: 30px; height: 30px;"></td>
+                                <td *ngIf="!EncuentroItem.logo_visit"><img src="./assets/img/Logo_TIC_IS.png"
+                                        alt="Logo Equipo"></td>
+                                <td>{{EncuentroItem.fecha_hora}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
         <div class="container d-flex justify-content-evenly">
             <button type="submit" (click)="closeModalEncuentros()" class="modal-close mx-2">OK</button>
         </div>

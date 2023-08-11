@@ -159,7 +159,7 @@ export class AdminEquiposComponent {
     };
     if (this.selectedFile) {
 
-      const obEq = new Equipo(bodyData.name, '', bodyData.semest, bodyData.repre, bodyData.idcamp);
+      const obEq = new Equipo('',bodyData.name, '', bodyData.semest, bodyData.repre, bodyData.idcamp);
       this.ts.updateEquipo(dataID, obEq, this.selectedFile!).subscribe((resultData: any) => {
         this.onResetForm();
         this.closeModalUP();
@@ -172,7 +172,7 @@ export class AdminEquiposComponent {
         this.selectedFile = null;
       });
     } else {
-      const obEq = new Equipo(bodyData.name, '', bodyData.semest, bodyData.repre, bodyData.idcamp);
+      const obEq = new Equipo('',bodyData.name, '', bodyData.semest, bodyData.repre, bodyData.idcamp);
 
       this.ts.updateEquipoEdit(dataID, obEq).subscribe((resultData: any) => {
         this.onResetForm();
