@@ -25,7 +25,7 @@
             <thead>
                 <tr>
                     <th>Nombre</th>
-                    <th>AñO Lectivo</th>
+                    <th>Año Lectivo</th>
                     <th>Estado</th>
                     <th>Acción</th>
                 </tr>
@@ -36,9 +36,6 @@
                     <td>{{CampeonatoItem.anio_camp}}</td>
                     <td>{{CampeonatoItem.estado}}</td>
                     <td class="d-flex justify-content-evenly">
-                        <button class="jugadores" type="button" (click)="setView(CampeonatoItem)"><i
-                                class="fa-solid fa-circle-exclamation"></i>
-                            Ver</button>
                         <button class="edit" type="button" (click)="setUpdate(CampeonatoItem)"><i
                                 class="fa-solid fa-pen-to-square"></i>
                             Edit</button>

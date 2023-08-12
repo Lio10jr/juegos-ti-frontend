@@ -44,9 +44,6 @@
                     </td>
     
                     <td class="d-flex justify-content-evenly">
-                        <button class="jugadores" type="submit" (click)="setView(ParticipanteItem)"><i
-                                class="fa-solid fa-circle-exclamation"></i>
-                            Ver</button>
                         <button class="edit" type="submit" (click)="setUpdate(ParticipanteItem)"><i
                                 class="fa-solid fa-pen-to-square"></i>
                             Edit</button>
@@ -75,7 +72,10 @@
                     Cédula es requerido.
                 </div>
                 <div class="container-error-message" *ngIf="pk_ced && pk_ced.errors && pk_ced.errors['minlength']">
-                    Minimo 4 caracteres.
+                    Minimo 10 caracteres.
+                </div>
+                <div class="container-error-message" *ngIf="pk_ced && pk_ced.errors && pk_ced.errors['maxlength']">
+                    Minimo 10 caracteres.
                 </div>
             </div>
 

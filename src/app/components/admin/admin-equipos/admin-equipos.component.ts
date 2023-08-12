@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { EquipoService } from 'src/app/service/api/equipo.service';
-import { Router } from '@angular/router';
 import { Validators, FormControl, FormGroup, AbstractControl } from '@angular/forms';
 import { Equipo } from 'src/app/models/Equipo';
 import { CampeonatoService } from 'src/app/service/api/campeonato.service';
 import { environment } from 'src/app/environments/environment';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-admin-equipos',
@@ -33,7 +33,7 @@ export class AdminEquiposComponent {
   repre: string = "";
   idcamp: string = "";
 
-  constructor(private router: Router, private ts: EquipoService, private tsC: CampeonatoService) {
+  constructor(private toastr: ToastrService, private ts: EquipoService, private tsC: CampeonatoService) {
     this.isLoading = true;
     this.equipoForm = this.createFormGroup();
     this.ts.getAllEquipo().subscribe((resultData: any) => {
@@ -106,39 +106,41 @@ export class AdminEquiposComponent {
   }
 
   onSaveForm() {
-    if (this.equipoForm.valid) {
-      const formValues = this.equipoForm.value;
-      const campeonatoSeleccionado = formValues.estado;
-      if (campeonatoSeleccionado == "") {
-        console.log('Seleccione un Campeonato');
-      } else {
-        if (this.selectedFile) {
-          this.ts.addEquipo(formValues, this.selectedFile!).subscribe(
-            () => {
-              this.ts.getAllEquipo().subscribe((resultData: any) => {
-                this.isResultLoaded = true;
-                this.EquipoArray = resultData;
-                this.EquiposFiltrados = resultData;
-              });
-              this.closeModalINS();
-            }
-          );
-          this.selectedFile = null;
-        }
+    try {
+      if (this.equipoForm.valid) {
+        const formValues = this.equipoForm.value;
+        const campeonatoSeleccionado = formValues.estado;
+        if (campeonatoSeleccionado == "") {
+          this.toastr.info('Seleccione un Campeonato!', 'Equipo!');
+        } else {
+          if (this.selectedFile) {
+            this.ts.addEquipo(formValues, this.selectedFile!).subscribe(
+              () => {
+                this.ts.getAllEquipo().subscribe((resultData: any) => {
+                  this.isResultLoaded = true;
+                  this.EquipoArray = resultData;
+                  this.EquiposFiltrados = resultData;
+                });
+                this.closeModalINS();
+                this.toastr.success('Equipo Creado!', 'Equipo!');
+              }
+            );
+            this.selectedFile = null;
+          } else {
+            this.toastr.warning('Ingrese el logo del Equipo!', 'Equipo!');
+          }
 
+        }
       }
+    } catch (error) {
+      this.toastr.error('Error al Crear Equipo!', 'Equipo!');
+      console.log(error);
     }
+
   }
+
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
-  }
-
-
-  setView(data: any) {
-    const formValues = this.equipoForm.value;
-    this.ts.deleteEquipo(formValues).subscribe((resultData: any) => {
-      this.ts.getAllEquipo();
-    });
   }
 
   setUpdate(data: any) {
@@ -158,47 +160,61 @@ export class AdminEquiposComponent {
       "repre": this.repre,
       "idcamp": this.idcamp
     };
-    if (this.selectedFile) {
+    try {
+      if (this.selectedFile) {
 
-      const obEq = new Equipo('', bodyData.name, '', bodyData.semest, bodyData.repre, bodyData.idcamp);
-      this.ts.updateEquipo(dataID, obEq, this.selectedFile!).subscribe((resultData: any) => {
-        this.onResetForm();
-        this.closeModalUP();
-      });
-      this.ts.getAllEquipo().subscribe((resultData: any) => {
-        this.isResultLoaded = true;
-        this.EquipoArray.splice(0, this.EquipoArray.length);
-        this.EquipoArray = resultData;
-        this.EquiposFiltrados = resultData;
-        this.selectedFile = null;
-      });
-    } else {
-      const obEq = new Equipo('', bodyData.name, '', bodyData.semest, bodyData.repre, bodyData.idcamp);
+        const obEq = new Equipo('', bodyData.name, '', bodyData.semest, bodyData.repre, bodyData.idcamp);
+        this.ts.updateEquipo(dataID, obEq, this.selectedFile!).subscribe((resultData: any) => {
+          this.onResetForm();
+          this.closeModalUP();
+        });
+        this.ts.getAllEquipo().subscribe((resultData: any) => {
+          this.isResultLoaded = true;
+          this.EquipoArray.splice(0, this.EquipoArray.length);
+          this.EquipoArray = resultData;
+          this.EquiposFiltrados = resultData;
+          this.selectedFile = null;
+          this.toastr.success('Equipo Actualizado!', 'Equipo!');
+        });
+      } else {
+        const obEq = new Equipo('', bodyData.name, '', bodyData.semest, bodyData.repre, bodyData.idcamp);
 
-      this.ts.updateEquipoEdit(dataID, obEq).subscribe((resultData: any) => {
-        this.onResetForm();
-        this.selectedFile = null;
-        this.closeModalUP();
-      });
-      this.ts.getAllEquipo().subscribe((resultData: any) => {
-        this.isResultLoaded = true;
-        this.EquipoArray.splice(0, this.EquipoArray.length);
-        this.EquipoArray = resultData;
-        this.EquiposFiltrados = resultData;
-      });
+        this.ts.updateEquipoEdit(dataID, obEq).subscribe((resultData: any) => {
+          this.onResetForm();
+          this.selectedFile = null;
+          this.closeModalUP();
+        });
+        this.ts.getAllEquipo().subscribe((resultData: any) => {
+          this.isResultLoaded = true;
+          this.EquipoArray.splice(0, this.EquipoArray.length);
+          this.EquipoArray = resultData;
+          this.EquiposFiltrados = resultData;
+          this.toastr.success('Equipo Actualizado!', 'Equipo!');
+        });
+      }
+    } catch (error) {
+      this.toastr.error('Error al Actualizar Equipo!', 'Equipo!');
+      console.log(error);
     }
+
   }
 
   setDelete(data: any) {
-    this.ts.deleteEquipo(data.pk_idequ).subscribe((resultData: any) => {
-      this.ts.getAllEquipo().subscribe((resultData: any) => {
-        this.isResultLoaded = true;
-        this.EquipoArray.splice(0, this.EquipoArray.length);
-        this.EquipoArray = resultData;
-        this.EquiposFiltrados = resultData;
+    try {
+      this.ts.deleteEquipo(data.pk_idequ).subscribe((resultData: any) => {
+        this.ts.getAllEquipo().subscribe((resultData: any) => {
+          this.isResultLoaded = true;
+          this.EquipoArray.splice(0, this.EquipoArray.length);
+          this.EquipoArray = resultData;
+          this.EquiposFiltrados = resultData;
+          this.toastr.success('Equipo Eliminado!', 'Equipo!');
+        });
       });
+    } catch (error) {
+      this.toastr.error('Error al Eliminar Equipo!', 'Equipo!');
+      console.log(error);
+    }
 
-    });
   }
 
   openModalINS() {

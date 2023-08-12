@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CampeonatoService } from 'src/app/service/api/campeonato.service';
-import { Router } from '@angular/router';
 import { Validators, FormControl, FormGroup, AbstractControl } from '@angular/forms';
 import { Campeonato } from 'src/app/models/Campeonato';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-admin-campeonato',
@@ -24,7 +24,7 @@ export class AdminCampeonatoComponent {
   anio: string = "";
   estado_camp: string = "";
 
-  constructor(private router: Router, private ts: CampeonatoService) {
+  constructor(private toastr: ToastrService, private ts: CampeonatoService) {
     this.campeonatoForm = this.createFormGroup();
     this.ts.getAllCampeonato().subscribe((resultData: any) => {
       this.isResultLoaded = true;
@@ -76,26 +76,33 @@ export class AdminCampeonatoComponent {
   }
 
   onSaveForm() {
-    if (this.campeonatoForm.valid) {
-      const formValues = this.campeonatoForm.value;
-      const estadoSeleccionado = formValues.estado;
-      if (estadoSeleccionado == "") {
-        console.log('Seleccione un estado');
-      } else {
-        this.ts.addCampeonato(formValues.name_camp, formValues.anio, formValues.estado).subscribe(
-          () => {
-            this.ts.getAllCampeonato().subscribe((resultData: any) => {
-              this.isResultLoaded = true;
-              this.CampeonatoArray = resultData;
-            });
-            this.closeModalINS();
-          }
-        );
+    try {
+      if (this.campeonatoForm.valid) {
+        const formValues = this.campeonatoForm.value;
+        console.log(formValues)
+        const estadoSeleccionado = formValues.estado;
+        if (estadoSeleccionado == "") {
+          console.log('Seleccione un estado');
+        } else {
+          this.ts.addCampeonato(formValues.name_camp, formValues.anio_camp, formValues.estado).subscribe(
+            () => {
+              this.closeModalINS();
+            }
+          );
+          this.ts.getAllCampeonato().subscribe((resultData: any) => {
+            this.isResultLoaded = true;
+            this.CampeonatoArray = resultData;
+            this.CampeonatosFiltrados = resultData;
+            this.toastr.success('Campeonato Creado!', 'Campeonato!');
+          });
+        }
       }
+    } catch (error) {
+      this.toastr.error('Error al Crear Campeonato!', 'Campeonato!');
+      console.log(error);
     }
-  }
 
-  setView(data: any) { }
+  }
 
   setUpdate(data: any) {
     this.name = data.name_camp;
@@ -106,53 +113,51 @@ export class AdminCampeonatoComponent {
   }
 
   onUpdateForm(dataID: any) {
+    try {
+      let bodyData = {
+        "name": this.name,
+        "anio": this.anio,
+        "estado_camp": this.estado_camp
+      };
 
-    let bodyData = {
-      "name": this.name,
-      "anio": this.anio,
-      "estado_camp": this.estado_camp
-    };
+      const obCmap = new Campeonato(bodyData.name, bodyData.anio, bodyData.estado_camp);
 
-    const obCmap = new Campeonato(bodyData.name, bodyData.anio, bodyData.estado_camp);
-
-    this.ts.updateCampeonato(dataID, obCmap).subscribe((resultData: any) => {
-      this.onResetForm();
-      this.closeModalUP();
-    });
-    this.ts.getAllCampeonato().subscribe((resultData: any) => {
-      this.isResultLoaded = true;
-      this.CampeonatoArray.splice(0, this.CampeonatoArray.length);
-      this.CampeonatoArray = resultData;
-      this.CampeonatosFiltrados = resultData;
-    });
-  }
-
-  setDelete(data: any) {
-    this.ts.deleteCampeonato(data.pk_idcamp).subscribe((resultData: any) => {
+      this.ts.updateCampeonato(dataID, obCmap).subscribe((resultData: any) => {
+        this.onResetForm();
+        this.closeModalUP();
+      });
       this.ts.getAllCampeonato().subscribe((resultData: any) => {
         this.isResultLoaded = true;
         this.CampeonatoArray.splice(0, this.CampeonatoArray.length);
         this.CampeonatoArray = resultData;
         this.CampeonatosFiltrados = resultData;
+        this.toastr.success('Campeonato Actualizado!', 'Campeonato!');
       });
-    });
+    } catch (error) {
+      this.toastr.error('Error al Actualizar Campeonato!', 'Campeonato!');
+      console.log(error);
+    }
+  }
+
+  setDelete(data: any) {
+    try {
+      this.ts.deleteCampeonato(data.pk_idcamp).subscribe((resultData: any) => {
+        this.ts.getAllCampeonato().subscribe((resultData: any) => {
+          this.isResultLoaded = true;
+          this.CampeonatoArray.splice(0, this.CampeonatoArray.length);
+          this.CampeonatoArray = resultData;
+          this.CampeonatosFiltrados = resultData;
+          this.toastr.success('Campeonato Eliminado!', 'Campeonato!');
+        });
+      });
+    } catch (error) {
+      this.toastr.error('Error al Eliminar Campeonato!', 'Campeonato!');
+      console.log(error);
+    }
   }
 
   openModalINS() {
     this.showModal = true;
-    const openModal = document.querySelector('.ins');
-    const modal = document.querySelector('.modal');
-    const closeModal = document.querySelector('.modal-close');
-
-    openModal!.addEventListener('click', (e) => {
-      e.preventDefault();
-      modal!.classList.add('modal--show');
-    });
-
-    closeModal!.addEventListener('click', (e) => {
-      e.preventDefault();
-      modal!.classList.remove('modal--show');
-    });
   }
 
   closeModalINS() {
@@ -161,19 +166,6 @@ export class AdminCampeonatoComponent {
 
   openModalUP() {
     this.showModalUP = true;
-    const openModal = document.querySelector('.ins');
-    const modal = document.querySelector('.modal');
-    const closeModal = document.querySelector('.modal-close');
-
-    openModal!.addEventListener('click', (e) => {
-      e.preventDefault();
-      modal!.classList.add('modal--show');
-    });
-
-    closeModal!.addEventListener('click', (e) => {
-      e.preventDefault();
-      modal!.classList.remove('modal--show');
-    });
   }
 
   closeModalUP() {

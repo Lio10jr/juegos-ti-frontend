@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Validators, FormControl, FormGroup, AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { Players } from 'src/app/models/Players';
 import { EquipoService } from 'src/app/service/api/equipo.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-admin-participantes',
@@ -28,7 +29,7 @@ export class AdminParticipantesComponent {
   fecha!: Date;
   idequ: string = "";
 
-  constructor(private router: Router, private ts: PlayersService, private tsE: EquipoService) {
+  constructor(private toastr: ToastrService, private ts: PlayersService, private tsE: EquipoService) {
     this.playersForm = this.createFormGroup();
     this.ts.getAllPlayers().subscribe((resultData: any) => {
       this.isResultLoaded = true;
@@ -62,7 +63,8 @@ export class AdminParticipantesComponent {
     return new FormGroup({
       pk_ced: new FormControl('', [
         Validators.required,
-        Validators.minLength(4),
+        Validators.minLength(10),
+        Validators.maxLength(10),
       ]),
       nombre: new FormControl('', [
         Validators.required,
@@ -121,27 +123,33 @@ export class AdminParticipantesComponent {
   }
 
   onSaveForm() {
-    if (this.playersForm.valid) {
-      const formValues = this.playersForm.value;
-      const semestreSeleccionado = formValues.semestre;
-      if (semestreSeleccionado == "") {
-        console.log('Seleccione un estado');
-      } else {
-        this.ts.addPlayers(formValues).subscribe(
-          () => {
-            this.ts.getAllPlayers().subscribe((resultData: any) => {
-              this.isResultLoaded = true;
-              this.PlayersArray = resultData;
-              this.PlayersFiltrados = resultData;
-            });
-            this.closeModalINS();
-          }
-        );
+    try {
+      if (this.playersForm.valid) {
+        const formValues = this.playersForm.value;
+        const semestreSeleccionado = formValues.semestre;
+        if (semestreSeleccionado == "") {
+          console.log('Seleccione un estado');
+        } else {
+          this.ts.addPlayers(formValues).subscribe(
+            () => {
+              this.ts.getAllPlayers().subscribe((resultData: any) => {
+                this.isResultLoaded = true;
+                this.PlayersArray = resultData;
+                this.PlayersFiltrados = resultData;
+              });
+              this.closeModalINS();
+              this.toastr.success('Participante Creado!', 'Participante!');
+              this.onResetForm();
+            }
+          );
+        }
       }
+    } catch (error) {
+      this.toastr.error('Error al Crear Participante!', 'Participante!');
+      console.log(error);
     }
+    
   }
-
-  setView(data: any) { }
 
   setUpdate(data: any) {
     this.ced = data.pk_ced;
@@ -155,40 +163,51 @@ export class AdminParticipantesComponent {
   }
 
   onUpdateForm(dataID: any) {
-
-    let bodyData = {
-      "ced": this.ced,
-      "name": this.name,
-      "ape": this.ape,
-      "semest": this.semest,
-      "fecha": this.fecha,
-      "idequ": this.idequ,
-    };
-
-    const obPlay = new Players(bodyData.ced, bodyData.name, bodyData.ape, bodyData.semest, bodyData.fecha, bodyData.idequ);
-
-    this.ts.updatePlayers(dataID, obPlay).subscribe((resultData: any) => {
-      this.onResetForm();
-      this.closeModalUP();
-    });
-    this.ts.getAllPlayers().subscribe((resultData: any) => {
-      this.isResultLoaded = true;
-      this.PlayersArray.splice(0, this.EquipoArray.length);
-      this.PlayersArray = resultData;
-      this.PlayersFiltrados = resultData;
-    });
+    try {
+      let bodyData = {
+        "ced": this.ced,
+        "name": this.name,
+        "ape": this.ape,
+        "semest": this.semest,
+        "fecha": this.fecha,
+        "idequ": this.idequ,
+      };
+  
+      const obPlay = new Players(bodyData.ced, bodyData.name, bodyData.ape, bodyData.semest, bodyData.fecha, bodyData.idequ);
+  
+      this.ts.updatePlayers(dataID, obPlay).subscribe((resultData: any) => {
+        this.onResetForm();
+        this.closeModalUP();
+      });
+      this.ts.getAllPlayers().subscribe((resultData: any) => {
+        this.isResultLoaded = true;
+        this.PlayersArray.splice(0, this.EquipoArray.length);
+        this.PlayersArray = resultData;
+        this.PlayersFiltrados = resultData;
+        this.toastr.success('Participante Actualizado!', 'Participante!');
+      });
+    } catch (error) {
+      this.toastr.error('Error al Actualizar Participante!', 'Participante!');
+      console.log(error);
+    }
+    
   }
 
   setDelete(data: any) {
-    this.ts.deletePlayers(data.pk_ced).subscribe((resultData: any) => {
-      this.ts.getAllPlayers().subscribe((resultData: any) => {
-        this.isResultLoaded = true;
-        this.PlayersArray.splice(0, this.PlayersArray.length);
-        this.PlayersArray = resultData;
-        this.PlayersFiltrados = resultData;
+    try {
+      this.ts.deletePlayers(data.pk_ced).subscribe((resultData: any) => {
+        this.ts.getAllPlayers().subscribe((resultData: any) => {
+          this.isResultLoaded = true;
+          this.PlayersArray.splice(0, this.PlayersArray.length);
+          this.PlayersArray = resultData;
+          this.PlayersFiltrados = resultData;
+          this.toastr.success('Participante Eliminar!', 'Participante!');
       });
-
-    });
+      });
+    } catch (error) {
+      this.toastr.error('Error al Eliminar Participante!', 'Participante!');
+      console.log(error);
+    }
   }
 
   openModalINS() {

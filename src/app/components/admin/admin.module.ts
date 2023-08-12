@@ -15,6 +15,7 @@ import { IonicModule } from '@ionic/angular';
 import { AuthInterceptor } from 'src/app/helpers/auth.interceptor';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SidebarComponent } from '../sidebar/sidebar.component';
+import { ToastrModule } from 'ngx-toastr';
 
 
 
@@ -35,6 +36,7 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
     HttpClientModule,
     AdminRoutingModule,
     IonicModule.forRoot(),
+    ToastrModule.forRoot(),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
