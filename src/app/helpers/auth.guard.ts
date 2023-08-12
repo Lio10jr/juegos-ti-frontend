@@ -1,5 +1,5 @@
-import { ActivatedRouteSnapshot, CanActivate, CanActivateFn, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Injectable, inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
+import { inject } from '@angular/core';
 import { ApiService } from '../service/api/api.service';
 
 export const authGuard: CanActivateFn = (route, state) => {

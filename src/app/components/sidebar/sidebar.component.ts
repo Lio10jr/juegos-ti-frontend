@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ComponentesService } from 'src/app/service/components/componentes.service';
 import { ApiService } from 'src/app/service/api/api.service';
 import { CookieService } from 'ngx-cookie-service';
 import { catchError, finalize, tap } from 'rxjs/operators';
@@ -14,7 +13,7 @@ import { throwError } from 'rxjs/internal/observable/throwError';
 export class SidebarComponent implements OnInit {
   authenticated = false;
 
-  constructor(private sidebarService: ComponentesService, private http: HttpClient,private apiService: ApiService,
+  constructor( private http: HttpClient,private apiService: ApiService,
     private cookieService: CookieService) {}
   ngOnInit() {
     const token = this.apiService.getToken();
@@ -22,10 +21,6 @@ export class SidebarComponent implements OnInit {
     if (token) {
       this.authenticated = true;
     }
-  }
-
-  onSidebarOptionSelected(option: string) {
-    this.sidebarService.setSidebarOption(option);
   }
 
   logout(): void {
@@ -53,8 +48,8 @@ export class SidebarComponent implements OnInit {
           }),
           finalize(() => {
             // Acciones finales después de la solicitud, como limpiar el localStorage
-            this.cookieService.delete('token')
-
+            this.cookieService.delete('access_token')
+            localStorage.clear();
             this.authenticated = false;
 
           })

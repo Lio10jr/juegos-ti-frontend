@@ -1,52 +1,64 @@
-<div class="combo-box">
-    <form>
-        <select class="form-select" [(ngModel)]="opcionSeleccionadaEquipo" [ngModelOptions]="{standalone: true}"
-            (change)="onSelectEquipo($event)">
-            <option value="">Seleccione un equipo para filtrar los participantes</option>
-            <option class="p-3" *ngFor="let opcion of EquipoArray" [value]="opcion.pk_idequ">{{
-                opcion.nom_equ }}
-            </option>
-        </select>
-    </form>
+<div class="header-wrapper">
+    <div class="header-title">
+        <span>Universidad Técnica de Machala | Carrera de Tecnologías de la Información</span>
+        <h2>Participantes</h2>
+    </div>
+    <div class="user-info">
+        <img src="./assets/img/Logo_TIC_IS.png" alt="">
+    </div>
 </div>
-<div class="table-container">
-    <button class="ins" (click)="openModalINS()" type="submit"><i class="fa-solid fa-plus"></i> Insertar
-        Participante</button>
-    <table>
-        <thead>
-            <tr>
-                <th>Cedula</th>
-                <th>Nombres</th>
-                <th>Semestre</th>
-                <th>Fecha de Nacimiento</th>
-                <th>Equipo</th>
-                <th>Acción</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let ParticipanteItem of PlayersFiltrados">
-                <td>{{ParticipanteItem.pk_ced}}</td>
-                <td>{{ParticipanteItem.nombre}} {{' '}} {{ParticipanteItem.apellido}}</td>
-                <td>{{ParticipanteItem.semestre}}</td>
-                <td>{{ParticipanteItem.f_nacimiento}}</td>
-                <td>
-                    {{obtenerNombreEquipo(ParticipanteItem.fk_idequ)}}
-                </td>
+<div class="tabular-wrapper">
+    <div class="combo-box">
+        <form>
+            <select class="form-select" [(ngModel)]="opcionSeleccionadaEquipo" [ngModelOptions]="{standalone: true}"
+                (change)="onSelectEquipo($event)">
+                <option value="">Seleccione un equipo para filtrar los participantes</option>
+                <option class="p-3" *ngFor="let opcion of EquipoArray" [value]="opcion.pk_idequ">{{
+                    opcion.nom_equ }}
+                </option>
+            </select>
+        </form>
+    </div>
+    <div class="table-container">
+        <button class="ins" (click)="openModalINS()" type="submit"><i class="fa-solid fa-plus"></i> Insertar
+            Participante</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Cedula</th>
+                    <th>Nombres</th>
+                    <th>Semestre</th>
+                    <th>Fecha de Nacimiento</th>
+                    <th>Equipo</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let ParticipanteItem of PlayersFiltrados">
+                    <td>{{ParticipanteItem.pk_ced}}</td>
+                    <td>{{ParticipanteItem.nombre}} {{' '}} {{ParticipanteItem.apellido}}</td>
+                    <td>{{ParticipanteItem.semestre}}</td>
+                    <td>{{ParticipanteItem.f_nacimiento}}</td>
+                    <td>
+                        {{obtenerNombreEquipo(ParticipanteItem.fk_idequ)}}
+                    </td>
+    
+                    <td class="d-flex justify-content-evenly">
+                        <button class="jugadores" type="submit" (click)="setView(ParticipanteItem)"><i
+                                class="fa-solid fa-circle-exclamation"></i>
+                            Ver</button>
+                        <button class="edit" type="submit" (click)="setUpdate(ParticipanteItem)"><i
+                                class="fa-solid fa-pen-to-square"></i>
+                            Edit</button>
+                        <button class="delete" type="submit" (click)="setDelete(ParticipanteItem)"><i
+                                class="fa-solid fa-trash"></i> Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 
-                <td class="d-flex justify-content-evenly">
-                    <button class="jugadores" type="submit" (click)="setView(ParticipanteItem)"><i
-                            class="fa-solid fa-circle-exclamation"></i>
-                        Ver</button>
-                    <button class="edit" type="submit" (click)="setUpdate(ParticipanteItem)"><i
-                            class="fa-solid fa-pen-to-square"></i>
-                        Edit</button>
-                    <button class="delete" type="submit" (click)="setDelete(ParticipanteItem)"><i
-                            class="fa-solid fa-trash"></i> Delete</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
 
 <!-- INSERT -->
 <section class="modal" [class.modal--show]="showModal">

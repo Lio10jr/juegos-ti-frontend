@@ -1,49 +1,65 @@
-<div class="combo-box">
-    <form>
-        <select class="form-select" [(ngModel)]="opcionSeleccionadaCamp" [ngModelOptions]="{standalone: true}"
-            (change)="onSelectCampeonato($event)">
-            <option value="">Seleccione un campeonato para filtrar los equipos</option>
-            <option class="p-3" *ngFor="let opcion of CampeonatoArray" [value]="opcion.pk_idcamp">{{
-                opcion.name_camp }}
-            </option>
-        </select>
-    </form>
+<!-- <div *ngIf="isLoading === true">
+    <img src="./assets/img/cargando.gif" alt="Cargando">
+</div> -->
+<div class="header-wrapper">
+    <div class="header-title">
+        <span>Universidad Técnica de Machala | Carrera de Tecnologías de la Información</span>
+        <h2>Equipos</h2>
+    </div>
+    <div class="user-info">
+        <img src="./assets/img/Logo_TIC_IS.png" alt="">
+    </div>
 </div>
-<div class="table-container">
-    <button class="ins" (click)="openModalINS()" type="submit"><i class="fa-solid fa-plus"></i> Crear Equipo</button>
-    <table>
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Logo</th>
-                <th>Semestre</th>
-                <th>Representante</th>
-                <th>Acción</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let EquipoItem of EquiposFiltrados">
-                <td>{{EquipoItem.nom_equ}}</td>
-                <!-- <td><img src="./assets/img/LogoUtmach.png" alt=""></td> -->
-                <td *ngIf="EquipoItem.logo"><img [src]="apiUrlImg  + EquipoItem.logo" alt=""></td>
-                <td *ngIf="!EquipoItem.logo"><img src="./assets/img/Logo_TIC_IS.png" alt=""></td>
-                <td>{{EquipoItem.semestre}}</td>
-                <td>{{EquipoItem.representante}}</td>
-                <td class="d-flex justify-content-evenly">
-                    <button class="jugadores" type="submit" (click)="setView(EquipoItem)"><i
-                            class="fa-solid fa-circle-exclamation"></i>
-                        Ver</button>
-                    <button class="edit" type="submit" (click)="setUpdate(EquipoItem)"><i
-                            class="fa-solid fa-pen-to-square"></i>
-                        Edit</button>
-                    <button class="delete" type="submit" (click)="setDelete(EquipoItem)"><i
-                            class="fa-solid fa-trash"></i> Delete</button>
-                </td>
-            </tr>
+<div class="tabular-wrapper">
+    <div class="combo-box">
+        <form>
+            <select class="form-select" [(ngModel)]="opcionSeleccionadaCamp" [ngModelOptions]="{standalone: true}"
+                (change)="onSelectCampeonato($event)">
+                <option value="">Seleccione un campeonato para filtrar los equipos</option>
+                <option class="p-3" *ngFor="let opcion of CampeonatoArray" [value]="opcion.pk_idcamp">{{
+                    opcion.name_camp }}
+                </option>
+            </select>
+        </form>
+    </div>
+    <div class="table-container">
+        <button class="ins" (click)="openModalINS()" type="submit"><i class="fa-solid fa-plus"></i> Crear
+            Equipo</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Logo</th>
+                    <th>Semestre</th>
+                    <th>Representante</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let EquipoItem of EquiposFiltrados">
+                    <td>{{EquipoItem.nom_equ}}</td>
+                    <!-- <td><img src="./assets/img/LogoUtmach.png" alt=""></td> -->
+                    <td *ngIf="EquipoItem.logo"><img [src]="apiUrlImg  + EquipoItem.logo" alt=""></td>
+                    <td *ngIf="!EquipoItem.logo"><img src="./assets/img/Logo_TIC_IS.png" alt=""></td>
+                    <td>{{EquipoItem.semestre}}</td>
+                    <td>{{EquipoItem.representante}}</td>
+                    <td class="d-flex justify-content-evenly">
+                        <button class="jugadores" type="submit" (click)="setView(EquipoItem)"><i
+                                class="fa-solid fa-circle-exclamation"></i>
+                            Ver</button>
+                        <button class="edit" type="submit" (click)="setUpdate(EquipoItem)"><i
+                                class="fa-solid fa-pen-to-square"></i>
+                            Edit</button>
+                        <button class="delete" type="submit" (click)="setDelete(EquipoItem)"><i
+                                class="fa-solid fa-trash"></i> Delete</button>
+                    </td>
+                </tr>
 
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 </div>
+
 
 <!-- INSERT -->
 <section class="modal" [class.modal--show]="showModal">

@@ -14,13 +14,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './components/home/home.component';
 import { NavComponent } from './components/nav/nav.component';
 import { AuthInterceptor } from './helpers/auth.interceptor';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { AdminComponent } from './components/admin/admin.component';
-import { AdminEquiposComponent } from './components/admin-equipos/admin-equipos.component';
-import { AdminParticipantesComponent } from './components/admin-participantes/admin-participantes.component';
-import { AdminCampeonatoComponent } from './components/admin-campeonato/admin-campeonato.component';
-import { AdminGenCampeonatoComponent } from './components/admin-gen-campeonato/admin-gen-campeonato.component';
-import { AdminEncuentrosComponent } from './components/admin-encuentros/admin-encuentros.component';
 
 @NgModule({
   declarations: [
@@ -31,13 +24,6 @@ import { AdminEncuentrosComponent } from './components/admin-encuentros/admin-en
     SignupComponent,
     HomeComponent,
     NavComponent,
-    SidebarComponent,
-    AdminComponent,
-    AdminEquiposComponent,
-    AdminParticipantesComponent,
-    AdminCampeonatoComponent,
-    AdminGenCampeonatoComponent,
-    AdminEncuentrosComponent,
   ],
   imports: [
     BrowserModule,

@@ -5,12 +5,19 @@ import { SignupComponent } from './components/signup/signup.component';
 import { HomeComponent } from './components/home/home.component';
 import { authGuard } from './helpers/auth.guard';
 import { AdminComponent } from './components/admin/admin.component';
+
 const routes: Routes = [
-  { path:'', redirectTo:'', pathMatch:'full'},
-  { path:'home',component:HomeComponent, canActivate: [authGuard]},
-  { path:'login',component:LoginComponent },
-  { path:'registro',component:SignupComponent },
-  { path:'admin',component:AdminComponent },
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent, canActivate: [authGuard] },
+  { path: 'login', component: LoginComponent },
+  { path: 'registro', component: SignupComponent },
+  {
+    path: 'admin',
+    component: AdminComponent, // Agregar esta línea
+    loadChildren: () => import('./components/admin/admin.module').then(m => m.AdminModule),
+    canActivate: [authGuard]
+  },
+  { path: '**', component: LoginComponent },
 ];
 
 

@@ -1,0 +1,146 @@
+<div class="header-wrapper">
+    <div class="header-title">
+        <span>Universidad Técnica de Machala | Carrera de Tecnologías de la Información</span>
+        <h2>Campeonatos</h2>
+    </div>
+    <div class="user-info">
+        <img src="./assets/img/Logo_TIC_IS.png" alt="">
+    </div>
+</div>
+<div class="tabular-wrapper">
+    <div class="combo-box">
+        <form>
+            <select class="form-select" [(ngModel)]="opcionSeleccionadaEstado" [ngModelOptions]="{standalone: true}"
+                (change)="onSelectCampeonato($event)">
+                <option class="p-3" value="">Filtre un campeonato por Activo / Inactivo</option>
+                <option class="p-3" value="true">Activo</option>
+                <option class="p-3" value="false">Inactivo</option>
+            </select>
+        </form>
+    </div>
+    <div class="table-container">
+        <button class="ins" (click)="openModalINS()" type="submit"><i class="fa-solid fa-plus"></i> Crear
+            Campeonato</button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>AñO Lectivo</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let CampeonatoItem of CampeonatosFiltrados">
+                    <td>{{CampeonatoItem.name_camp}}</td>
+                    <td>{{CampeonatoItem.anio_camp}}</td>
+                    <td>{{CampeonatoItem.estado}}</td>
+                    <td class="d-flex justify-content-evenly">
+                        <button class="jugadores" type="button" (click)="setView(CampeonatoItem)"><i
+                                class="fa-solid fa-circle-exclamation"></i>
+                            Ver</button>
+                        <button class="edit" type="button" (click)="setUpdate(CampeonatoItem)"><i
+                                class="fa-solid fa-pen-to-square"></i>
+                            Edit</button>
+                        <button class="delete" type="button" (click)="setDelete(CampeonatoItem)"><i
+                                class="fa-solid fa-trash"></i> Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- INSERT -->
+<section class="modal" [class.modal--show]="showModal">
+    <div class="modal-container">
+        <h2 class="modal-title">Nuevo Campeonato</h2>
+        <form class="form-modal" [formGroup]="campeonatoForm" (ngSubmit)="onSaveForm()">
+            <div class="input-box">
+                <input type="text" formControlName="name_camp" name="name_camp" id="name_camp" required>
+                <label>Nombre</label>
+            </div>
+            <div class="alert-danger" *ngIf="name_camp?.invalid && (name_camp?.dirty || name_camp?.touched)">
+                <div class="container-error-message"
+                    *ngIf="name_camp && name_camp.errors && name_camp.errors['required']">
+                    Nombre es requerido.
+                </div>
+                <div class="container-error-message"
+                    *ngIf="name_camp && name_camp.errors && name_camp.errors['minlength']">
+                    Minimo 4 caracteres.
+                </div>
+            </div>
+
+            <div class="input-box">
+                <input type="text" formControlName="anio_camp" name="anio_camp" id="anio_camp" required>
+                <label>Año Lectivo</label>
+            </div>
+            <div class="alert-danger" *ngIf="anio_camp?.invalid && (anio_camp?.dirty || anio_camp?.touched)">
+                <div class="container-error-message"
+                    *ngIf="anio_camp && anio_camp.errors && anio_camp.errors['required']">
+                    Año es requerido.
+                </div>
+                <div class="container-error-message"
+                    *ngIf="anio_camp && anio_camp.errors && anio_camp.errors['minlength']">
+                    Año 4 caracteres.
+                </div>
+            </div>
+
+            <div class="input-box">
+                <select class="form-select" formControlName="estado" name="estado" id="estado" required>
+                    <option value="">Seleccione un Estado</option>
+                    <option [value]="true">Activo</option>
+                    <option [value]="false">Finalizado</option>
+                </select>
+            </div>
+            <div class="alert-danger"
+                *ngIf="campeonatoForm.controls['estado'].invalid && (campeonatoForm.controls['estado'].dirty || campeonatoForm.controls['estado'].touched)">
+                <div class="container-error-message" *ngIf="estado && estado.errors && estado.errors['required']">
+                    Seleccione un rol válido.
+                </div>
+                <div class="container-error-message" *ngIf="estado && estado.errors && estado.errors['estadoInvalido']">
+                    Seleccione un rol válido.
+                </div>
+            </div>
+
+            <div class="container d-flex justify-content-evenly">
+                <button type="submit" (click)="closeModalINS()" class="modal-close mx-2">Cerrar</button>
+                <button type="submit" class="modal-save mx-2">Registrar</button>
+            </div>
+        </form>
+    </div>
+</section>
+<!-- UPDATE -->
+<section class="modal" [class.modal--show]="showModalUP">
+    <div class="modal-container">
+        <h2 class="modal-title">Nuevo Campeonato</h2>
+        <form class="form-modal">
+            <div class="input-box">
+                <input type="text" [(ngModel)]="name" [ngModelOptions]="{standalone: true}" name="name" id="name"
+                    required>
+                <label>Nombre</label>
+            </div>
+
+            <div class="input-box">
+                <input type="text" [(ngModel)]="anio" [ngModelOptions]="{standalone: true}" name="anio" id="anio"
+                    required>
+                <label>Año Lectivo</label>
+            </div>
+
+            <div class="input-box">
+                <select class="form-select" [(ngModel)]="estado_camp" [ngModelOptions]="{standalone: true}"
+                    name="estado_camp" id="estado_camp" required>
+                    <option value="">Seleccione un Estado</option>
+                    <option value="true">Activo</option>
+                    <option value="false">Finalizado</option>
+                </select>
+            </div>
+
+            <div class="container d-flex justify-content-evenly">
+                <button type="" (click)="closeModalUP()" class="modal-close mx-2">Cerrar</button>
+                <button type="submit" class="modal-save mx-2"
+                    (click)="onUpdateForm(campeonatoData?.pk_idcamp)">Registrar</button>
+            </div>
+        </form>
+    </div>
+</section>

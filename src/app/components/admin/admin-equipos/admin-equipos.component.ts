@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { ComponentesService } from 'src/app/service/components/componentes.service';
 import { EquipoService } from 'src/app/service/api/equipo.service';
 import { Router } from '@angular/router';
 import { Validators, FormControl, FormGroup, AbstractControl } from '@angular/forms';
@@ -15,7 +14,7 @@ import { environment } from 'src/app/environments/environment';
 
 export class AdminEquiposComponent {
   protected apiUrlImg: string = environment.apiUrlImg;
-
+  isLoading = false;
   showModal = false;
   showModalUP = false;
   protected equipoForm: FormGroup;
@@ -35,6 +34,7 @@ export class AdminEquiposComponent {
   idcamp: string = "";
 
   constructor(private router: Router, private ts: EquipoService, private tsC: CampeonatoService) {
+    this.isLoading = true;
     this.equipoForm = this.createFormGroup();
     this.ts.getAllEquipo().subscribe((resultData: any) => {
       this.isResultLoaded = true;
@@ -45,6 +45,7 @@ export class AdminEquiposComponent {
       this.isResultLoaded = true;
       this.CampeonatoArray = resultData;
     });
+    this.isLoading = false;
   }
 
   get nom_equ() { return this.equipoForm.get('nom_equ'); }
@@ -159,7 +160,7 @@ export class AdminEquiposComponent {
     };
     if (this.selectedFile) {
 
-      const obEq = new Equipo('',bodyData.name, '', bodyData.semest, bodyData.repre, bodyData.idcamp);
+      const obEq = new Equipo('', bodyData.name, '', bodyData.semest, bodyData.repre, bodyData.idcamp);
       this.ts.updateEquipo(dataID, obEq, this.selectedFile!).subscribe((resultData: any) => {
         this.onResetForm();
         this.closeModalUP();
@@ -172,7 +173,7 @@ export class AdminEquiposComponent {
         this.selectedFile = null;
       });
     } else {
-      const obEq = new Equipo('',bodyData.name, '', bodyData.semest, bodyData.repre, bodyData.idcamp);
+      const obEq = new Equipo('', bodyData.name, '', bodyData.semest, bodyData.repre, bodyData.idcamp);
 
       this.ts.updateEquipoEdit(dataID, obEq).subscribe((resultData: any) => {
         this.onResetForm();

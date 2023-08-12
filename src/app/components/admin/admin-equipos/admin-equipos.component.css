@@ -1,4 +1,55 @@
 
+.body {
+    display: flex;
+}
+.main-content {
+    flex: 1;
+    position: relative;
+    background: #ebe9e9;
+    width: 90%;
+    padding: 1rem;
+}
+.header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px 2rem;
+    margin-bottom: 1rem;
+}
+
+.header-wrapper img {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.header-title {
+    color: rgba(113, 99, 186, 255);
+    margin: 5px 0;
+}
+
+.header-title h2 {
+    margin: 10px 0;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1;
+}
+
+.tabular-wrapper {
+    background: #fff;
+    border-radius: 10px;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+
 .combo-box {
     width: 100%;
 }
@@ -11,6 +62,7 @@
 .combo-box select{
     width: 40%;
     height: 30px;
+    padding: 4px;
 }
 
 .combo-box option{
@@ -49,19 +101,20 @@ th {
 tr {
     text-align: center;
 }
-table th:first-child,
-table td:first-child {
-  width: 10px;
-}
 
 tbody {
     background: #f2f2f2;
 }
 
+td {
+    padding: 15px;
+    font-size: 14px;
+    color: #333;
+}
 
 td img{
-    width: 60px;
-    height: 60px;
+    width: 50px;
+    height: 50px;
 }
 
 tr:nth-child(even) {
@@ -127,22 +180,26 @@ tr:nth-child(even) {
 .modal-container {
     margin: auto;
     width: 50%;
+    max-width: 500px;
     background-color: rgba(113, 99, 186, 255);;
     color: #fff;
     border-radius: 6px;
-    padding: 3em 2.5em;
+    padding: 3% 2.5%;
     display: grid;
     gap: 1em;
     place-items: center;
     grid-auto-columns: 100%;
 }
 
+.form-modal{
+    width: 90%;
+}
 
 .input-box{
     position: relative;
-    width: 400px;
-    margin: 5px 0;
-    border-bottom: 2px solid white;
+    width: 100%;
+    margin-top: 15px;
+    border-bottom: 1px solid white;
 }
 
 .input-box label{
@@ -154,34 +211,31 @@ tr:nth-child(even) {
     color: white;
     pointer-events: none;
     transition: .5s;
-}
-
-.label-input{
-    padding-left: 5px;
+    font-weight: bold;
 }
 
 .input-box input:focus~label,
 .input-box input:valid~label {
-    top: -5px;
+    top: -5.5px;
 }
 
 .input-box input{
     width: 100%;
-    height: 50px;
+    height: 12%;
     background: transparent;
     border: none;
     outline: none;
     font-size: 1em;
     color: white;
-    padding: 0 35px 0 5px;
+    padding: 4px 7px;
 }
 
 .form-control {
-    margin-top: 12px;
+    margin-top: 30px;
 }
 
 .modal-title {
-    font-size: 2.5rem;
+    font-size: 1.8rem;
 }
 
 .modal-paragraph {
@@ -225,161 +279,38 @@ tr:nth-child(even) {
     color: #000000;
 }
 
-/* Generar */
-.gen-img {
-    width: 100px;
-    height: 100px;
-}
-.columna1 {
-    width: 30%;
-    padding: 5px;
-}
-
-.columna1 form{
-    display: flex;
-}
-
-.columna1 img{
-    width: 40%;
-    height: 90%;
-}
-.columna1 td  {
-    font-size: 13px;
-}
-.columna1 select{
-    width: 70%;
-    height: 30px;
-    font-size: 13px;
-}
-
-.columna1 .search {
-    width: 15%;
-    background: rgba(113, 99, 186, 255);
-    color: #fff;
+.container button{
+    width: 100%;
+    height: 40px;
+    background: white;
+    border: none;
+    outline: none;
+    border-radius: 40px;
     cursor: pointer;
+    font-size: 1em;
+    color: black;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: 500;
 }
 
-.columna2 {
-    width: 70%;
-    padding: 25px;
+.container button:hover{
+    background: #40CFFF;
+    color: #000000;
 }
-
-.generar {
-    color: rgb(255, 255, 255);
-    background: rgba(113, 99, 186, 255);
-    cursor: pointer;
-    padding: 7px;
-    border-radius: 4px;
-    margin-left: 40px;
-}
-
-.generar2 {
-    color: rgb(255, 255, 255);
-    background: rgba(113, 99, 186, 255);
-    cursor: pointer;
-    padding: 7px;
-    border-radius: 4px;
-}
-
-.grupos {
+/* Validacion */
+.alert-danger {
+    color: #721c24;
+    background: #f8d7da;
+    border-color: #f5c6cb;
+    position: relative;
     width: 100%;
-    padding: 20px;
-    flex-wrap: wrap;
-    display: flex;
+    margin-top: 2px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-size: 11px;
 }
 
-.grupos table {
-    width: 90%;
-    margin: 2% 0;
-    border-collapse: collapse;
-}
-
-.grupos thead {
-    background: rgba(113, 99, 186, 255);
-    color: #fff;
-}
-
-.grupos th {
-    padding:  2%;
-    text-align: center;
-}
-
-.grupos tr {
-    text-align: center;
-}
-
-.grupos tbody {
-    background: #f2f2f2;
-}
-
-.grupos td {
-    width: 50%;
-    font-size: 13px;
-    color: #333;
-}
-
-.grupos td img{
-    width: 25%;
-    height: 25%;
-}
-
-.grupos tr:nth-child(even) {
-    background: #fff;
-}
-
-.fase {
-    width: 100%;
-    height: 300px;
-    padding: 10px;
-    flex-basis: 50%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-
-.encuentros {
-    width: 100%;
-    background: #fff;
-    margin-top: 1rem;
-    border-radius: 10px;
-    padding: 2rem;
-}
-
-.encuentros table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.encuentros thead {
-    background: rgba(113, 99, 186, 255);
-    color: #fff;
-}
-
-.encuentros th {
-    padding:  15px;
-    text-align: center;
-}
-
-.encuentros tr {
-    text-align: center;
-}
-
-.encuentros tbody {
-    background: #f2f2f2;
-}
-
-.encuentros td {
-    padding: 15px;
-    font-size: 14px;
-    color: #333;
-}
-
-.encuentros td img{
-    width: 50px;
-    height: 50px;
-}
-
-.encuentros tr:nth-child(even) {
-    background: #fff;
+.container-error-message {
+    padding: 2px;
 }

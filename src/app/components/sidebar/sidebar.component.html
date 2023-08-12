@@ -7,31 +7,31 @@
         <img src="./assets/img/Logo_TIC_IS.png" alt="">
     </div>
     <ul class="menu">
-        <a (click)="onSidebarOptionSelected('equipos')">
+        <a routerLink="/admin/equipos">
             <li class="">
                 <i class="fa-sharp fa-solid fa-shield-halved"></i>
                 <span>Equipos</span>
             </li>
         </a>
-        <a (click)="onSidebarOptionSelected('participantes')">
+        <a routerLink="/admin/participantes">
             <li>
                 <i class="fa-solid fa-user"></i>
                 <span>Participantes</span>
             </li>
         </a>
-        <a (click)="onSidebarOptionSelected('campeonato')">
+        <a routerLink="/admin/campeonatos">
             <li>
                 <i class="fa-solid fa-notes-medical"></i>
                 <span>Campeonato</span>
             </li>
         </a>
-        <a (click)="onSidebarOptionSelected('generarCampeonato')">
+        <a routerLink="/admin/generar_campeonato">
             <li>
                 <i class="fa-solid fa-circle-user"></i>
                 <span>Generar Campeonato</span>
             </li>
         </a>
-        <a (click)="onSidebarOptionSelected('encuentros')">
+        <a routerLink="/admin/encuentros">
             <li>
                 <i class="fa-solid fa-circle-user"></i>
                 <span>Encuentros</span>

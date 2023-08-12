@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ComponentesService } from 'src/app/service/components/componentes.service';
+import { NgForm } from '@angular/forms';
 
 
 @Component({
@@ -7,16 +7,11 @@ import { ComponentesService } from 'src/app/service/components/componentes.servi
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
 })
-export class AdminComponent implements OnInit {
-  selectedOption: string = '';
+export class AdminComponent {
 
-  constructor(private sidebarService: ComponentesService) {
-    this.sidebarService.sidebarOption$.subscribe(option => {
-      this.selectedOption = option;
-    });
-  }
-  ngOnInit() {
-    
+  title = 'Campeonato Deportivo de la Escuela de T.I.';
+  onSubmit(form: NgForm){
+  	console.log(form.value);
   }
 
 }

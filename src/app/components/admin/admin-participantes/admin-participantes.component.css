@@ -1,4 +1,55 @@
 
+.body {
+    display: flex;
+}
+.main-content {
+    flex: 1;
+    position: relative;
+    background: #ebe9e9;
+    width: 90%;
+    padding: 1rem;
+}
+.header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px 2rem;
+    margin-bottom: 1rem;
+}
+
+.header-wrapper img {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.header-title {
+    color: rgba(113, 99, 186, 255);
+    margin: 5px 0;
+}
+
+.header-title h2 {
+    margin: 10px 0;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1;
+}
+
+.tabular-wrapper {
+    background: #fff;
+    border-radius: 10px;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+
 .combo-box {
     width: 100%;
 }
@@ -133,12 +184,13 @@ tr:nth-child(even) {
     background-color: rgba(113, 99, 186, 255);;
     color: #fff;
     border-radius: 6px;
-    padding: 3% 2.5%;
+    padding: 3em 2.5em;
     display: grid;
     gap: 1em;
     place-items: center;
     grid-auto-columns: 100%;
 }
+
 
 .form-modal{
     width: 90%;
@@ -147,10 +199,20 @@ tr:nth-child(even) {
 .input-box{
     position: relative;
     width: 100%;
-    margin-top: 15px;
+    margin-top: 17px;
+    border-bottom: 1px solid white;
+}
+.input-box-fech{
+    position: relative;
+    margin-top: 10px;
+    width: 100%;
     border-bottom: 1px solid white;
 }
 
+.label-input{
+    font-size: 1em;
+
+}
 .input-box label{
     position: absolute;
     top: 50%;
@@ -165,12 +227,12 @@ tr:nth-child(even) {
 
 .input-box input:focus~label,
 .input-box input:valid~label {
-    top: -5.5px;
+    top: -6px;
 }
 
 .input-box input{
     width: 100%;
-    height: 12%;
+    height: 9%;
     background: transparent;
     border: none;
     outline: none;
@@ -179,9 +241,6 @@ tr:nth-child(even) {
     padding: 4px 7px;
 }
 
-.form-control {
-    margin-top: 30px;
-}
 
 .modal-title {
     font-size: 1.8rem;
