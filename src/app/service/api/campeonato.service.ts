@@ -35,6 +35,11 @@ export class CampeonatoService {
     return this._http.put(this.apiUrl + 'campeonatosupdate/' + dataID, campeonato);
   }
 
+  updateEstadoCampeonato(dataID: string, estado: boolean) {
+    const body = { estado: estado };
+    return this._http.put(this.apiUrl + 'campeonatos_update_estado/' + dataID, body);
+  }
+
   deleteCampeonato(data: any) {
     return this._http.delete(this.apiUrl + 'campeonatosdelete/' + data);
   }

@@ -19,62 +19,73 @@
             </select>
         </form>
     </div>
-    <div class="table-container">
-        <table>
-            <thead class="table-light">
-                <tr>
-                    <th>Grupo</th>
-                    <th>Logo</th>
-                    <th>Local</th>
-                    <th>Gol L.</th>
-                    <th>Vs</th>
-                    <th>Gol V.</th>
-                    <th>Visitante</th>
-                    <th>Logo</th>
-                    <th>Fecha</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody class="table-group-divider table-dark text-light">
-                <tr *ngFor="let EncuentroItem of EncuentrosArrayFiltro">
-                    <td>{{EncuentroItem.numero_fase}}</td>
-                    <td *ngIf="EncuentroItem.logo_local"><img [src]="apiUrlImg  + EncuentroItem.logo_local"
-                            alt="Logo Equipo"></td>
-                    <td *ngIf="!EncuentroItem.logo_local"><img src="./assets/img/Logo_TIC_IS.png" alt="Logo Equipo"
-                            style="width: 30px; height: 30px;"></td>
-                    <td>{{EncuentroItem.fk_idequlocal}}</td>
-                    <td>{{EncuentroItem.goleslocal}}</td>
-                    <td>vs</td>
-                    <td>{{EncuentroItem.golesvisit}}</td>
-                    <td>{{EncuentroItem.fk_idequvisit}}</td>
-                    <td *ngIf="EncuentroItem.logo_visit"><img [src]="apiUrlImg  + EncuentroItem.logo_visit"
-                            alt="Logo Equipo" style="width: 30px; height: 30px;"></td>
-                    <td *ngIf="!EncuentroItem.logo_visit"><img src="./assets/img/Logo_TIC_IS.png" alt="Logo Equipo">
-                    </td>
-                    <td>{{EncuentroItem.fecha_hora}}</td>
-                    <div *ngIf="EncuentroItem.goleslocal === null && EncuentroItem.golesvisit === null">
-                        <td><button type="button" class="btn btn-outline-primary"
-                                (click)="openModal('Actualizar', EncuentroItem)"> <img
-                                    src="./assets/img/balon-futbol.png" alt="" width="30" height="30" style="
-                            width: 30px;
-                            height: 30px;
-                        "></button></td>
-                    </div>
-                    <div *ngIf="EncuentroItem.goleslocal !== null || EncuentroItem.golesvisit !== null">
-                        <td><button type="button" class="btn btn-outline-danger"
-                                (click)="openModal('Terminado', EncuentroItem)"> <img
-                                    src="./assets/img/balon-futbol-fin.png" alt="" width="30" height="30" style="
-                            width: 30px;
-                            height: 30px;
-                        "></button></td>
-                    </div>
+    <div class="table-container" *ngFor="let EncuentroItem of EncuentrosArrayFiltro | keyvalue">
+        <div *ngIf="EncuentroItem.key != null">
+            <h4 class="text-center">{{EncuentroItem.key === '1' ? "Fase de Grupos" : EncuentroItem.key === '2' ?
+                "Octavos de Final" : EncuentroItem.key === '3' ? "Cuartos de Final" : EncuentroItem.key === '4' ?
+                "SemiFinal" : "Final"}} </h4>
+            <table>
+                <thead class="table-light">
+                    <tr>
+                        <th>Grupo</th>
+                        <th>Logo</th>
+                        <th>Local</th>
+                        <th>Gol L.</th>
+                        <th>Vs</th>
+                        <th>Gol V.</th>
+                        <th>Visitante</th>
+                        <th>Logo</th>
+                        <th>Fecha</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider table-dark text-light">
+                    <tr *ngFor="let Item of EncuentroItem.value">
+                        <td>{{Item.numgrupo === 0 ? '' : Item.numgrupo}}</td>
 
-                </tr>
-            </tbody>
-        </table>
+                        <td *ngIf="Item.logo_local"><img [src]="apiUrlImg  + Item.logo_local" alt="Logo Equipo"></td>
+                        <td *ngIf="!Item.logo_local"><img src="./assets/img/Logo_TIC_IS.png" alt="Logo Equipo"
+                                style="width: 30px; height: 30px;"></td>
+                        <td>{{Item.fk_idequlocal}}</td>
+                        <td>{{Item.goleslocal}}</td>
+                        <td>vs</td>
+                        <td>{{Item.golesvisit}}</td>
+                        <td>{{Item.fk_idequvisit}}</td>
+                        <td *ngIf="Item.logo_visit"><img [src]="apiUrlImg  + Item.logo_visit" alt="Logo Equipo"
+                                style="width: 30px; height: 30px;"></td>
+                        <td *ngIf="!Item.logo_visit"><img src="./assets/img/Logo_TIC_IS.png" alt="Logo Equipo">
+                        </td>
+                        <td>{{Item.fecha_hora}}</td>
+                        <div *ngIf="Item.estado_encuentro === 'Proximo'">
+                            <td><button type="button" class="btn btn-outline-primary"
+                                    (click)="openModal('Actualizar', Item)"> <img src="./assets/img/balon-futbol.png"
+                                        alt="" width="30" height="30" style="
+                                width: 30px;
+                                height: 30px;
+                            "></button></td>
+                        </div>
+                        <div *ngIf="Item.estado_encuentro === 'Terminado'">
+                            <td><button type="button" class="btn btn-outline-danger"
+                                    (click)="openModal('Terminado', Item)"> <img src="./assets/img/balon-futbol-fin.png"
+                                        alt="" width="30" height="30" style="
+                                width: 30px;
+                                height: 30px;
+                            "></button></td>
+                        </div>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
 
+</div>
+<div *ngIf="isCampeon" class="text-center">
+    <h4 class="text-center fw-bold">Campeón</h4>
+    <img [src]="apiUrlImg + equipoCampeon.logo" alt="Equipo Campeon" width="80" height="80">
+    <h6>{{ equipoCampeon.nom_equ  }}</h6>
+    <h6>{{ equipoCampeon.representante  }}</h6>
+</div>
 
 <!-- Actualizar -->
 <section class="modal" [class.modal--show]="showModal">

@@ -1,0 +1,332 @@
+
+.body {
+    display: flex;
+}
+.main-content {
+    flex: 1;
+    position: relative;
+    background: #ebe9e9;
+    width: 90%;
+    padding: 1rem;
+}
+.header-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px 2rem;
+    margin-bottom: 1rem;
+}
+
+.header-wrapper img {
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    border-radius: 50%;
+}
+
+.header-title {
+    color: rgba(113, 99, 186, 255);
+    margin: 5px 0;
+}
+
+.header-title h2 {
+    margin: 10px 0;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 1;
+}
+
+.tabular-wrapper {
+    background: #fff;
+    border-radius: 10px;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+
+.combo-box {
+    width: 100%;
+}
+
+.combo-box form{
+    display: flex;
+    justify-content: center;
+}
+
+.combo-box select{
+    width: 40%;
+    height: 30px;
+    padding: 4px;
+}
+
+.combo-box option{
+    width: 40%;
+    height: 30px;
+    border-radius: 0%;
+}
+
+.combo-box .search {
+    margin: 0 10px;
+    width: 30px;
+    background: rgba(113, 99, 186, 255);
+    color: #fff;
+    cursor: pointer;
+}
+
+.table-container {
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background: rgba(113, 99, 186, 255);
+    color: #fff;
+}
+
+th {
+    padding:  15px;
+    text-align: center;
+}
+
+tr {
+    text-align: center;
+}
+
+tbody {
+    background: #f2f2f2;
+}
+
+td {
+    padding: 15px;
+    font-size: 14px;
+    color: #333;
+}
+
+td img{
+    width: 50px;
+    height: 50px;
+}
+
+tr:nth-child(even) {
+    background: #fff;
+}
+
+.edit {
+    color: rgb(255, 255, 255);
+    background: rgba(113, 99, 186, 255);
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 4px;
+    border: none;
+}
+
+.delete {
+    color: rgb(255, 255, 255);
+    background: red;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 4px;
+    border: none;
+}
+
+.table-container .ins {
+    color: rgb(255, 255, 255);
+    background: rgba(113, 99, 186, 255);
+    cursor: pointer;
+    margin: 5px 0;
+    padding: 6px;
+    border-radius: 4px;
+    border: none;
+}
+.ins {
+    color: rgb(255, 255, 255);
+    background: rgba(113, 99, 186, 255);
+    cursor: pointer;
+    margin: 5px 0;
+    padding: 6px;
+    border-radius: 4px;
+    border: none;
+}
+.jugadores {
+    color: rgb(255, 255, 255);
+    background: rgba(113, 99, 186, 255);
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 4px;
+    border: none;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #111111bd;
+    display: flex;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .6s;
+}
+
+.modal--show {
+    opacity: 1;
+    pointer-events: unset;
+    transition: opacity .6s;
+}
+
+.modal-container {
+    margin: auto;
+    width: 50%;
+    max-width: 500px;
+    background-color: rgba(113, 99, 186, 255);;
+    color: #fff;
+    border-radius: 6px;
+    padding: 3em 2.5em;
+    display: grid;
+    gap: 1em;
+    place-items: center;
+    grid-auto-columns: 100%;
+}
+
+
+.form-modal{
+    width: 90%;
+}
+
+.input-box{
+    position: relative;
+    width: 100%;
+    margin-top: 17px;
+    border-bottom: 1px solid white;
+}
+.input-box-fech{
+    position: relative;
+    margin-top: 10px;
+    width: 100%;
+    border-bottom: 1px solid white;
+}
+
+.label-input{
+    font-size: 1em;
+
+}
+.input-box label{
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    font-size: 1em;
+    color: white;
+    pointer-events: none;
+    transition: .5s;
+    font-weight: bold;
+}
+
+.input-box input:focus~label,
+.input-box input:valid~label {
+    top: -6px;
+}
+
+.input-box input{
+    width: 100%;
+    height: 9%;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    color: white;
+    padding: 4px 7px;
+}
+
+
+.modal-title {
+    font-size: 1.8rem;
+}
+
+.modal-paragraph {
+    margin-bottom: 10px;
+}
+
+.modal-close {
+    width: 50%;
+    height: 40px;
+    background: white;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 1em;
+    color: black;
+    font-weight: 500;
+}
+
+.modal-close:hover {
+    background: #40CFFF;
+    color: #000000;
+
+}
+
+.modal-save {
+    width: 50%;
+    height: 40px;
+    background: white;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 1em;
+    color: black;
+    font-weight: 500;
+}
+
+.modal-save:hover {
+    background: #40CFFF;
+    color: #000000;
+}
+
+.container button{
+    width: 100%;
+    height: 40px;
+    background: white;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 1em;
+    color: black;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.container button:hover{
+    background: #40CFFF;
+    color: #000000;
+}
+/* Validacion */
+.alert-danger {
+    color: #721c24;
+    background: #f8d7da;
+    border-color: #f5c6cb;
+    position: relative;
+    width: 100%;
+    margin-top: 2px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-size: 11px;
+}
+
+.container-error-message {
+    padding: 2px;
+}

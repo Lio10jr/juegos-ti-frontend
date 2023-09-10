@@ -11,6 +11,8 @@ import { ViewEncuentrosFase } from 'src/app/models/ViewEncuentrosFase';
 import { elementAt } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { Campeonato } from 'src/app/models/Campeonato';
+import { Tabla_Posiciones } from 'src/app/models/Tabla_Posiciones';
+import { PosicionesService } from 'src/app/service/api/posiciones.service';
 
 @Component({
   selector: 'app-admin-gen-campeonato',
@@ -39,15 +41,15 @@ export class AdminGenCampeonatoComponent implements OnInit {
   numGrupo: number = 0;
   EquipoSelected: Equipo = new Equipo('', '', '', '', '', '');
   copiaEquipoArrayGrupos!: Equipo[];
-  grupo1: any[] = [];
-  grupo2: any[] = [];
-  grupo3: any[] = [];
-  grupo4: any[] = [];
-  grupo5: any[] = [];
+  grupo1: Equipo[] = [];
+  grupo2: Equipo[] = [];
+  grupo3: Equipo[] = [];
+  grupo4: Equipo[] = [];
+  grupo5: Equipo[] = [];
   errorValidacion: string = "";
   numGrupoRecomendado: string = "";
 
-  constructor(private router: Router, private ts: EquipoService, private tsC: CampeonatoService, private tsE: EncuentrosService) {
+  constructor( private ts: EquipoService, private tsC: CampeonatoService, private tsE: EncuentrosService, private tsT: PosicionesService) {
     this.tsC.getAllCampeonato().subscribe((resultData: any) => {
       this.isResultLoaded = true;
       // Filtrar campeonatos con estado en true
@@ -68,7 +70,7 @@ export class AdminGenCampeonatoComponent implements OnInit {
   onSelectCampeonato(event: any) {
     /* this.numGroupsSelected = event.target.value; */
     this.opcionSeleccionada = event.target.value;
-    
+
     if (this.opcionSeleccionada != null) {
       const campeonato = this.CampeonatoArray.find((campeonato) => campeonato.pk_idcamp === this.opcionSeleccionada);
       this.name_camp = campeonato.name_camp;
@@ -80,7 +82,7 @@ export class AdminGenCampeonatoComponent implements OnInit {
         this.recomendacionGrupos();
       });
     }
-    
+
   }
 
   recomendacionGrupos() {
@@ -120,7 +122,7 @@ export class AdminGenCampeonatoComponent implements OnInit {
             const indiceAleatorio = Math.floor(Math.random() * this.copiaEquipoArrayGrupos.length);
             const datoAleatorio = this.copiaEquipoArrayGrupos[indiceAleatorio];
             this.copiaEquipoArrayGrupos.splice(indiceAleatorio, 1);
-            this.EquipoSelected = new Equipo(datoAleatorio.pk_idequ, datoAleatorio.nom_equ, datoAleatorio.logo, datoAleatorio.semestre, datoAleatorio.representante, datoAleatorio.fk_idcamp,);
+            this.EquipoSelected = new Equipo(datoAleatorio.pk_idequ, datoAleatorio.nom_equ, datoAleatorio.logo, datoAleatorio.semestre, datoAleatorio.representante, datoAleatorio.fk_idcamp);
             this.openModal();
             this.numGrupo++;
 
@@ -263,43 +265,125 @@ export class AdminGenCampeonatoComponent implements OnInit {
     let contador = 0;
     while (contador < parseInt(this.numGroupsSelected)) {
       if (contador == 0) {
+        
         if (this.grupo1.length == 3) {
-          this.gruposTres(1, this.grupo1[0], this.grupo1[1], this.grupo1[2]);
+          this.gruposTres(1, this.grupo1[0], this.grupo1[1], this.grupo1[2], 1);
+          /* Tabla de Posiciones */
+          const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo1[0].fk_idcamp, 1, this.grupo1[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 1);
+          const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo1[1].fk_idcamp, 1, this.grupo1[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 1);
+          const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo1[2].fk_idcamp, 1, this.grupo1[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 1);
+          this.tsT.addPosiciones(tabla_pos1).subscribe();
+          this.tsT.addPosiciones(tabla_pos2).subscribe();
+          this.tsT.addPosiciones(tabla_pos3).subscribe();
         }
         if (this.grupo1.length == 4) {
-          this.gruposCuatro(1, this.grupo1[0], this.grupo1[1], this.grupo1[2], this.grupo1[3]);
+          this.gruposCuatro(1, this.grupo1[0], this.grupo1[1], this.grupo1[2], this.grupo1[3], 1);
+          /* Tabla de Posiciones */
+          const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo1[0].fk_idcamp, 1, this.grupo1[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 1);
+          const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo1[1].fk_idcamp, 1, this.grupo1[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 1);
+          const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo1[2].fk_idcamp, 1, this.grupo1[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 1);
+          const tabla_pos4 = new Tabla_Posiciones(uuidv4(), this.grupo1[4].fk_idcamp, 1, this.grupo1[4].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 1);
+          this.tsT.addPosiciones(tabla_pos1).subscribe();
+          this.tsT.addPosiciones(tabla_pos2).subscribe();
+          this.tsT.addPosiciones(tabla_pos3).subscribe();
+          this.tsT.addPosiciones(tabla_pos4).subscribe();
         }
+        
       } else {
         if (contador == 1) {
           if (this.grupo2.length == 3) {
-            this.gruposTres(2, this.grupo2[0], this.grupo2[1], this.grupo2[2]);
+            this.gruposTres(1, this.grupo2[0], this.grupo2[1], this.grupo2[2], 2);
+            /* Tabla de Posiciones */
+            const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo2[0].fk_idcamp, 1, this.grupo2[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 2);
+            const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo2[1].fk_idcamp, 1, this.grupo2[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 2);
+            const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo2[2].fk_idcamp, 1, this.grupo2[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 2);
+            this.tsT.addPosiciones(tabla_pos1).subscribe();
+            this.tsT.addPosiciones(tabla_pos2).subscribe();
+            this.tsT.addPosiciones(tabla_pos3).subscribe();
           }
           if (this.grupo2.length == 4) {
-            this.gruposCuatro(2, this.grupo2[0], this.grupo2[1], this.grupo2[2], this.grupo2[3]);
+            this.gruposCuatro(1, this.grupo2[0], this.grupo2[1], this.grupo2[2], this.grupo2[3], 2);
+            /* Tabla de Posiciones */
+            const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo2[0].fk_idcamp, 1, this.grupo2[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 2);
+            const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo2[1].fk_idcamp, 1, this.grupo2[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 2);
+            const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo2[2].fk_idcamp, 1, this.grupo2[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 2);
+            const tabla_pos4 = new Tabla_Posiciones(uuidv4(), this.grupo2[4].fk_idcamp, 1, this.grupo2[4].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 2);
+            this.tsT.addPosiciones(tabla_pos1).subscribe();
+            this.tsT.addPosiciones(tabla_pos2).subscribe();
+            this.tsT.addPosiciones(tabla_pos3).subscribe();
+            this.tsT.addPosiciones(tabla_pos4).subscribe();
           }
         } else {
           if (contador == 2) {
             if (this.grupo3.length == 3) {
-              this.gruposTres(3, this.grupo3[0], this.grupo3[1], this.grupo3[2]);
+              this.gruposTres(1, this.grupo3[0], this.grupo3[1], this.grupo3[2], 3);
+              /* Tabla de Posiciones */
+              const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo3[0].fk_idcamp, 1, this.grupo3[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 3);
+              const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo3[1].fk_idcamp, 1, this.grupo3[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 3);
+              const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo3[2].fk_idcamp, 1, this.grupo3[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 3);
+              this.tsT.addPosiciones(tabla_pos1).subscribe();
+              this.tsT.addPosiciones(tabla_pos2).subscribe();
+              this.tsT.addPosiciones(tabla_pos3).subscribe();
             }
             if (this.grupo3.length == 4) {
-              this.gruposCuatro(3, this.grupo3[0], this.grupo3[1], this.grupo3[2], this.grupo3[3]);
+              this.gruposCuatro(1, this.grupo3[0], this.grupo3[1], this.grupo3[2], this.grupo3[3], 3);
+              /* Tabla de Posiciones */
+              const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo3[0].fk_idcamp, 1, this.grupo3[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 3);
+              const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo3[1].fk_idcamp, 1, this.grupo3[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 3);
+              const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo3[2].fk_idcamp, 1, this.grupo3[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 3);
+              const tabla_pos4 = new Tabla_Posiciones(uuidv4(), this.grupo3[4].fk_idcamp, 1, this.grupo3[4].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 3);
+              this.tsT.addPosiciones(tabla_pos1).subscribe();
+              this.tsT.addPosiciones(tabla_pos2).subscribe();
+              this.tsT.addPosiciones(tabla_pos3).subscribe();
+              this.tsT.addPosiciones(tabla_pos4).subscribe();
             }
           } else {
             if (contador == 3) {
               if (this.grupo4.length == 3) {
-                this.gruposTres(4, this.grupo4[0], this.grupo4[1], this.grupo4[2]);
+                this.gruposTres(1, this.grupo4[0], this.grupo4[1], this.grupo4[2], 4);
+                /* Tabla de Posiciones */
+                const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo4[0].fk_idcamp, 1, this.grupo4[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 4);
+                const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo4[1].fk_idcamp, 1, this.grupo4[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 4);
+                const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo4[2].fk_idcamp, 1, this.grupo4[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 4);
+                this.tsT.addPosiciones(tabla_pos1).subscribe();
+                this.tsT.addPosiciones(tabla_pos2).subscribe();
+                this.tsT.addPosiciones(tabla_pos3).subscribe();
               }
               if (this.grupo4.length == 4) {
-                this.gruposCuatro(4, this.grupo4[0], this.grupo4[1], this.grupo4[2], this.grupo4[3]);
+                this.gruposCuatro(1, this.grupo4[0], this.grupo4[1], this.grupo4[2], this.grupo4[3], 4);
+                /* Tabla de Posiciones */
+                const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo4[0].fk_idcamp, 1, this.grupo4[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 4);
+                const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo4[1].fk_idcamp, 1, this.grupo4[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 4);
+                const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo4[2].fk_idcamp, 1, this.grupo4[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 4);
+                const tabla_pos4 = new Tabla_Posiciones(uuidv4(), this.grupo4[4].fk_idcamp, 1, this.grupo4[4].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 4);
+                this.tsT.addPosiciones(tabla_pos1).subscribe();
+                this.tsT.addPosiciones(tabla_pos2).subscribe();
+                this.tsT.addPosiciones(tabla_pos3).subscribe();
+                this.tsT.addPosiciones(tabla_pos4).subscribe();
               }
             } else {
               if (contador == 4) {
                 if (this.grupo5.length == 3) {
-                  this.gruposTres(5, this.grupo5[0], this.grupo5[1], this.grupo5[2]);
+                  this.gruposTres(1, this.grupo5[0], this.grupo5[1], this.grupo5[2], 5);
+                  /* Tabla de Posiciones */
+                  const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo5[0].fk_idcamp, 1, this.grupo5[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 5);
+                  const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo5[1].fk_idcamp, 1, this.grupo5[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 5);
+                  const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo5[2].fk_idcamp, 1, this.grupo5[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 5);
+                  this.tsT.addPosiciones(tabla_pos1).subscribe();
+                  this.tsT.addPosiciones(tabla_pos2).subscribe();
+                  this.tsT.addPosiciones(tabla_pos3).subscribe();
                 }
                 if (this.grupo5.length == 4) {
-                  this.gruposCuatro(5, this.grupo5[0], this.grupo5[1], this.grupo5[2], this.grupo5[3]);
+                  this.gruposCuatro(1, this.grupo5[0], this.grupo5[1], this.grupo5[2], this.grupo5[3], 5);
+                  /* Tabla de Posiciones */
+                  const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo5[0].fk_idcamp, 1, this.grupo5[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 5);
+                  const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo5[1].fk_idcamp, 1, this.grupo5[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 5);
+                  const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo5[2].fk_idcamp, 1, this.grupo5[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 5);
+                  const tabla_pos4 = new Tabla_Posiciones(uuidv4(), this.grupo5[4].fk_idcamp, 1, this.grupo5[4].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 5);
+                  this.tsT.addPosiciones(tabla_pos1).subscribe();
+                  this.tsT.addPosiciones(tabla_pos2).subscribe();
+                  this.tsT.addPosiciones(tabla_pos3).subscribe();
+                  this.tsT.addPosiciones(tabla_pos4).subscribe();
                 }
               }
             }
@@ -319,43 +403,40 @@ export class AdminGenCampeonatoComponent implements OnInit {
 
   }
 
-  gruposTres(numGrupo: number, grupo1: any, grupo2: any, grupo3: any) {
-    const newFase = new Fase_Encuentros(uuidv4(), 'Fase Grupos', numGrupo);
+  gruposTres(fase: any, grupo1: any, grupo2: any, grupo3: any, numGrupo: number) {
     /* E1 */
-    const newEncuentro1 = new Encuentros(uuidv4(), this.opcionSeleccionada, grupo1.pk_idequ, newFase.id_fase_e, 0, grupo2.pk_idequ, 0, 'UTMACH', new Date());
+    const newEncuentro1 = new Encuentros(uuidv4(), this.opcionSeleccionada, grupo1.pk_idequ, fase, 0, grupo2.pk_idequ, 0, 'UTMACH', new Date(), 'Proximo', numGrupo);
     /* E2 */
-    const newEncuentro2 = new Encuentros(uuidv4(), this.opcionSeleccionada, grupo1.pk_idequ, newFase.id_fase_e, 0, grupo3.pk_idequ, 0, 'UTMACH', new Date());
+    const newEncuentro2 = new Encuentros(uuidv4(), this.opcionSeleccionada, grupo1.pk_idequ, fase, 0, grupo3.pk_idequ, 0, 'UTMACH', new Date(), 'Proximo', numGrupo);
     /* E3 */
-    const newEncuentro3 = new Encuentros(uuidv4(), this.opcionSeleccionada, grupo2.pk_idequ, newFase.id_fase_e, 0, grupo3.pk_idequ, 0, 'UTMACH', new Date());
+    const newEncuentro3 = new Encuentros(uuidv4(), this.opcionSeleccionada, grupo2.pk_idequ, fase, 0, grupo3.pk_idequ, 0, 'UTMACH', new Date(), 'Proximo', numGrupo);
     /* Encuentros Service */
-    this.tsE.addFase_Encuentros(newFase).subscribe();
     this.tsE.addEncuentros(newEncuentro1).subscribe();
     this.tsE.addEncuentros(newEncuentro2).subscribe();
     this.tsE.addEncuentros(newEncuentro3).subscribe();
+
   }
 
-  gruposCuatro(numGrupo: number, grupo1: any, grupo2: any, grupo3: any, grupo4: any) {
-    const newFase = new Fase_Encuentros(uuidv4(), 'Fase Grupos', numGrupo);
+  gruposCuatro(fase: any, grupo1: any, grupo2: any, grupo3: any, grupo4: any, numGrupo: number) {
 
     /* E1 */
-    const newEncuentro1 = new Encuentros(uuidv4(), this.opcionSeleccionada, grupo1.pk_idequ, newFase.id_fase_e, 0, grupo2.pk_idequ, 0, 'UTMACH', new Date());
+    const newEncuentro1 = new Encuentros(uuidv4(), this.opcionSeleccionada, grupo1.pk_idequ, fase, 0, grupo2.pk_idequ, 0, 'UTMACH', new Date(), 'Proximo', numGrupo);
 
     /* E2 */
-    const newEncuentro2 = new Encuentros(uuidv4(), this.opcionSeleccionada, grupo3.pk_idequ, newFase.id_fase_e, 0, grupo4.pk_idequ, 0, 'UTMACH', new Date());
+    const newEncuentro2 = new Encuentros(uuidv4(), this.opcionSeleccionada, grupo3.pk_idequ, fase, 0, grupo4.pk_idequ, 0, 'UTMACH', new Date(), 'Proximo', numGrupo);
 
     /* E3 */
-    const newEncuentro3 = new Encuentros(uuidv4(), this.opcionSeleccionada, grupo1.pk_idequ, newFase.id_fase_e, 0, grupo3.pk_idequ, 0, 'UTMACH', new Date());
+    const newEncuentro3 = new Encuentros(uuidv4(), this.opcionSeleccionada, grupo1.pk_idequ, fase, 0, grupo3.pk_idequ, 0, 'UTMACH', new Date(), 'Proximo', numGrupo);
 
     /* E4 */
-    const newEncuentro4 = new Encuentros(uuidv4(), this.opcionSeleccionada, grupo2.pk_idequ, newFase.id_fase_e, 0, grupo4.pk_idequ, 0, 'UTMACH', new Date());
+    const newEncuentro4 = new Encuentros(uuidv4(), this.opcionSeleccionada, grupo2.pk_idequ, fase, 0, grupo4.pk_idequ, 0, 'UTMACH', new Date(), 'Proximo', numGrupo);
 
     /* E5 */
-    const newEncuentro5 = new Encuentros(uuidv4(), this.opcionSeleccionada, grupo1.pk_idequ, newFase.id_fase_e, 0, grupo4.pk_idequ, 0, 'UTMACH', new Date());
+    const newEncuentro5 = new Encuentros(uuidv4(), this.opcionSeleccionada, grupo1.pk_idequ, fase, 0, grupo4.pk_idequ, 0, 'UTMACH', new Date(), 'Proximo', numGrupo);
 
     /* E6 */
-    const newEncuentro6 = new Encuentros(uuidv4(), this.opcionSeleccionada, grupo2.pk_idequ, newFase.id_fase_e, 0, grupo3.pk_idequ, 0, 'UTMACH', new Date());
+    const newEncuentro6 = new Encuentros(uuidv4(), this.opcionSeleccionada, grupo2.pk_idequ, fase, 0, grupo3.pk_idequ, 0, 'UTMACH', new Date(), 'Proximo', numGrupo);
     /* Encuentros Service */
-    this.tsE.addFase_Encuentros(newFase).subscribe();
     this.tsE.addEncuentros(newEncuentro1).subscribe();
     this.tsE.addEncuentros(newEncuentro2).subscribe();
     this.tsE.addEncuentros(newEncuentro3).subscribe();

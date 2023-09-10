@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { isEmpty } from 'rxjs';
 import { environment } from 'src/app/environments/environment';
+import { Equipo } from 'src/app/models/Equipo';
 import { ViewEncuentrosFase } from 'src/app/models/ViewEncuentrosFase';
 import { CampeonatoService } from 'src/app/service/api/campeonato.service';
 import { EncuentrosService } from 'src/app/service/api/encuentros.service';
+import { EquipoService } from 'src/app/service/api/equipo.service';
 
 @Component({
   selector: 'app-admin-encuentros',
@@ -28,17 +31,60 @@ export class AdminEncuentrosComponent {
   goles_visitante!: number;
   imagenLocalSrc!: string;
   imagenVisitanteSrc!: string;
-
-  constructor(private router: Router, private tsE: EncuentrosService, private tsC: CampeonatoService) {
-    this.tsE.getAllViewEncuentros().subscribe((resultData: any) => {
-      this.isResultLoaded = true;
-      console.log(resultData)
-      this.EncuentrosArray = resultData;
-      this.EncuentrosArrayFiltro = resultData;
-    });
+  isCampeon: boolean = false;
+  equipoCampeon!: Equipo;
+  
+  constructor( private tsE: EncuentrosService, private tsC: CampeonatoService, private tsEq: EquipoService) {
     this.tsC.getAllCampeonato().subscribe((resultData: any) => {
       this.isResultLoaded = true;
       this.CampeonatoArray = resultData;
+
+      const campeonatoActivo = this.CampeonatoArray.find(campeonato => campeonato.estado === true);
+      if (campeonatoActivo) {
+        this.cargarDatos(campeonatoActivo);
+      }
+    });
+  }
+
+  cargarDatos(campeonatoActivo: any) {
+    this.tsE.getAllViewEncuentrosByCamp(campeonatoActivo.name_camp).subscribe((resultData: any) => {
+      this.isResultLoaded = true;
+      const result: any[] = resultData;
+      if ( result.length === 0) {
+        this.EncuentrosArray = [];
+        this.EncuentrosArrayFiltro = [];
+      } else {
+        result.forEach(encuentro => {
+          const fase = encuentro.nombre_fase;
+          if (fase === "Fase de Grupos") {
+            if (!this.EncuentrosArray[1]) {
+              this.EncuentrosArray[1] = [];
+            }
+            this.EncuentrosArray[1].push(encuentro);
+          } else if (fase === "Octavos de Final") {
+            if (!this.EncuentrosArray[2]) {
+              this.EncuentrosArray[2] = [];
+            }
+            this.EncuentrosArray[2].push(encuentro);
+          } else if (fase === "Cuartos de Final") {
+            if (!this.EncuentrosArray[3]) {
+              this.EncuentrosArray[3] = [];
+            }
+            this.EncuentrosArray[3].push(encuentro);
+          } else if (fase === "SemiFinal") {
+            if (!this.EncuentrosArray[4]) {
+              this.EncuentrosArray[4] = [];
+            }
+            this.EncuentrosArray[4].push(encuentro);
+          } else if (fase === "Final") {
+            if (!this.EncuentrosArray[5]) {
+              this.EncuentrosArray[5] = [];
+            }
+            this.EncuentrosArray[5].push(encuentro);
+          }              
+        });
+        this.EncuentrosArrayFiltro = this.EncuentrosArray;
+      }
     });
   }
 
@@ -46,31 +92,62 @@ export class AdminEncuentrosComponent {
     this.opcionSeleccionadaCamp = event.target.value;
 
     if (this.opcionSeleccionadaCamp != '') {
-      const campeonato = this.CampeonatoArray.find((campeonato) => campeonato.pk_idcamp === this.opcionSeleccionadaCamp);
-      this.isResultLoaded = true;
-      this.EncuentrosArrayFiltro = this.EncuentrosArray.filter((encuentro) => encuentro.fk_idcamp === campeonato.name_camp);
+      const campeonatoActivo = this.CampeonatoArray.find(campeonato => campeonato.pk_idcamp === this.opcionSeleccionadaCamp);
+      if (campeonatoActivo) {
+        this.cargarDatos(campeonatoActivo);
+      }
     } else {
       this.EncuentrosArrayFiltro = this.EncuentrosArray;
     }
   }
 
   onUpdateForm() {
-    const bodyData = {
-      "goles_local": this.goles_local,
-      "goles_visitante": this.goles_visitante
-    };
-
     this.encuentroUpdate.goleslocal = this.goles_local;
     this.encuentroUpdate.golesvisit = this.goles_visitante;
+    this.encuentroUpdate.estado_encuentro = 'Terminado';
     this.tsE.updateEncuentros(this.encuentroUpdate.id_enc, this.encuentroUpdate).subscribe((result: any) => {
       this.closeModal();
     });
-    this.tsE.getAllViewEncuentros().subscribe((resultData: any) => {
-      this.isResultLoaded = true;
-      console.log(resultData)
-      this.EncuentrosArray = resultData;
-      this.EncuentrosArrayFiltro = resultData;
-    });
+    const campeonatoActivo = this.CampeonatoArray.find(campeonato => campeonato.estado === true);
+    if (campeonatoActivo) {
+      this.tsE.getAllViewEncuentrosByCamp(campeonatoActivo.name_camp).subscribe((resultData: any) => {
+        this.isResultLoaded = true;
+        const result: any[] = resultData;
+        this.EncuentrosArray = [];
+        this.EncuentrosArrayFiltro = [];
+        result.forEach(encuentro => {
+          const fase = encuentro.nombre_fase;
+          if (fase === "Fase de Grupos") {
+            if (!this.EncuentrosArray[1]) {
+              this.EncuentrosArray[1] = [];
+            }
+            this.EncuentrosArray[1].push(encuentro);
+          } else if (fase === "Octavos de Final") {
+            if (!this.EncuentrosArray[2]) {
+              this.EncuentrosArray[2] = [];
+            }
+            this.EncuentrosArray[2].push(encuentro);
+          } else if (fase === "Cuartos de Final") {
+            if (!this.EncuentrosArray[3]) {
+              this.EncuentrosArray[3] = [];
+            }
+            this.EncuentrosArray[3].push(encuentro);
+          } else if (fase === "SemiFinal") {
+            if (!this.EncuentrosArray[4]) {
+              this.EncuentrosArray[4] = [];
+            }
+            this.EncuentrosArray[4].push(encuentro);
+          } else if (fase === "Final") {
+            if (!this.EncuentrosArray[5]) {
+              this.EncuentrosArray[5] = [];
+            }
+            this.EncuentrosArray[5].push(encuentro);
+          }
+          
+        });
+        this.EncuentrosArrayFiltro = this.EncuentrosArray;
+      });
+    }
     this.limpiarForm();
   }
 

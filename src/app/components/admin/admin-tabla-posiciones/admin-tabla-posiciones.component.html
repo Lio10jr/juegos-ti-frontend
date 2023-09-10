@@ -1,0 +1,112 @@
+<div class="header-wrapper">
+    <div class="header-title">
+        <span>Universidad Técnica de Machala | Carrera de Tecnologías de la Información</span>
+        <h2>Tabla Posiciones</h2>
+    </div>
+    <div class="user-info">
+        <img src="./assets/img/Logo_TIC_IS.png" alt="">
+    </div>
+</div>
+<div class="tabular-wrapper">
+    <div class="combo-box">
+        <form>
+            <select class="form-select" [(ngModel)]="opcionSeleccionadaCampeonato" [ngModelOptions]="{standalone: true}"
+                (change)="onSelectCampeonato($event)">
+                <option value="">Seleccione un campeonato</option>
+                <option class="p-3" *ngFor="let opcion of CampeonatoArray" [value]="opcion.pk_idcamp">{{
+                    opcion.name_camp }}
+                </option>
+            </select>
+        </form>
+    </div>
+    <button *ngIf="isdisable" class="ins" type="submit" (click)="generarFase()"><i class="fa-solid fa-plus"></i>{{
+        nombrebtnFase }}</button>
+    <h4 class="text-center">Fase de Grupos</h4>
+
+    <div *ngFor="let item of TablaPFiltrados | keyvalue">
+        <div *ngIf="item.key != null">
+            <h4 class="text-center">Grupo #{{item.key}} </h4>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Posc.</th>
+                            <th>Equipo</th>
+                            <th>PJ</th>
+                            <th>PG</th>
+                            <th>PE</th>
+                            <th>PP</th>
+                            <th>GF</th>
+                            <th>GC</th>
+                            <th>GD</th>
+                            <th>Pts</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let tablaItem of item.value; let i = index">
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ tablaItem.fk_idequ }}</td>
+                            <td>{{ tablaItem.pj }}</td>
+                            <td>{{ tablaItem.pg }}</td>
+                            <td>{{ tablaItem.pe }}</td>
+                            <td>{{ tablaItem.pp }}</td>
+                            <td>{{ tablaItem.gf }}</td>
+                            <td>{{ tablaItem.gc }}</td>
+                            <td>{{ tablaItem.gd }}</td>
+                            <td>{{ tablaItem.pts }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <h4 class="text-center">Encuentros</h4>
+    <div class="table-container"  *ngFor="let EncuentroItem of EncuentrosArrayFiltro | keyvalue">
+        <div *ngIf="EncuentroItem.key != null">
+            <h4 class="text-center">{{EncuentroItem.key === '1' ? "Fase de Grupos" : EncuentroItem.key === '2' ?
+                "Octavos de Final" : EncuentroItem.key === '3' ? "Cuartos de Final" : EncuentroItem.key === '4' ?
+                "SemiFinal" : "Final"}}  </h4>
+            <table>
+                <thead class="table-light">
+                    <tr>
+                        <th>Logo</th>
+                        <th>Local</th>
+                        <th>Gol L.</th>
+                        <th>Vs</th>
+                        <th>Gol V.</th>
+                        <th>Visitante</th>
+                        <th>Logo</th>
+                        <th>Fecha</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider table-dark text-light">
+                    <tr *ngFor="let Item of EncuentroItem.value">
+                        <td *ngIf="Item.logo_local"><img [src]="apiUrlImg  + Item.logo_local"
+                                alt="Logo Equipo"></td>
+                        <td *ngIf="!Item.logo_local"><img src="./assets/img/Logo_TIC_IS.png" alt="Logo Equipo"
+                                style="width: 30px; height: 30px;"></td>
+                        <td>{{Item.fk_idequlocal}}</td>
+                        <td>{{Item.goleslocal}}</td>
+                        <td>vs</td>
+                        <td>{{Item.golesvisit}}</td>
+                        <td>{{Item.fk_idequvisit}}</td>
+                        <td *ngIf="Item.logo_visit"><img [src]="apiUrlImg  + Item.logo_visit"
+                                alt="Logo Equipo" style="width: 30px; height: 30px;"></td>
+                        <td *ngIf="!Item.logo_visit"><img src="./assets/img/Logo_TIC_IS.png" alt="Logo Equipo">
+                        </td>
+                        <td>{{Item.fecha_hora}}</td>
+                        
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div *ngIf="isCampeon" class="text-center">
+        <h4 class="text-center fw-bold">Campeón</h4>
+        <img [src]="apiUrlImg + equipoCampeon.logo" alt="Equipo Campeon" width="80" height="80">
+        <h6>{{ equipoCampeon.nom_equ  }}</h6>
+        <h6>{{ equipoCampeon.representante  }}</h6>
+    </div>
+</div>

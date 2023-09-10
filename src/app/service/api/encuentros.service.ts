@@ -12,12 +12,6 @@ export class EncuentrosService {
   private apiUrl: string = environment.apiUrl;
   options: any;
 
-  private headers: HttpHeaders = new HttpHeaders({
-    'enctype': 'multipart/form-data',
-    'Content-Type': 'application/json',
-    'X-Requested-With': 'XMLHttpRequest',
-  });
-
   constructor(private _http: HttpClient) { }
 
   getAllEncuentros() {
@@ -26,6 +20,10 @@ export class EncuentrosService {
 
   getEncuentrosById(id_enc: string) {
     return this._http.get(this.apiUrl + 'encuentros/' + id_enc);
+  }
+
+  getEncuentrosByIdCamp(idcamp: string) {
+    return this._http.get(this.apiUrl + 'encuentrosCamp/' + idcamp);
   }
 
   addEncuentros(data: Encuentros): Observable<Encuentros> {
@@ -42,6 +40,14 @@ export class EncuentrosService {
   }
 
   /* Fase Encuentros */
+  getAllFaseEncuentros() {
+    return this._http.get(this.apiUrl + 'fencuentros');
+  }
+
+  getFaseEncuentrosByIdCamp(idcamp: string) {
+    return this._http.get(this.apiUrl + 'viewencuentros/' + idcamp);
+  }
+
   addFase_Encuentros(data: Fase_Encuentros): Observable<Fase_Encuentros> {
     return this._http.post<Fase_Encuentros>(this.apiUrl + 'fencuentrossave', data);
   }
@@ -60,8 +66,11 @@ export class EncuentrosService {
     return this._http.get(this.apiUrl + 'viewencuentros');
   }
 
-  /* View Encuentros Fase */
-  getAllViewEncuentrosByCamp(campeonato: string) {
-    return this._http.get(this.apiUrl + 'viewencuentros/' + campeonato);
+  getFaseEncuentrosBy(id_fase_e: string) {
+    return this._http.get(this.apiUrl + 'fencuentros/' + id_fase_e);
+  }
+
+  getAllViewEncuentrosByCamp(fk_idcamp: string) {
+    return this._http.get(this.apiUrl + 'viewencuentrosCamp/' + fk_idcamp);
   }
 }

@@ -7,6 +7,7 @@ import { AdminParticipantesComponent } from './admin-participantes/admin-partici
 import { AdminCampeonatoComponent } from './admin-campeonato/admin-campeonato.component';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './admin.component';
+import { AdminTablaPosicionesComponent } from './admin-tabla-posiciones/admin-tabla-posiciones.component';
 
 
 const routes: Routes = [
@@ -18,6 +19,7 @@ const routes: Routes = [
       { path: 'participantes', component: AdminParticipantesComponent },
       { path: 'generar_campeonato', component: AdminGenCampeonatoComponent },
       { path: 'encuentros', component: AdminEncuentrosComponent },
+      { path: 'tabla-posiciones', component: AdminTablaPosicionesComponent },
       { path: '**', redirectTo: 'login'}
     ]
   }

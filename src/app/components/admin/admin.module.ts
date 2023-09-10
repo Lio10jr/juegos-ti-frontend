@@ -16,6 +16,7 @@ import { AuthInterceptor } from 'src/app/helpers/auth.interceptor';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { ToastrModule } from 'ngx-toastr';
+import { AdminTablaPosicionesComponent } from './admin-tabla-posiciones/admin-tabla-posiciones.component';
 
 
 
@@ -28,6 +29,7 @@ import { ToastrModule } from 'ngx-toastr';
     AdminEquiposComponent,
     AdminParticipantesComponent,
     AdminGenCampeonatoComponent,
+    AdminTablaPosicionesComponent,
   ],
   imports: [
     CommonModule,
