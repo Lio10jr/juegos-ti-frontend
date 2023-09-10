@@ -202,17 +202,12 @@ export class AdminTablaPosicionesComponent implements OnInit, OnChanges {
   }
 
   criterioDeOrden(equipoA: any, equipoB: any): number {
-    // Ordenar por puntos (de mayor a menor)
     if (equipoA.pts !== equipoB.pts) {
       return equipoB.pts - equipoA.pts;
     }
-
-    // Si los puntos son iguales, ordenar por diferencia de goles (de mayor a menor)
     if (equipoA.gd !== equipoB.gd) {
       return equipoB.gd - equipoA.gd;
     }
-
-    // Si la diferencia de goles es igual, ordenar por partidos ganados (de mayor a menor)
     return equipoB.pg - equipoA.pg;
   }
 
@@ -229,14 +224,13 @@ export class AdminTablaPosicionesComponent implements OnInit, OnChanges {
     this.grupo4 = [];
     this.grupo5 = [];
   }
+
   onSelectCampeonato(event: any) {
     this.opcionSeleccionadaCampeonato = event.target.value;
     if (this.opcionSeleccionadaCampeonato != '') {
       this.isResultLoaded = true;
       const camp = this.CampeonatoArray.filter((campeonato => campeonato.pk_idcamp === this.opcionSeleccionadaCampeonato));
       this.cargarDatos(camp[0], this.opcionSeleccionadaCampeonato);      
-    } else {
-      
     }
   }
 

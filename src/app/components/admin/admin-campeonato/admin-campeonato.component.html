@@ -34,7 +34,7 @@
                 <tr *ngFor="let CampeonatoItem of CampeonatosFiltrados">
                     <td>{{CampeonatoItem.name_camp}}</td>
                     <td>{{CampeonatoItem.anio_camp}}</td>
-                    <td>{{CampeonatoItem.estado}}</td>
+                    <td>{{CampeonatoItem.estado === true ? 'Activo' : 'Terminado'}}</td>
                     <td class="d-flex justify-content-evenly">
                         <button class="edit" type="button" (click)="setUpdate(CampeonatoItem)"><i
                                 class="fa-solid fa-pen-to-square"></i>

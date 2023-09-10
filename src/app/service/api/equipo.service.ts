@@ -27,6 +27,10 @@ export class EquipoService {
         return this._http.get(this.apiUrl + 'equipos/' + pk_idequ);
     }
 
+    getEquipoCampeonato(fk_idcamp: string) {
+        return this._http.get(this.apiUrl + 'equiposCamp/' + fk_idcamp);
+    }
+
     addEquipo(formData: any, image: File): Observable<Equipo> {
         const formData1 = new FormData();
         formData1.append('nom_equ', formData.nom_equ);

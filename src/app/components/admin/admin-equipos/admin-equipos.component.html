@@ -78,14 +78,14 @@
             </div>
 
             <div class="input-box">
-                <input class="form-control" type="file" accept="image/*" id="archivo" name="archivo"
+                <input class="form-control" type="file" accept="image/png" id="archivo" name="archivo"
                     (change)="onFileSelected($event)">
                 <label>Logo</label>
             </div>
 
             <div class="input-box">
                 <select class="form-select" formControlName="semestre" name="semestre" id="semestre" required>
-                    <option value="">Seleccione un Semestre</option>
+                    <option value="" selected>Seleccione un Semestre</option>
                     <option value="primero">Primero</option>
                     <option value="segundo">Segundo</option>
                     <option value="tercero">Tercero</option>
@@ -127,8 +127,8 @@
 
             <div class="input-box">
                 <select class="form-select" formControlName="fk_idcamp" name="fk_idcamp" id="fk_idcamp" required>
-                    <option value="">Seleccione un Campeonato</option>
-                    <option *ngFor="let campeonato of CampeonatoArray" [value]="campeonato.pk_idcamp">{{
+                    <option value="" selected>Seleccione un Campeonato</option>
+                    <option *ngFor="let campeonato of CampeonatoArrayFiltrado" [value]="campeonato.pk_idcamp">{{
                         campeonato.name_camp }}</option>
                 </select>
             </div>
@@ -162,14 +162,14 @@
                 <label>Nombre</label>
             </div>
             <div class="input-box">
-                <input class="form-control" type="file" accept="image/*" id="archivo" name="archivo"
+                <input class="form-control" type="file" accept="image/png" id="archivo" name="archivo"
                     (change)="onFileSelected($event)">
                 <label>Logo</label>
             </div>
             <div class="input-box">
                 <select class="form-select" [(ngModel)]="semest" [ngModelOptions]="{standalone: true}" name="semest"
                     id="semest" required>
-                    <option value="">Seleccione un Semestre</option>
+                    <option value="" selected>Seleccione un Semestre</option>
                     <option value="primero">Primero</option>
                     <option value="segundo">Segundo</option>
                     <option value="tercero">Tercero</option>
@@ -191,8 +191,8 @@
             <div class="input-box">
                 <select class="form-select" [(ngModel)]="idcamp" [ngModelOptions]="{standalone: true}" name="idcamp"
                     id="idcamp" required>
-                    <option value="">Seleccione un Campeonato</option>
-                    <option *ngFor="let campeonato of CampeonatoArray" [value]="campeonato.pk_idcamp">{{
+                    <option value="" selected>Seleccione un Campeonato</option>
+                    <option *ngFor="let campeonato of CampeonatoArrayFiltrado" [value]="campeonato.pk_idcamp">{{
                         campeonato.name_camp }}</option>
                 </select>
             </div>

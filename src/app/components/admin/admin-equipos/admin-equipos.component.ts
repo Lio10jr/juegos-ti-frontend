@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { EquipoService } from 'src/app/service/api/equipo.service';
 import { Validators, FormControl, FormGroup, AbstractControl } from '@angular/forms';
 import { Equipo } from 'src/app/models/Equipo';
 import { CampeonatoService } from 'src/app/service/api/campeonato.service';
 import { environment } from 'src/app/environments/environment';
 import { ToastrService } from 'ngx-toastr';
+import { Campeonato } from 'src/app/models/Campeonato';
 
 @Component({
   selector: 'app-admin-equipos',
@@ -12,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./admin-equipos.component.css']
 })
 
-export class AdminEquiposComponent {
+export class AdminEquiposComponent implements OnInit {
   protected apiUrlImg: string = environment.apiUrlImg;
   isLoading = false;
   showModal = false;
@@ -20,6 +21,7 @@ export class AdminEquiposComponent {
   protected equipoForm: FormGroup;
   EquipoArray: Equipo[] = [];
   CampeonatoArray: any[] = [];
+  CampeonatoArrayFiltrado: any[] = [];
   EquiposFiltrados: Equipo[] = [];
   isResultLoaded = false;
   isUpdateFormActive = false;
@@ -32,20 +34,27 @@ export class AdminEquiposComponent {
   semest: string = "";
   repre: string = "";
   idcamp: string = "";
+  idCampeonatoActivo: string = '';
+  campeonatoSelect: any;
 
   constructor(private toastr: ToastrService, private ts: EquipoService, private tsC: CampeonatoService) {
     this.isLoading = true;
     this.equipoForm = this.createFormGroup();
-    this.ts.getAllEquipo().subscribe((resultData: any) => {
-      this.isResultLoaded = true;
-      this.EquipoArray = resultData;
-      this.EquiposFiltrados = resultData;
-    });
+  }
+  ngOnInit() {
     this.tsC.getAllCampeonato().subscribe((resultData: any) => {
       this.isResultLoaded = true;
-      this.CampeonatoArray = resultData;
+      let arrayResult: any[] = resultData;
+      this.CampeonatoArray = arrayResult;
+      const campeonatoActivo = arrayResult.filter(campeonato => campeonato.estado === true);
+      this.campeonatoSelect = campeonatoActivo[0];
+      this.CampeonatoArrayFiltrado = campeonatoActivo;
+      if (campeonatoActivo) {
+        const campeonatoActivoId = campeonatoActivo[0].pk_idcamp;
+        this.idCampeonatoActivo = campeonatoActivoId;
+        this.cargarDatos(campeonatoActivoId);
+      }
     });
-    this.isLoading = false;
   }
 
   get nom_equ() { return this.equipoForm.get('nom_equ'); }
@@ -53,15 +62,32 @@ export class AdminEquiposComponent {
   get representante() { return this.equipoForm.get('representante'); }
   get fk_idcamp() { return this.equipoForm.get('fk_idcamp'); }
 
+  cargarDatos(campeonatoActivoId: any) {
+    this.ts.getEquipoCampeonato(campeonatoActivoId).subscribe((resultData: any) => {
+      this.isResultLoaded = true;
+      if (resultData && resultData.length > 0) {
+        this.EquipoArray = resultData;
+        this.EquiposFiltrados = resultData;
+      } else {
+        this.EquipoArray = [];
+        this.EquiposFiltrados = [];
+      }
+    });
+    this.isLoading = false;
+  }
+
   onSelectCampeonato(event: any) {
-    /* this.numGroupsSelected = event.target.value; */
     this.opcionSeleccionadaCamp = event.target.value;
 
     if (this.opcionSeleccionadaCamp != '') {
       this.isResultLoaded = true;
-      this.EquiposFiltrados = this.EquipoArray.filter((equipo) => equipo.fk_idcamp === this.opcionSeleccionadaCamp);
+      const camp = this.CampeonatoArray.filter((campeonato => campeonato.pk_idcamp === this.opcionSeleccionadaCamp));
+      this.idCampeonatoActivo = camp[0].pk_idcamp;
+      this.campeonatoSelect = camp[0];
+      this.cargarDatos(this.opcionSeleccionadaCamp);
     } else {
-      this.EquiposFiltrados = this.EquipoArray;
+      this.EquiposFiltrados = [];
+      this.EquipoArray = [];
     }
   }
 
@@ -103,6 +129,8 @@ export class AdminEquiposComponent {
   onResetForm() {
     this.selectedFile = null;
     this.equipoForm.reset();
+    const fileInput = document.getElementById('archivo') as HTMLInputElement;
+    fileInput.value = '';
   }
 
   onSaveForm() {
@@ -116,16 +144,13 @@ export class AdminEquiposComponent {
           if (this.selectedFile) {
             this.ts.addEquipo(formValues, this.selectedFile!).subscribe(
               () => {
-                this.ts.getAllEquipo().subscribe((resultData: any) => {
-                  this.isResultLoaded = true;
-                  this.EquipoArray = resultData;
-                  this.EquiposFiltrados = resultData;
-                });
+                this.cargarDatos(this.idCampeonatoActivo);
                 this.closeModalINS();
                 this.toastr.success('Equipo Creado!', 'Equipo!');
               }
             );
             this.selectedFile = null;
+            this.onResetForm();
           } else {
             this.toastr.warning('Ingrese el logo del Equipo!', 'Equipo!');
           }
@@ -144,13 +169,17 @@ export class AdminEquiposComponent {
   }
 
   setUpdate(data: any) {
-    this.name = data.nom_equ;
-    this.log = '';
-    this.semest = data.semestre;
-    this.repre = data.representante;
-    this.idcamp = data.fk_idcamp;
-    this.equipoData = data;
-    this.openModalUP();
+    if (this.campeonatoSelect.estado === true) {
+      this.name = data.nom_equ;
+      this.log = '';
+      this.semest = data.semestre;
+      this.repre = data.representante;
+      this.idcamp = data.fk_idcamp;
+      this.equipoData = data;
+      this.openModalUP();
+    } else {
+      this.toastr.warning('No se puede modificar el Equipo, el Campeonato ya ha Terminado!', 'Equipo!');
+    }
   }
 
   onUpdateForm(dataID: any) {
@@ -166,16 +195,11 @@ export class AdminEquiposComponent {
         const obEq = new Equipo('', bodyData.name, '', bodyData.semest, bodyData.repre, bodyData.idcamp);
         this.ts.updateEquipo(dataID, obEq, this.selectedFile!).subscribe((resultData: any) => {
           this.onResetForm();
+          this.selectedFile = null;
+          this.cargarDatos(this.idCampeonatoActivo);
           this.closeModalUP();
         });
-        this.ts.getAllEquipo().subscribe((resultData: any) => {
-          this.isResultLoaded = true;
-          this.EquipoArray.splice(0, this.EquipoArray.length);
-          this.EquipoArray = resultData;
-          this.EquiposFiltrados = resultData;
-          this.selectedFile = null;
-          this.toastr.success('Equipo Actualizado!', 'Equipo!');
-        });
+        this.toastr.success('Equipo Actualizado!', 'Equipo!');
       } else {
         const obEq = new Equipo('', bodyData.name, '', bodyData.semest, bodyData.repre, bodyData.idcamp);
 
@@ -184,13 +208,9 @@ export class AdminEquiposComponent {
           this.selectedFile = null;
           this.closeModalUP();
         });
-        this.ts.getAllEquipo().subscribe((resultData: any) => {
-          this.isResultLoaded = true;
-          this.EquipoArray.splice(0, this.EquipoArray.length);
-          this.EquipoArray = resultData;
-          this.EquiposFiltrados = resultData;
-          this.toastr.success('Equipo Actualizado!', 'Equipo!');
-        });
+        this.cargarDatos(this.idCampeonatoActivo);
+        this.toastr.success('Equipo Actualizado!', 'Equipo!');
+
       }
     } catch (error) {
       this.toastr.error('Error al Actualizar Equipo!', 'Equipo!');
@@ -200,20 +220,20 @@ export class AdminEquiposComponent {
   }
 
   setDelete(data: any) {
-    try {
-      this.ts.deleteEquipo(data.pk_idequ).subscribe((resultData: any) => {
-        this.ts.getAllEquipo().subscribe((resultData: any) => {
-          this.isResultLoaded = true;
-          this.EquipoArray.splice(0, this.EquipoArray.length);
-          this.EquipoArray = resultData;
-          this.EquiposFiltrados = resultData;
+    if (this.campeonatoSelect.estado === true) {
+      try {
+        this.ts.deleteEquipo(data.pk_idequ).subscribe((resultData: any) => {
+          this.cargarDatos(this.idCampeonatoActivo);
           this.toastr.success('Equipo Eliminado!', 'Equipo!');
         });
-      });
-    } catch (error) {
-      this.toastr.error('Error al Eliminar Equipo!', 'Equipo!');
-      console.log(error);
+      } catch (error) {
+        this.toastr.error('Error al Eliminar Equipo!', 'Equipo!');
+        console.log(error);
+      }
+    } else {
+      this.toastr.warning('No se puede eliminar el Equipo, el Campeonato ya ha Terminado!', 'Equipo!');
     }
+
 
   }
 
