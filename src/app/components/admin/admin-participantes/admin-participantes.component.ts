@@ -5,6 +5,9 @@ import { Validators, FormControl, FormGroup, AbstractControl, ValidatorFn, Valid
 import { Players } from 'src/app/models/Players';
 import { EquipoService } from 'src/app/service/api/equipo.service';
 import { ToastrService } from 'ngx-toastr';
+import { ApiService } from 'src/app/service/api/api.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/app/environments/environment';
 
 @Component({
   selector: 'app-admin-participantes',
@@ -12,10 +15,12 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./admin-participantes.component.css']
 })
 export class AdminParticipantesComponent {
+  protected apiUrl: string = environment.apiUrl;
   showModal = false;
   showModalUP = false;
   protected playersForm: FormGroup;
   EquipoArray: any[] = [];
+  EquipoArrayRepresentante: any[] = [];
   PlayersFiltrados: any[] = [];
   PlayersArray: any[] = [];
   isResultLoaded = false;
@@ -28,18 +33,56 @@ export class AdminParticipantesComponent {
   semest: string = "";
   fecha!: Date;
   idequ: string = "";
+  isAdmin = false;
+  representanteUser: string = "";
+  equipoRepresentante: string = "";
 
-  constructor(private toastr: ToastrService, private ts: PlayersService, private tsE: EquipoService) {
-    this.playersForm = this.createFormGroup();
-    this.ts.getAllPlayers().subscribe((resultData: any) => {
-      this.isResultLoaded = true;
-      this.PlayersArray = resultData;
-      this.PlayersFiltrados = resultData;
-    });
+  constructor(private toastr: ToastrService, private ts: PlayersService, private tsE: EquipoService, private http: HttpClient, private apiService: ApiService) {
+    const access_token = this.apiService.getToken();
+    if (access_token) {
+
+      // Crear los encabezados de la solicitud
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access_token}`
+      });
+
+      this.http.get(this.apiUrl + 'user', {
+        headers,
+        withCredentials: true
+      }).subscribe(
+        (response: any) => {
+          if ( response.user.fk_rol === "04cbf312-2418-11ee-b6b0-088fc34793bc") {
+            this.isAdmin = true;
+          } else {
+            const nombres = response.user.nombre + " " + response.user.apellido;
+            this.representanteUser = nombres;
+          }
+        }
+      );
+    }
+
+    this.playersForm = this.createFormGroup();    
     this.tsE.getAllEquipo().subscribe((resultData: any) => {
       this.isResultLoaded = true;
       this.EquipoArray = resultData;
+      let idequipo = "";
+      this.EquipoArray.forEach((equipo: any, indice: number) => {
+        if ( indice === 0 ) {
+          idequipo = equipo.pk_idequ;
+        }
+        if ( equipo.representante === this.representanteUser) {
+          this.equipoRepresentante = equipo.pk_idequ;
+          this.EquipoArrayRepresentante.push(equipo);
+        }
+      });
+      this.ts.getAllPlayersEquipo(idequipo).subscribe((resultData: any) => {
+        this.isResultLoaded = true;
+        this.PlayersArray = resultData;
+        this.PlayersFiltrados = resultData;
+      });
     });
+    
   }
 
   get pk_ced() { return this.playersForm.get('pk_ced'); }
@@ -52,10 +95,14 @@ export class AdminParticipantesComponent {
   onSelectEquipo(event: any) {
     this.opcionSeleccionadaEquipo = event.target.value;
     if (this.opcionSeleccionadaEquipo != '') {
-      this.isResultLoaded = true;
-      this.PlayersFiltrados = this.PlayersArray.filter((player) => player.fk_idequ == this.opcionSeleccionadaEquipo);
+      this.ts.getAllPlayersEquipo(this.opcionSeleccionadaEquipo).subscribe((resultData: any) => {
+        this.isResultLoaded = true;
+        this.PlayersArray = resultData;
+        this.PlayersFiltrados = resultData;
+      });
     } else {
-      this.PlayersFiltrados = this.PlayersArray;
+      this.PlayersFiltrados = [];
+      this.PlayersArray = [];
     }
   }
 
@@ -215,6 +262,7 @@ export class AdminParticipantesComponent {
   }
 
   closeModalINS() {
+    this.onResetForm();
     this.showModal = false;
   }
 
@@ -223,6 +271,7 @@ export class AdminParticipantesComponent {
   }
 
   closeModalUP() {
+    this.onResetForm();
     this.showModalUP = false;
   }
 }

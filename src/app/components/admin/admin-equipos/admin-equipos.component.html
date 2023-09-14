@@ -43,7 +43,16 @@
                     <td *ngIf="!EquipoItem.logo"><img src="./assets/img/Logo_TIC_IS.png" alt=""></td>
                     <td>{{EquipoItem.semestre}}</td>
                     <td>{{EquipoItem.representante}}</td>
-                    <td class="d-flex justify-content-evenly">
+                    <td *ngIf="isAdmin === true" class="d-flex justify-content-evenly">
+                        <button class="edit" type="submit" (click)="setUpdate(EquipoItem)"><i
+                                class="fa-solid fa-pen-to-square"></i>
+                            Edit</button>
+                        <button class="delete" type="submit" (click)="setDelete(EquipoItem)"><i
+                                class="fa-solid fa-trash"></i> Delete</button>
+                    </td>
+                    <td *ngIf="isAdmin === false && EquipoItem.representante !== representanteUser" class="d-flex justify-content-evenly">
+                    </td>
+                    <td *ngIf="EquipoItem.representante === representanteUser" class="d-flex justify-content-evenly">
                         <button class="edit" type="submit" (click)="setUpdate(EquipoItem)"><i
                                 class="fa-solid fa-pen-to-square"></i>
                             Edit</button>
@@ -108,10 +117,14 @@
                     Seleccione un semestre válido.
                 </div>
             </div>
+            <label class="fw-bold">Representante</label>
 
-            <div class="input-box">
+            <div *ngIf="isAdmin === true" class="input-box">
                 <input type="text" formControlName="representante" name="representante" id="representante" required>
-                <label>Representante</label>
+            </div>
+
+            <div *ngIf="isAdmin === false" class="input-box">
+                <input type="text" formControlName="representante" name="representante" id="representante" readonly required>
             </div>
             <div class="alert-danger"
                 *ngIf="representante?.invalid && (representante?.dirty || representante?.touched)">

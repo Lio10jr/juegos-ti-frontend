@@ -43,13 +43,21 @@
                         {{obtenerNombreEquipo(ParticipanteItem.fk_idequ)}}
                     </td>
     
-                    <td class="d-flex justify-content-evenly">
+                    <td *ngIf="isAdmin === true"  class="d-flex justify-content-evenly">
                         <button class="edit" type="submit" (click)="setUpdate(ParticipanteItem)"><i
                                 class="fa-solid fa-pen-to-square"></i>
                             Edit</button>
                         <button class="delete" type="submit" (click)="setDelete(ParticipanteItem)"><i
                                 class="fa-solid fa-trash"></i> Delete</button>
                     </td>
+                    <td *ngIf="isAdmin === false && equipoRepresentante === ParticipanteItem.fk_idequ"  class="d-flex justify-content-evenly">
+                        <button class="edit" type="submit" (click)="setUpdate(ParticipanteItem)"><i
+                                class="fa-solid fa-pen-to-square"></i>
+                            Edit</button>
+                        <button class="delete" type="submit" (click)="setDelete(ParticipanteItem)"><i
+                                class="fa-solid fa-trash"></i> Delete</button>
+                    </td>
+                    <td *ngIf="isAdmin === false && equipoRepresentante !== ParticipanteItem.fk_idequ" ></td>
                 </tr>
             </tbody>
         </table>
@@ -149,10 +157,16 @@
                 </div>
             </div>
 
-            <div class="input-box">
+            <div *ngIf="isAdmin === true" class="input-box">
                 <select class="form-select" formControlName="fk_idequ" name="fk_idequ" id="fk_idequ" required>
                     <option value="">Seleccione un Equipo</option>
                     <option *ngFor="let equipo of EquipoArray" [value]="equipo.pk_idequ">{{ equipo.nom_equ }}</option>
+                </select>
+            </div>
+            <div *ngIf="isAdmin === false" class="input-box">
+                <select class="form-select" formControlName="fk_idequ" name="fk_idequ" id="fk_idequ" required>
+                    <option value="">Seleccione un Equipo</option>
+                    <option *ngFor="let equipo of EquipoArrayRepresentante" [value]="equipo.pk_idequ">{{ equipo.nom_equ }}</option>
                 </select>
             </div>
             <div class="container d-flex justify-content-evenly">

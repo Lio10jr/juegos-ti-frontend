@@ -6,6 +6,8 @@ import { CampeonatoService } from 'src/app/service/api/campeonato.service';
 import { environment } from 'src/app/environments/environment';
 import { ToastrService } from 'ngx-toastr';
 import { Campeonato } from 'src/app/models/Campeonato';
+import { ApiService } from 'src/app/service/api/api.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-admin-equipos',
@@ -14,6 +16,7 @@ import { Campeonato } from 'src/app/models/Campeonato';
 })
 
 export class AdminEquiposComponent implements OnInit {
+  protected apiUrl: string = environment.apiUrl;
   protected apiUrlImg: string = environment.apiUrlImg;
   isLoading = false;
   showModal = false;
@@ -36,24 +39,54 @@ export class AdminEquiposComponent implements OnInit {
   idcamp: string = "";
   idCampeonatoActivo: string = '';
   campeonatoSelect: any;
-
-  constructor(private toastr: ToastrService, private ts: EquipoService, private tsC: CampeonatoService) {
+  isAdmin = false;
+  representanteUser: string = "";
+  constructor(private http: HttpClient, private toastr: ToastrService, private ts: EquipoService, private tsC: CampeonatoService, private apiService: ApiService) {
     this.isLoading = true;
     this.equipoForm = this.createFormGroup();
   }
   ngOnInit() {
+    const access_token = this.apiService.getToken();
+    if (access_token) {
+
+      // Crear los encabezados de la solicitud
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access_token}`
+      });
+
+      this.http.get(this.apiUrl + 'user', {
+        headers,
+        withCredentials: true
+      }).subscribe(
+        (response: any) => {
+          if ( response.user.fk_rol === "04cbf312-2418-11ee-b6b0-088fc34793bc") {
+            this.isAdmin = true;
+          } else {
+            const nombres = response.user.nombre + " " + response.user.apellido;
+            this.representanteUser = nombres;
+            this.equipoForm.get('representante')!.setValue(nombres);
+            // this.representanteInput = response.user.nombre + " " + response.user.apellido;
+          }
+        }
+      );
+    }
+
     this.tsC.getAllCampeonato().subscribe((resultData: any) => {
       this.isResultLoaded = true;
-      let arrayResult: any[] = resultData;
-      this.CampeonatoArray = arrayResult;
-      const campeonatoActivo = arrayResult.filter(campeonato => campeonato.estado === true);
-      this.campeonatoSelect = campeonatoActivo[0];
-      this.CampeonatoArrayFiltrado = campeonatoActivo;
-      if (campeonatoActivo) {
-        const campeonatoActivoId = campeonatoActivo[0].pk_idcamp;
-        this.idCampeonatoActivo = campeonatoActivoId;
-        this.cargarDatos(campeonatoActivoId);
-      }
+      if (resultData && resultData.length > 0) {
+        let arrayResult: any[] = resultData;
+        this.CampeonatoArray = arrayResult;
+        const campeonatoActivo = arrayResult.filter(campeonato => campeonato.estado === true);
+        console.log(campeonatoActivo)
+        if (campeonatoActivo && campeonatoActivo.length > 0) {
+          this.campeonatoSelect = campeonatoActivo[0];
+          this.CampeonatoArrayFiltrado = campeonatoActivo;
+          const campeonatoActivoId = campeonatoActivo[0].pk_idcamp;
+          this.idCampeonatoActivo = campeonatoActivoId;
+          this.cargarDatos(campeonatoActivoId);
+        }
+      } 
     });
   }
 
@@ -147,10 +180,20 @@ export class AdminEquiposComponent implements OnInit {
                 this.cargarDatos(this.idCampeonatoActivo);
                 this.closeModalINS();
                 this.toastr.success('Equipo Creado!', 'Equipo!');
+                this.selectedFile = null;
+                this.onResetForm();
+              },
+              (error) => {            
+                if (error.status === 404) {
+                  this.toastr.error('El recurso no se encontró.', 'Error');
+                } else if (error.status === 500) {
+                  this.toastr.error('Solo se puede crear un equipo por representante en un campeonato', 'Error');
+                } else {
+                  this.toastr.error('Error desconocido.', 'Error');
+                }
               }
             );
-            this.selectedFile = null;
-            this.onResetForm();
+            
           } else {
             this.toastr.warning('Ingrese el logo del Equipo!', 'Equipo!');
           }
@@ -242,6 +285,7 @@ export class AdminEquiposComponent implements OnInit {
   }
 
   closeModalINS() {
+    this.onResetForm();
     this.selectedFile = null;
     this.showModal = false;
   }
@@ -251,6 +295,7 @@ export class AdminEquiposComponent implements OnInit {
   }
 
   closeModalUP() {
+    this.onResetForm();
     this.selectedFile = null;
     this.showModalUP = false;
   }

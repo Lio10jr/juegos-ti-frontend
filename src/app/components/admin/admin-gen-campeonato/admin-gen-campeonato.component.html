@@ -188,7 +188,7 @@
 
 <section class="modal" [class.modal--show]="showModal">
     <div class="modal-container">
-        <h2 class="modal-title">Equipo Asigando a {{numGrupo}}</h2>
+        <h2 class="modal-title">Asigando a Grupo #{{numGrupo}}</h2>
         <img [src]="apiUrlImg  + EquipoSelected.logo" alt="Logo Equipo" width="150px" height="150px">
         <h5>{{EquipoSelected.nom_equ}}</h5>
         <div class="container d-flex justify-content-evenly">
@@ -236,7 +236,7 @@
                         </thead>
                         <tbody class="table-group-divider table-dark text-light">
                             <tr *ngFor="let EncuentroItem of ViewEncuentros">
-                                <td>{{EncuentroItem.numero_fase}}</td>
+                                <td>{{EncuentroItem.numgrupo}}</td>
                                 <td *ngIf="EncuentroItem.logo_local"><img [src]="apiUrlImg  + EncuentroItem.logo_local"
                                         alt="Logo Equipo"></td>
                                 <td *ngIf="!EncuentroItem.logo_local"><img src="./assets/img/Logo_TIC_IS.png"

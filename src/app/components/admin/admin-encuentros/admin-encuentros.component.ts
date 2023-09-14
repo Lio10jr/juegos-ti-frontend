@@ -33,8 +33,8 @@ export class AdminEncuentrosComponent {
   imagenVisitanteSrc!: string;
   isCampeon: boolean = false;
   equipoCampeon!: Equipo;
-  
-  constructor( private tsE: EncuentrosService, private tsC: CampeonatoService, private tsEq: EquipoService) {
+
+  constructor(private tsE: EncuentrosService, private tsC: CampeonatoService, private tsEq: EquipoService) {
     this.tsC.getAllCampeonato().subscribe((resultData: any) => {
       this.isResultLoaded = true;
       this.CampeonatoArray = resultData;
@@ -46,11 +46,11 @@ export class AdminEncuentrosComponent {
     });
   }
 
-  cargarDatos(campeonatoActivo: any) {
+  cargarDatos(campeonatoActivo: any) {    
     this.tsE.getAllViewEncuentrosByCamp(campeonatoActivo.name_camp).subscribe((resultData: any) => {
       this.isResultLoaded = true;
       const result: any[] = resultData;
-      if ( result.length === 0) {
+      if (result.length === 0) {
         this.EncuentrosArray = [];
         this.EncuentrosArrayFiltro = [];
       } else {
@@ -81,7 +81,7 @@ export class AdminEncuentrosComponent {
               this.EncuentrosArray[5] = [];
             }
             this.EncuentrosArray[5].push(encuentro);
-          }              
+          }
         });
         this.EncuentrosArrayFiltro = this.EncuentrosArray;
       }
@@ -94,7 +94,12 @@ export class AdminEncuentrosComponent {
     if (this.opcionSeleccionadaCamp != '') {
       const campeonatoActivo = this.CampeonatoArray.find(campeonato => campeonato.pk_idcamp === this.opcionSeleccionadaCamp);
       if (campeonatoActivo) {
+        this.EncuentrosArray = [];
+        this.EncuentrosArrayFiltro = [];
         this.cargarDatos(campeonatoActivo);
+      } else {
+        this.EncuentrosArray = [];
+        this.EncuentrosArrayFiltro = [];
       }
     } else {
       this.EncuentrosArrayFiltro = this.EncuentrosArray;
@@ -143,7 +148,7 @@ export class AdminEncuentrosComponent {
             }
             this.EncuentrosArray[5].push(encuentro);
           }
-          
+
         });
         this.EncuentrosArrayFiltro = this.EncuentrosArray;
       });
@@ -180,11 +185,11 @@ export class AdminEncuentrosComponent {
 
   limpiarForm() {
     this.name_local = "";
-    this.name_visitante =  "";
-    this.goles_local= 0;
-    this.goles_visitante= 0;
-    this.imagenLocalSrc =  "";
-    this.imagenVisitanteSrc =  "";
+    this.name_visitante = "";
+    this.goles_local = 0;
+    this.goles_visitante = 0;
+    this.imagenLocalSrc = "";
+    this.imagenVisitanteSrc = "";
   }
   closeModal() {
     this.showModal = false;

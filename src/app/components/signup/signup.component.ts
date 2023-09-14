@@ -67,18 +67,14 @@ export class SignupComponent implements OnInit {
       if (rolSeleccionado) {
         const rol = '28d2850c-2418-11ee-b6b0-088fc34793bc';
         this.ts.addUsers(formValues.name,formValues.lastname,formValues.email,formValues.phone,rol,formValues.password).subscribe( 
-          () => this.router.navigate(['/login'])
+          () => this.router.navigate(['/admin'])
         );
       } else {
         const rol = '04cbf312-2418-11ee-b6b0-088fc34793bc';
         this.ts.addUsers(formValues.name,formValues.lastname,formValues.email,formValues.phone,rol,formValues.password).subscribe( 
-          () => this.router.navigate(['/login'])
+          () => this.router.navigate(['/admin'])
         );
       }
-      
-      //this.onResetForm();
-      /* window.location.href="login";
-      this.router.navigateByUrl('login'); */
     }    
   }
 

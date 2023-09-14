@@ -23,6 +23,10 @@ export class PlayersService {
     return this._http.get(this.apiUrl + 'players');
   }
 
+  getAllPlayersEquipo(fk_idequ: string) {
+    return this._http.get(this.apiUrl + 'players/' + fk_idequ);
+  }
+
   addPlayers(data: any): Observable<Players> {
     const newPlayers = new Players(data.pk_ced,data.nombre, data.apellido, data.semestre, data.f_nacimiento, data.fk_idequ);
     return this._http.post<Players>(this.apiUrl + 'playerssave', newPlayers);

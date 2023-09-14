@@ -44,6 +44,8 @@ export class AdminTablaPosicionesComponent implements OnInit, OnChanges {
   grupo5: any[] = [];
   isCampeon: boolean = false;
   equipoCampeon!: Equipo;
+  showModalEncuentrosCreados = false;
+
   constructor(private toastr: ToastrService, private tsC: CampeonatoService, private tsT: PosicionesService, private tsE: EncuentrosService, private tsEq: EquipoService) { }
 
   ngOnChanges(changes: SimpleChanges) {}
@@ -57,6 +59,7 @@ export class AdminTablaPosicionesComponent implements OnInit, OnChanges {
       if (campeonatoActivo) {
         const campeonatoActivoId = campeonatoActivo.pk_idcamp;
         this.idCampeonatoActivo = campeonatoActivoId;
+        this.opcionSeleccionadaCampeonato = campeonatoActivo.pk_idcamp;
         this.cargarDatos(campeonatoActivo, campeonatoActivoId);
       }
     });
@@ -112,14 +115,19 @@ export class AdminTablaPosicionesComponent implements OnInit, OnChanges {
             this.numFase = num;
             if (num === 2) {
               this.encuentroFase2 = this.encuentros.filter(elemento => elemento.fk_id_fase_e === 2);
+              this.nombrebtnFase = "Generar Cuartos de Final";
             } else if (num === 3) {
               this.encuentroFase3 = this.encuentros.filter(elemento => elemento.fk_id_fase_e === 3);
+              this.nombrebtnFase = "Generar SemiFinal";
             } else if (num === 4) {
               this.encuentroFase4 = this.encuentros.filter(elemento => elemento.fk_id_fase_e === 4);
+              this.nombrebtnFase = "Generar Final";
             } else if (num === 5) {
               const estado = this.encuentros.some(encuentro => encuentro.fk_id_fase_e === 5 && encuentro.estado_encuentro !== 'Terminado');
               this.encuentroFase5 = this.encuentros.filter(elemento => elemento.fk_id_fase_e === 5);
-              if (!estado) {
+              if (campeonatoActivo.estado) {
+                this.nombrebtnFase = "Terminar Campeonato";
+              } else {
                 this.isdisable = false;
                 this.encuentroFase5.forEach((elem: any) => {
                   if (elem.goleslocal > elem.golesvisit) {
@@ -135,8 +143,6 @@ export class AdminTablaPosicionesComponent implements OnInit, OnChanges {
                     });
                   }
                 });
-              } else {
-                this.nombrebtnFase = "Terminar Campeonato";
               }
             }
           } else {
@@ -159,7 +165,7 @@ export class AdminTablaPosicionesComponent implements OnInit, OnChanges {
         this.encuentroFase5 = [];
       }
       
-    });
+    });    
     this.tsE.getAllViewEncuentrosByCamp(campeonatoActivo.name_camp).subscribe((resultData: any) => {
       this.isResultLoaded = true;
       if (resultData && resultData.length > 0) {
@@ -223,6 +229,8 @@ export class AdminTablaPosicionesComponent implements OnInit, OnChanges {
     this.grupo3 = [];
     this.grupo4 = [];
     this.grupo5 = [];
+    this.EncuentrosArray = [];
+    this.EncuentrosArrayFiltro = [];
   }
 
   onSelectCampeonato(event: any) {
@@ -230,7 +238,10 @@ export class AdminTablaPosicionesComponent implements OnInit, OnChanges {
     if (this.opcionSeleccionadaCampeonato != '') {
       this.isResultLoaded = true;
       const camp = this.CampeonatoArray.filter((campeonato => campeonato.pk_idcamp === this.opcionSeleccionadaCampeonato));
+      this.limpiar();
       this.cargarDatos(camp[0], this.opcionSeleccionadaCampeonato);      
+    } else {
+      this.limpiar();
     }
   }
 
@@ -296,7 +307,7 @@ export class AdminTablaPosicionesComponent implements OnInit, OnChanges {
                 this.grupo3.push(element.fk_idequ);
               }
             }
-            if (indice === 3) {
+            if (indice === 2) {
               mejorTerceros.push(element);
             }
           });
@@ -369,19 +380,19 @@ export class AdminTablaPosicionesComponent implements OnInit, OnChanges {
                 this.grupo5.push(element.fk_idequ);
               }
             }
-            if (indice === 3) {
+            if (indice === 1) {
               mejorSegundos.push(element);
             }
           });
           cont--;
         });
         mejorSegundos = mejorSegundos.sort(this.criterioDeOrden);
-        const arraytresmejorSegundos = mejorSegundos.slice(0, 2);
+        const arraytresmejorSegundos = mejorSegundos.slice(0, 3);
         let tresMejoresSegundos: string[] = [];
         arraytresmejorSegundos.forEach(element => {
           tresMejoresSegundos.push(element.fk_idequ);
         });
-        // generar encuentros SEMIFINAL
+        // generar encuentros CUARTOS DE FINAL
         this.creaerEncuentro(3, this.grupo1[0], tresMejoresSegundos[2]);
         this.creaerEncuentro(3, this.grupo2[0], tresMejoresSegundos[1]);
         this.creaerEncuentro(3, this.grupo3[0], tresMejoresSegundos[0]);
@@ -467,12 +478,57 @@ export class AdminTablaPosicionesComponent implements OnInit, OnChanges {
       });
     }
     this.isdisable = false;
+    const campeonatoActivo = this.CampeonatoArray.find(campeonato => campeonato.pk_idcamp === this.opcionSeleccionadaCampeonato);
+    this.EncuentrosArray = [];
+    this.EncuentrosArrayFiltro = [];
+    this.tsE.getAllViewEncuentrosByCamp(campeonatoActivo.name_camp).subscribe((resultData: any) => {
+      this.isResultLoaded = true;
+      if (resultData && resultData.length > 0) {
+        const result: any[] = resultData;
+        result.forEach(encuentro => {
+          const fase = encuentro.nombre_fase;
+          if (fase === "Fase de Grupos") {
+            if (!this.EncuentrosArray[1]) {
+              this.EncuentrosArray[1] = [];
+            }
+            this.EncuentrosArray[1].push(encuentro);
+          } else if (fase === "Octavos de Final") {
+            if (!this.EncuentrosArray[2]) {
+              this.EncuentrosArray[2] = [];
+            }
+            this.EncuentrosArray[2].push(encuentro);
+          } else if (fase === "Cuartos de Final") {
+            if (!this.EncuentrosArray[3]) {
+              this.EncuentrosArray[3] = [];
+            }
+            this.EncuentrosArray[3].push(encuentro);
+          } else if (fase === "SemiFinal") {
+            if (!this.EncuentrosArray[4]) {
+              this.EncuentrosArray[4] = [];
+            }
+            this.EncuentrosArray[4].push(encuentro);
+          } else if (fase === "Final") {
+            if (!this.EncuentrosArray[5]) {
+              this.EncuentrosArray[5] = [];
+            }
+            this.EncuentrosArray[5].push(encuentro);
+          }
+        });
+        this.EncuentrosArrayFiltro = this.EncuentrosArray;
+      } else {
+        this.EncuentrosArray = [];
+        this.EncuentrosArrayFiltro = [];
+      }
+      this.showModalEncuentrosCreados =  true;
+    });
   }
 
   creaerEncuentro(fase: any, equipolocal: string, equipovisit: string) {
     const newEncuentro1 = new Encuentros(uuidv4(), this.idCampeonatoActivo, equipolocal, fase, 0, equipovisit, 0, 'UTMACH', new Date(), 'Proximo', 0);
     this.tsE.addEncuentros(newEncuentro1).subscribe();
-
   }
 
+  closeModalEncuentrosCreados() {
+    this.showModalEncuentrosCreados = false;
+  }
 }

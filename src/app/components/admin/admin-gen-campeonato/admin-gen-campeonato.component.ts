@@ -68,9 +68,7 @@ export class AdminGenCampeonatoComponent implements OnInit {
   }
 
   onSelectCampeonato(event: any) {
-    /* this.numGroupsSelected = event.target.value; */
     this.opcionSeleccionada = event.target.value;
-
     if (this.opcionSeleccionada != null) {
       const campeonato = this.CampeonatoArray.find((campeonato) => campeonato.pk_idcamp === this.opcionSeleccionada);
       this.name_camp = campeonato.name_camp;
@@ -82,7 +80,6 @@ export class AdminGenCampeonatoComponent implements OnInit {
         this.recomendacionGrupos();
       });
     }
-
   }
 
   recomendacionGrupos() {
@@ -113,7 +110,7 @@ export class AdminGenCampeonatoComponent implements OnInit {
       - minimo 6  - minimo 9  - minimo 12 - minimo 15
       - maximo 8  - maximo 12 - maximo 16 - maximo 20*/
       if (this.numGroupsSelected == '2') {
-
+        if (this.numGrupo === 2 ) { this.numGrupo = 0}
         if (this.EquipoArrayGrupos.length >= 6 && this.EquipoArrayGrupos.length <= 8) {
           if (this.copiaEquipoArrayGrupos.length === 0) {
             this.openModalNULL();
@@ -131,7 +128,6 @@ export class AdminGenCampeonatoComponent implements OnInit {
             }
             if (this.numGrupo == 2) {
               this.grupo2.push(this.EquipoSelected);
-              this.numGrupo = 0;
             }
           }
         } else {
@@ -140,6 +136,7 @@ export class AdminGenCampeonatoComponent implements OnInit {
         }
       }
       if (this.numGroupsSelected == '3') {
+        if (this.numGrupo === 3 ) { this.numGrupo = 0}
         if (this.EquipoArrayGrupos.length >= 9 && this.EquipoArrayGrupos.length <= 12) {
           if (this.copiaEquipoArrayGrupos.length === 0) {
             this.openModalNULL();
@@ -161,9 +158,7 @@ export class AdminGenCampeonatoComponent implements OnInit {
             }
             if (this.numGrupo == 3) {
               this.grupo3.push(this.EquipoSelected);
-              this.numGrupo = 0;
             }
-
           }
         } else {
           this.errorValidacion = "Los equipos no son suficientes para formar los grupos";
@@ -171,6 +166,7 @@ export class AdminGenCampeonatoComponent implements OnInit {
         }
       }
       if (this.numGroupsSelected == '4') {
+        if (this.numGrupo === 4 ) { this.numGrupo = 0}
         if (this.EquipoArrayGrupos.length >= 12 && this.EquipoArrayGrupos.length <= 16) {
           if (this.copiaEquipoArrayGrupos.length === 0) {
             this.openModalNULL();
@@ -196,7 +192,6 @@ export class AdminGenCampeonatoComponent implements OnInit {
             }
             if (this.numGrupo == 4) {
               this.grupo4.push(this.EquipoSelected);
-              this.numGrupo = 0;
             }
           }
         } else {
@@ -205,6 +200,7 @@ export class AdminGenCampeonatoComponent implements OnInit {
         }
       }
       if (this.numGroupsSelected == '5') {
+        if (this.numGrupo === 5 ) { this.numGrupo = 0}
         if (this.EquipoArrayGrupos.length >= 15 && this.EquipoArrayGrupos.length <= 20) {
           if (this.copiaEquipoArrayGrupos.length === 0) {
             this.openModalNULL();
@@ -230,11 +226,9 @@ export class AdminGenCampeonatoComponent implements OnInit {
             }
             if (this.numGrupo == 4) {
               this.grupo4.push(this.EquipoSelected);
-              this.numGrupo = 0;
             }
             if (this.numGrupo == 5) {
               this.grupo5.push(this.EquipoSelected);
-              this.numGrupo = 0;
             }
           }
         } else {
@@ -282,7 +276,7 @@ export class AdminGenCampeonatoComponent implements OnInit {
           const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo1[0].fk_idcamp, 1, this.grupo1[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 1);
           const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo1[1].fk_idcamp, 1, this.grupo1[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 1);
           const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo1[2].fk_idcamp, 1, this.grupo1[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 1);
-          const tabla_pos4 = new Tabla_Posiciones(uuidv4(), this.grupo1[4].fk_idcamp, 1, this.grupo1[4].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 1);
+          const tabla_pos4 = new Tabla_Posiciones(uuidv4(), this.grupo1[3].fk_idcamp, 1, this.grupo1[3].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 1);
           this.tsT.addPosiciones(tabla_pos1).subscribe();
           this.tsT.addPosiciones(tabla_pos2).subscribe();
           this.tsT.addPosiciones(tabla_pos3).subscribe();
@@ -307,7 +301,7 @@ export class AdminGenCampeonatoComponent implements OnInit {
             const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo2[0].fk_idcamp, 1, this.grupo2[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 2);
             const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo2[1].fk_idcamp, 1, this.grupo2[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 2);
             const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo2[2].fk_idcamp, 1, this.grupo2[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 2);
-            const tabla_pos4 = new Tabla_Posiciones(uuidv4(), this.grupo2[4].fk_idcamp, 1, this.grupo2[4].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 2);
+            const tabla_pos4 = new Tabla_Posiciones(uuidv4(), this.grupo2[3].fk_idcamp, 1, this.grupo2[3].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 2);
             this.tsT.addPosiciones(tabla_pos1).subscribe();
             this.tsT.addPosiciones(tabla_pos2).subscribe();
             this.tsT.addPosiciones(tabla_pos3).subscribe();
@@ -331,7 +325,7 @@ export class AdminGenCampeonatoComponent implements OnInit {
               const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo3[0].fk_idcamp, 1, this.grupo3[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 3);
               const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo3[1].fk_idcamp, 1, this.grupo3[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 3);
               const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo3[2].fk_idcamp, 1, this.grupo3[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 3);
-              const tabla_pos4 = new Tabla_Posiciones(uuidv4(), this.grupo3[4].fk_idcamp, 1, this.grupo3[4].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 3);
+              const tabla_pos4 = new Tabla_Posiciones(uuidv4(), this.grupo3[3].fk_idcamp, 1, this.grupo3[3].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 3);
               this.tsT.addPosiciones(tabla_pos1).subscribe();
               this.tsT.addPosiciones(tabla_pos2).subscribe();
               this.tsT.addPosiciones(tabla_pos3).subscribe();
@@ -355,7 +349,7 @@ export class AdminGenCampeonatoComponent implements OnInit {
                 const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo4[0].fk_idcamp, 1, this.grupo4[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 4);
                 const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo4[1].fk_idcamp, 1, this.grupo4[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 4);
                 const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo4[2].fk_idcamp, 1, this.grupo4[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 4);
-                const tabla_pos4 = new Tabla_Posiciones(uuidv4(), this.grupo4[4].fk_idcamp, 1, this.grupo4[4].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 4);
+                const tabla_pos4 = new Tabla_Posiciones(uuidv4(), this.grupo4[3].fk_idcamp, 1, this.grupo4[3].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 4);
                 this.tsT.addPosiciones(tabla_pos1).subscribe();
                 this.tsT.addPosiciones(tabla_pos2).subscribe();
                 this.tsT.addPosiciones(tabla_pos3).subscribe();
@@ -379,7 +373,7 @@ export class AdminGenCampeonatoComponent implements OnInit {
                   const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo5[0].fk_idcamp, 1, this.grupo5[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 5);
                   const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo5[1].fk_idcamp, 1, this.grupo5[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 5);
                   const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo5[2].fk_idcamp, 1, this.grupo5[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 5);
-                  const tabla_pos4 = new Tabla_Posiciones(uuidv4(), this.grupo5[4].fk_idcamp, 1, this.grupo5[4].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 5);
+                  const tabla_pos4 = new Tabla_Posiciones(uuidv4(), this.grupo5[3].fk_idcamp, 1, this.grupo5[3].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 5);
                   this.tsT.addPosiciones(tabla_pos1).subscribe();
                   this.tsT.addPosiciones(tabla_pos2).subscribe();
                   this.tsT.addPosiciones(tabla_pos3).subscribe();
@@ -404,39 +398,21 @@ export class AdminGenCampeonatoComponent implements OnInit {
   }
 
   gruposTres(fase: any, grupo1: any, grupo2: any, grupo3: any, numGrupo: number) {
-    /* E1 */
     const newEncuentro1 = new Encuentros(uuidv4(), this.opcionSeleccionada, grupo1.pk_idequ, fase, 0, grupo2.pk_idequ, 0, 'UTMACH', new Date(), 'Proximo', numGrupo);
-    /* E2 */
     const newEncuentro2 = new Encuentros(uuidv4(), this.opcionSeleccionada, grupo1.pk_idequ, fase, 0, grupo3.pk_idequ, 0, 'UTMACH', new Date(), 'Proximo', numGrupo);
-    /* E3 */
     const newEncuentro3 = new Encuentros(uuidv4(), this.opcionSeleccionada, grupo2.pk_idequ, fase, 0, grupo3.pk_idequ, 0, 'UTMACH', new Date(), 'Proximo', numGrupo);
-    /* Encuentros Service */
     this.tsE.addEncuentros(newEncuentro1).subscribe();
     this.tsE.addEncuentros(newEncuentro2).subscribe();
     this.tsE.addEncuentros(newEncuentro3).subscribe();
-
   }
 
   gruposCuatro(fase: any, grupo1: any, grupo2: any, grupo3: any, grupo4: any, numGrupo: number) {
-
-    /* E1 */
     const newEncuentro1 = new Encuentros(uuidv4(), this.opcionSeleccionada, grupo1.pk_idequ, fase, 0, grupo2.pk_idequ, 0, 'UTMACH', new Date(), 'Proximo', numGrupo);
-
-    /* E2 */
     const newEncuentro2 = new Encuentros(uuidv4(), this.opcionSeleccionada, grupo3.pk_idequ, fase, 0, grupo4.pk_idequ, 0, 'UTMACH', new Date(), 'Proximo', numGrupo);
-
-    /* E3 */
     const newEncuentro3 = new Encuentros(uuidv4(), this.opcionSeleccionada, grupo1.pk_idequ, fase, 0, grupo3.pk_idequ, 0, 'UTMACH', new Date(), 'Proximo', numGrupo);
-
-    /* E4 */
     const newEncuentro4 = new Encuentros(uuidv4(), this.opcionSeleccionada, grupo2.pk_idequ, fase, 0, grupo4.pk_idequ, 0, 'UTMACH', new Date(), 'Proximo', numGrupo);
-
-    /* E5 */
     const newEncuentro5 = new Encuentros(uuidv4(), this.opcionSeleccionada, grupo1.pk_idequ, fase, 0, grupo4.pk_idequ, 0, 'UTMACH', new Date(), 'Proximo', numGrupo);
-
-    /* E6 */
     const newEncuentro6 = new Encuentros(uuidv4(), this.opcionSeleccionada, grupo2.pk_idequ, fase, 0, grupo3.pk_idequ, 0, 'UTMACH', new Date(), 'Proximo', numGrupo);
-    /* Encuentros Service */
     this.tsE.addEncuentros(newEncuentro1).subscribe();
     this.tsE.addEncuentros(newEncuentro2).subscribe();
     this.tsE.addEncuentros(newEncuentro3).subscribe();
@@ -444,6 +420,7 @@ export class AdminGenCampeonatoComponent implements OnInit {
     this.tsE.addEncuentros(newEncuentro5).subscribe();
     this.tsE.addEncuentros(newEncuentro6).subscribe();
   }
+
   openModal() {
     this.showModal = true;
     const openModal = document.querySelector('.ins');
@@ -494,5 +471,6 @@ export class AdminGenCampeonatoComponent implements OnInit {
 
   closeModalEncuentros() {
     this.showModalEncuentros = false;
+    this.limpiarGrupos();
   }
 }

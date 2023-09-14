@@ -61,7 +61,7 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.apiService.login(this.loginForm.getRawValue())
         .subscribe(response => {
-          this.router.navigate(["/home"]);
+          this.router.navigate(["/admin"]);
         });
     }
   }

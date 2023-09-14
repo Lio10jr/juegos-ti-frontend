@@ -20,7 +20,7 @@ const routes: Routes = [
       { path: 'generar_campeonato', component: AdminGenCampeonatoComponent },
       { path: 'encuentros', component: AdminEncuentrosComponent },
       { path: 'tabla-posiciones', component: AdminTablaPosicionesComponent },
-      { path: '**', redirectTo: 'login'}
+      { path: '**', redirectTo: 'admin'}
     ]
   }
 ]

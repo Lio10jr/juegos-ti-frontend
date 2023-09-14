@@ -1,2 +1,179 @@
-<app-nav></app-nav>
-<h1 class="text-center">{{message}}</h1>
+<body>
+  <app-header></app-header>
+
+  <section class="home" id="home">
+
+    <div class="content">
+      <div>
+        <h3 class="fw-bold">Campeonato de la Escuela de Informatica</h3>
+        <p>Tecnologías de la Información - Universidad Técnica de Machala</p>
+      </div>
+      <img src="./assets/img/LOGO.png" alt="">
+    </div>
+
+  </section>
+
+  <section class="about" id="about">
+
+    <h1 class="heading"> <span>Tabla de</span> Posiciones </h1>
+    <div class="py-2">
+      <select class="form-select w-50" [(ngModel)]="opcionSeleccionadaCampeonato" [ngModelOptions]="{standalone: true}"
+        (change)="onSelectCampeonato($event)">
+        <option value="">Seleccione un campeonato</option>
+        <option class="p-3" *ngFor="let opcion of CampeonatoArray" [value]="opcion.pk_idcamp">{{
+          opcion.name_camp }}
+        </option>
+      </select>
+    </div>
+    <div class="content">
+      <ng-container *ngFor="let item of TablaPFiltrados | keyvalue">
+        <ng-container *ngIf="item.key != null">
+          <h3>Grupo {{item.key}}</h3>
+          <table class="tabla">
+            <tr>
+              <th>N°</th>
+              <th>Equipo</th>
+              <th>PJ</th>
+              <th>PG</th>
+              <th>PE</th>
+              <th>PP</th>
+              <th>GF</th>
+              <th>GC</th>
+              <th>GD</th>
+              <th>Pts</th>
+            </tr>
+            <tr *ngFor="let tablaItem of item.value; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ tablaItem.fk_idequ }}</td>
+              <td>{{ tablaItem.pj }}</td>
+              <td>{{ tablaItem.pg }}</td>
+              <td>{{ tablaItem.pe }}</td>
+              <td>{{ tablaItem.pp }}</td>
+              <td>{{ tablaItem.gf }}</td>
+              <td>{{ tablaItem.gc }}</td>
+              <td>{{ tablaItem.gd }}</td>
+              <td>{{ tablaItem.pts }}</td>
+            </tr>
+          </table>
+        </ng-container>
+
+      </ng-container>
+
+
+    </div>
+
+  </section>
+
+  <section class="menu" id="menu">
+
+    <h1 class="heading"> Equipos <span>Participantes</span> </h1>
+    <div class="py-2">
+      <select class="form-select w-50" [(ngModel)]="opcionSeleccionadaCampeonatoEquipos"
+        [ngModelOptions]="{standalone: true}" (change)="onSelectCampeonatoEquipos($event)">
+        <option value="">Seleccione un campeonato</option>
+        <option class="p-3" *ngFor="let opcion of CampeonatoArray" [value]="opcion.pk_idcamp">{{
+          opcion.name_camp }}
+        </option>
+      </select>
+    </div>
+    <div class="box-container">
+
+      <div class="box" *ngFor="let EquipoItem of EquiposFiltrados">
+        <ng-container *ngIf="EquipoItem.logo"><img [src]="apiUrlImg  + EquipoItem.logo" alt="logo"></ng-container>
+        <ng-container *ngIf="!EquipoItem.logo"><img src="./assets/img/Logo_TIC_IS.png" alt="logo"></ng-container>
+        <h3 class="fw-bold">{{EquipoItem.nom_equ}}</h3>
+        <a href="#" class="btn">Ver jugadores</a>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="products" id="products">
+
+    <h1 class="heading"> Resultados <span>de Partidos</span> </h1>
+    <div class="py-2">
+      <select class="form-select w-50" [(ngModel)]="opcionSeleccionadaCampeonatoResultados"
+        [ngModelOptions]="{standalone: true}" (change)="onSelectCampeonatoResultados($event)">
+        <option value="">Seleccione un campeonato</option>
+        <option class="p-3" *ngFor="let opcion of CampeonatoArray" [value]="opcion.pk_idcamp">{{
+          opcion.name_camp }}
+        </option>
+      </select>
+    </div>
+    <div class="box-container">
+      <table class="tabla">
+        <tr>
+          <th>Estado</th>
+          <th>Logo</th>
+          <th>Nombre Equipo</th>
+          <th>vs</th>
+          <th>Nombre Equipo</th>
+          <th>Logo</th>
+        </tr>
+        <ng-container *ngFor="let EncuentroItem of EncuentrosArrayFiltro | keyvalue">
+          <ng-container *ngIf="EncuentroItem.key != null">
+            <ng-container *ngFor="let Item of EncuentroItem.value">
+              <tr *ngIf="Item.estado_encuentro === 'Terminado'">
+                <td>{{EncuentroItem.key === '1' ? "Fase de Grupos" : EncuentroItem.key === '2' ?
+                  "Octavos de Final" : EncuentroItem.key === '3' ? "Cuartos de Final" : EncuentroItem.key === '4' ?
+                  "SemiFinal" : "Final"}}</td>
+                <td *ngIf="Item.logo_local"><img [src]="apiUrlImg  + Item.logo_local" alt="Logo Equipo"
+                    style="width: 30px; height: 30px;"></td>
+                <td *ngIf="!Item.logo_local"><img src="./assets/img/Logo_TIC_IS.png" alt="Logo Equipo"
+                    style="width: 30px; height: 30px;"></td>
+                <td>{{Item.fk_idequlocal}}</td>
+                <td>{{Item.goleslocal}} : {{Item.golesvisit}}</td>
+                <td>{{Item.fk_idequvisit}}</td>
+                <td *ngIf="Item.logo_visit"><img [src]="apiUrlImg  + Item.logo_visit" alt="Logo Equipo"
+                    style="width: 30px; height: 30px;"></td>
+                <td *ngIf="!Item.logo_visit"><img src="./assets/img/Logo_TIC_IS.png" alt="Logo Equipo"
+                    style="width: 30px; height: 30px;"></td>
+              </tr>
+          </ng-container>
+          </ng-container>
+        </ng-container>
+
+      </table>
+    </div>
+
+
+  </section>
+
+  <section class="blogs" id="blogs" *ngIf="EncuentrosArrayProximosFiltro === []">
+
+    <h1 class="heading"> Proximos <span> Encuentros</span> </h1>
+    <div class="py-2">
+      <select class="form-select w-50" [(ngModel)]="opcionSeleccionadaCampeonatoProximos"
+        [ngModelOptions]="{standalone: true}" (change)="onSelectCampeonatoProximos($event)">
+        <option value="">Seleccione un campeonato</option>
+        <option class="p-3" *ngFor="let opcion of CampeonatoArray" [value]="opcion.pk_idcamp">{{
+          opcion.name_camp }}
+        </option>
+      </select>
+    </div>
+    <div class="box-container">
+      <ng-container *ngFor="let EncuentroItem of EncuentrosArrayProximosFiltro | keyvalue">
+        <ng-container *ngIf="EncuentroItem.key != null">
+          <ng-container *ngFor="let Item of EncuentroItem.value">
+            <div class="box" *ngIf="Item.estado_encuentro === 'Proximo'">
+              <div class="image">
+                <img src="./assets/img/LogoUtmach.png" alt="">
+              </div>
+              <div class="content">
+                <a href="#" class="title">{{EncuentroItem.key === '1' ? "Fase de Grupos" : EncuentroItem.key === '2' ?
+                  "Octavos de Final" : EncuentroItem.key === '3' ? "Cuartos de Final" : EncuentroItem.key === '4' ?
+                  "SemiFinal" : "Final"}}{{ Item.numgrupo === 0 ? '' : ": " + Item.numgrupo }}</a>
+                <span>{{Format(Item.fecha_hora)}}</span>
+                <p>El {{Item.fk_idequlocal}} se enfrentará a {{Item.fk_idequvisit}}</p>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+      
+
+    </div>
+
+  </section>
+</body>
+<app-footer></app-footer>

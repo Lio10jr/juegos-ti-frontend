@@ -43,7 +43,7 @@
                     <tr *ngFor="let Item of EncuentroItem.value">
                         <td>{{Item.numgrupo === 0 ? '' : Item.numgrupo}}</td>
 
-                        <td *ngIf="Item.logo_local"><img [src]="apiUrlImg  + Item.logo_local" alt="Logo Equipo"></td>
+                        <td *ngIf="Item.logo_local"><img [src]="apiUrlImg  + Item.logo_local" alt="Logo Equipo" style="width: 30px; height: 30px;"></td>
                         <td *ngIf="!Item.logo_local"><img src="./assets/img/Logo_TIC_IS.png" alt="Logo Equipo"
                                 style="width: 30px; height: 30px;"></td>
                         <td>{{Item.fk_idequlocal}}</td>
@@ -53,8 +53,8 @@
                         <td>{{Item.fk_idequvisit}}</td>
                         <td *ngIf="Item.logo_visit"><img [src]="apiUrlImg  + Item.logo_visit" alt="Logo Equipo"
                                 style="width: 30px; height: 30px;"></td>
-                        <td *ngIf="!Item.logo_visit"><img src="./assets/img/Logo_TIC_IS.png" alt="Logo Equipo">
-                        </td>
+                        <td *ngIf="!Item.logo_visit"><img src="./assets/img/Logo_TIC_IS.png" alt="Logo Equipo"
+                            style="width: 30px; height: 30px;"></td>
                         <td>{{Item.fecha_hora}}</td>
                         <div *ngIf="Item.estado_encuentro === 'Proximo'">
                             <td><button type="button" class="btn btn-outline-primary"
@@ -99,12 +99,12 @@
 
                     <img id="equipo-local-img" [src]="imagenLocalSrc" alt="Logo Equipo"
                         style="width: 50px; height: 50px;">
-                    <div class="input-box mb-3">
-                        <input class="p-2" type="text" [(ngModel)]="name_local" [ngModelOptions]="{standalone: true}"
+                    <div class="input-box mb-3 text-center">
+                        <input class="p-2 text-center" type="text" [(ngModel)]="name_local" [ngModelOptions]="{standalone: true}"
                             name="name_local" id="name_local" readonly>
                     </div>
                     <div class="input-box">
-                        <input type="number" class="form-control" [(ngModel)]="goles_local"
+                        <input type="number" class="form-control " [(ngModel)]="goles_local"
                             [ngModelOptions]="{standalone: true}" name="goles_local" id="goles_local" required>
                         <label># Goles Local</label>
                     </div>
@@ -114,7 +114,7 @@
                     <img id="equipo-visitante-img" [src]="imagenVisitanteSrc" alt="Logo Equipo"
                         style="width: 50px; height: 50px;">
                     <div class="input-box mb-3">
-                        <input class="p-2" type="text" [(ngModel)]="name_visitante"
+                        <input class="p-2 text-center" type="text" [(ngModel)]="name_visitante"
                             [ngModelOptions]="{standalone: true}" name="name_visitante" id="name_visitante" readonly>
                     </div>
                     <div class="input-box">

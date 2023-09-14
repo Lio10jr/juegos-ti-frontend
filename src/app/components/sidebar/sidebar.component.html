@@ -19,28 +19,34 @@
                 <span>Participantes</span>
             </li>
         </a>
-        <a routerLink="/admin/campeonatos">
+        <a *ngIf="isAdmin === true" routerLink="/admin/campeonatos">
             <li>
                 <i class="fa-solid fa-notes-medical"></i>
                 <span>Campeonato</span>
             </li>
         </a>
-        <a routerLink="/admin/generar_campeonato">
+        <a *ngIf="isAdmin === true" routerLink="/admin/generar_campeonato">
             <li>
-                <i class="fa-solid fa-circle-user"></i>
+                <i class="fa-solid fa-futbol"></i>
                 <span>Generar Campeonato</span>
             </li>
         </a>
-        <a routerLink="/admin/encuentros">
+        <a *ngIf="isAdmin === true" routerLink="/admin/encuentros">
             <li>
-                <i class="fa-solid fa-circle-user"></i>
+                <i class="fa-solid fa-calendar-days"></i>
                 <span>Encuentros</span>
             </li>
         </a>
-        <a routerLink="/admin/tabla-posiciones">
+        <a *ngIf="isAdmin === true" routerLink="/admin/tabla-posiciones">
             <li>
-                <i class="fa-solid fa-circle-user"></i>
+                <i class="fa-solid fa-table"></i>
                 <span>Tabla Posiciones</span>
+            </li>
+        </a>
+        <a *ngIf="isAdmin === true" class="fw-bold" routerLink="/registro">
+            <li >
+                <i class="fa-solid fa-user-pen"></i>
+                <span>Registar User</span>
             </li>
         </a>
         <a class="text-danger fw-bold" routerLink="/login"  (click)="logout()">

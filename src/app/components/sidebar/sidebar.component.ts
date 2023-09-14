@@ -4,6 +4,7 @@ import { ApiService } from 'src/app/service/api/api.service';
 import { CookieService } from 'ngx-cookie-service';
 import { catchError, finalize, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs/internal/observable/throwError';
+import { environment } from 'src/app/environments/environment';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,14 +13,36 @@ import { throwError } from 'rxjs/internal/observable/throwError';
 })
 export class SidebarComponent implements OnInit {
   authenticated = false;
-
+  protected apiUrl: string = environment.apiUrl;
+  isAdmin = false;
   constructor( private http: HttpClient,private apiService: ApiService,
     private cookieService: CookieService) {}
+
   ngOnInit() {
     const token = this.apiService.getToken();
 
     if (token) {
       this.authenticated = true;
+    }
+    const access_token = this.apiService.getToken();
+    if (access_token) {
+
+      // Crear los encabezados de la solicitud
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${access_token}`
+      });
+
+      this.http.get(this.apiUrl + 'user', {
+        headers,
+        withCredentials: true
+      }).subscribe(
+        (response: any) => {
+          if ( response.user.fk_rol === "04cbf312-2418-11ee-b6b0-088fc34793bc") {
+            this.isAdmin = true;
+          }
+        }
+      );
     }
   }
 

@@ -83,7 +83,7 @@
                 <tbody class="table-group-divider table-dark text-light">
                     <tr *ngFor="let Item of EncuentroItem.value">
                         <td *ngIf="Item.logo_local"><img [src]="apiUrlImg  + Item.logo_local"
-                                alt="Logo Equipo"></td>
+                                alt="Logo Equipo"  style="width: 30px; height: 30px;"></td>
                         <td *ngIf="!Item.logo_local"><img src="./assets/img/Logo_TIC_IS.png" alt="Logo Equipo"
                                 style="width: 30px; height: 30px;"></td>
                         <td>{{Item.fk_idequlocal}}</td>
@@ -93,7 +93,7 @@
                         <td>{{Item.fk_idequvisit}}</td>
                         <td *ngIf="Item.logo_visit"><img [src]="apiUrlImg  + Item.logo_visit"
                                 alt="Logo Equipo" style="width: 30px; height: 30px;"></td>
-                        <td *ngIf="!Item.logo_visit"><img src="./assets/img/Logo_TIC_IS.png" alt="Logo Equipo">
+                        <td *ngIf="!Item.logo_visit"><img src="./assets/img/Logo_TIC_IS.png" alt="Logo Equipo"  style="width: 30px; height: 30px;">
                         </td>
                         <td>{{Item.fecha_hora}}</td>
                         
@@ -110,3 +110,11 @@
         <h6>{{ equipoCampeon.representante  }}</h6>
     </div>
 </div>
+
+<!-- Terminado -->
+<section class="modal" [class.modal--show]="showModalEncuentrosCreados">
+    <div class="modal-container">
+        <h2 class="modal-title">Encuentros Creados</h2>
+        <button type="submit" (click)="closeModalEncuentrosCreados()" class="modal-close mx-2">Cerrar</button>
+    </div>
+</section>
