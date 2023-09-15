@@ -36,7 +36,8 @@ export class AdminParticipantesComponent {
   isAdmin = false;
   representanteUser: string = "";
   equipoRepresentante: string = "";
-
+  idEquipo: string = "";
+  
   constructor(private toastr: ToastrService, private ts: PlayersService, private tsE: EquipoService, private http: HttpClient, private apiService: ApiService) {
     const access_token = this.apiService.getToken();
     if (access_token) {
@@ -70,6 +71,7 @@ export class AdminParticipantesComponent {
       this.EquipoArray.forEach((equipo: any, indice: number) => {
         if ( indice === 0 ) {
           idequipo = equipo.pk_idequ;
+          this.idEquipo = equipo.pk_idequ;
         }
         if ( equipo.representante === this.representanteUser) {
           this.equipoRepresentante = equipo.pk_idequ;
@@ -95,6 +97,7 @@ export class AdminParticipantesComponent {
   onSelectEquipo(event: any) {
     this.opcionSeleccionadaEquipo = event.target.value;
     if (this.opcionSeleccionadaEquipo != '') {
+      this.idEquipo = event.target.value;
       this.ts.getAllPlayersEquipo(this.opcionSeleccionadaEquipo).subscribe((resultData: any) => {
         this.isResultLoaded = true;
         this.PlayersArray = resultData;
@@ -179,7 +182,7 @@ export class AdminParticipantesComponent {
         } else {
           this.ts.addPlayers(formValues).subscribe(
             () => {
-              this.ts.getAllPlayers().subscribe((resultData: any) => {
+              this.ts.getAllPlayersEquipo(this.idEquipo).subscribe((resultData: any) => {
                 this.isResultLoaded = true;
                 this.PlayersArray = resultData;
                 this.PlayersFiltrados = resultData;
@@ -226,7 +229,7 @@ export class AdminParticipantesComponent {
         this.onResetForm();
         this.closeModalUP();
       });
-      this.ts.getAllPlayers().subscribe((resultData: any) => {
+      this.ts.getAllPlayersEquipo(this.idEquipo).subscribe((resultData: any) => {
         this.isResultLoaded = true;
         this.PlayersArray.splice(0, this.EquipoArray.length);
         this.PlayersArray = resultData;
@@ -243,7 +246,7 @@ export class AdminParticipantesComponent {
   setDelete(data: any) {
     try {
       this.ts.deletePlayers(data.pk_ced).subscribe((resultData: any) => {
-        this.ts.getAllPlayers().subscribe((resultData: any) => {
+        this.ts.getAllPlayersEquipo(this.idEquipo).subscribe((resultData: any) => {
           this.isResultLoaded = true;
           this.PlayersArray.splice(0, this.PlayersArray.length);
           this.PlayersArray = resultData;

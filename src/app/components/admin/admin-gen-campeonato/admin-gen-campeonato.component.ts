@@ -13,6 +13,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Campeonato } from 'src/app/models/Campeonato';
 import { Tabla_Posiciones } from 'src/app/models/Tabla_Posiciones';
 import { PosicionesService } from 'src/app/service/api/posiciones.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-admin-gen-campeonato',
@@ -22,6 +23,7 @@ import { PosicionesService } from 'src/app/service/api/posiciones.service';
 export class AdminGenCampeonatoComponent implements OnInit {
   protected apiUrlImg: string = environment.apiUrlImg;
   showModal = false;
+  showModalCargando = false;
   showModalNULL = false;
   showModalError = false;
   showModalEncuentros = false;
@@ -49,7 +51,7 @@ export class AdminGenCampeonatoComponent implements OnInit {
   errorValidacion: string = "";
   numGrupoRecomendado: string = "";
 
-  constructor( private ts: EquipoService, private tsC: CampeonatoService, private tsE: EncuentrosService, private tsT: PosicionesService) {
+  constructor(private ts: EquipoService, private tsC: CampeonatoService, private tsE: EncuentrosService, private tsT: PosicionesService, private toastr: ToastrService) {
     this.tsC.getAllCampeonato().subscribe((resultData: any) => {
       this.isResultLoaded = true;
       // Filtrar campeonatos con estado en true
@@ -110,7 +112,7 @@ export class AdminGenCampeonatoComponent implements OnInit {
       - minimo 6  - minimo 9  - minimo 12 - minimo 15
       - maximo 8  - maximo 12 - maximo 16 - maximo 20*/
       if (this.numGroupsSelected == '2') {
-        if (this.numGrupo === 2 ) { this.numGrupo = 0}
+        if (this.numGrupo === 2) { this.numGrupo = 0 }
         if (this.EquipoArrayGrupos.length >= 6 && this.EquipoArrayGrupos.length <= 8) {
           if (this.copiaEquipoArrayGrupos.length === 0) {
             this.openModalNULL();
@@ -136,7 +138,7 @@ export class AdminGenCampeonatoComponent implements OnInit {
         }
       }
       if (this.numGroupsSelected == '3') {
-        if (this.numGrupo === 3 ) { this.numGrupo = 0}
+        if (this.numGrupo === 3) { this.numGrupo = 0 }
         if (this.EquipoArrayGrupos.length >= 9 && this.EquipoArrayGrupos.length <= 12) {
           if (this.copiaEquipoArrayGrupos.length === 0) {
             this.openModalNULL();
@@ -166,7 +168,7 @@ export class AdminGenCampeonatoComponent implements OnInit {
         }
       }
       if (this.numGroupsSelected == '4') {
-        if (this.numGrupo === 4 ) { this.numGrupo = 0}
+        if (this.numGrupo === 4) { this.numGrupo = 0 }
         if (this.EquipoArrayGrupos.length >= 12 && this.EquipoArrayGrupos.length <= 16) {
           if (this.copiaEquipoArrayGrupos.length === 0) {
             this.openModalNULL();
@@ -200,7 +202,7 @@ export class AdminGenCampeonatoComponent implements OnInit {
         }
       }
       if (this.numGroupsSelected == '5') {
-        if (this.numGrupo === 5 ) { this.numGrupo = 0}
+        if (this.numGrupo === 5) { this.numGrupo = 0 }
         if (this.EquipoArrayGrupos.length >= 15 && this.EquipoArrayGrupos.length <= 20) {
           if (this.copiaEquipoArrayGrupos.length === 0) {
             this.openModalNULL();
@@ -257,144 +259,147 @@ export class AdminGenCampeonatoComponent implements OnInit {
 
   generarEncuentros() {
     let contador = 0;
-    while (contador < parseInt(this.numGroupsSelected)) {
-      if (contador == 0) {
-        
-        if (this.grupo1.length == 3) {
-          this.gruposTres(1, this.grupo1[0], this.grupo1[1], this.grupo1[2], 1);
-          /* Tabla de Posiciones */
-          const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo1[0].fk_idcamp, 1, this.grupo1[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 1);
-          const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo1[1].fk_idcamp, 1, this.grupo1[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 1);
-          const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo1[2].fk_idcamp, 1, this.grupo1[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 1);
-          this.tsT.addPosiciones(tabla_pos1).subscribe();
-          this.tsT.addPosiciones(tabla_pos2).subscribe();
-          this.tsT.addPosiciones(tabla_pos3).subscribe();
-        }
-        if (this.grupo1.length == 4) {
-          this.gruposCuatro(1, this.grupo1[0], this.grupo1[1], this.grupo1[2], this.grupo1[3], 1);
-          /* Tabla de Posiciones */
-          const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo1[0].fk_idcamp, 1, this.grupo1[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 1);
-          const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo1[1].fk_idcamp, 1, this.grupo1[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 1);
-          const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo1[2].fk_idcamp, 1, this.grupo1[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 1);
-          const tabla_pos4 = new Tabla_Posiciones(uuidv4(), this.grupo1[3].fk_idcamp, 1, this.grupo1[3].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 1);
-          this.tsT.addPosiciones(tabla_pos1).subscribe();
-          this.tsT.addPosiciones(tabla_pos2).subscribe();
-          this.tsT.addPosiciones(tabla_pos3).subscribe();
-          this.tsT.addPosiciones(tabla_pos4).subscribe();
-        }
-        
-      } else {
-        if (contador == 1) {
-          if (this.grupo2.length == 3) {
-            this.gruposTres(1, this.grupo2[0], this.grupo2[1], this.grupo2[2], 2);
+    if (this.numGroupsSelected !== '') {
+      this.showModalCargando = true;
+      while (contador < parseInt(this.numGroupsSelected)) {
+        if (contador == 0) {
+
+          if (this.grupo1.length == 3) {
+            this.gruposTres(1, this.grupo1[0], this.grupo1[1], this.grupo1[2], 1);
             /* Tabla de Posiciones */
-            const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo2[0].fk_idcamp, 1, this.grupo2[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 2);
-            const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo2[1].fk_idcamp, 1, this.grupo2[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 2);
-            const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo2[2].fk_idcamp, 1, this.grupo2[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 2);
+            const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo1[0].fk_idcamp, 1, this.grupo1[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 1);
+            const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo1[1].fk_idcamp, 1, this.grupo1[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 1);
+            const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo1[2].fk_idcamp, 1, this.grupo1[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 1);
             this.tsT.addPosiciones(tabla_pos1).subscribe();
             this.tsT.addPosiciones(tabla_pos2).subscribe();
             this.tsT.addPosiciones(tabla_pos3).subscribe();
           }
-          if (this.grupo2.length == 4) {
-            this.gruposCuatro(1, this.grupo2[0], this.grupo2[1], this.grupo2[2], this.grupo2[3], 2);
+          if (this.grupo1.length == 4) {
+            this.gruposCuatro(1, this.grupo1[0], this.grupo1[1], this.grupo1[2], this.grupo1[3], 1);
             /* Tabla de Posiciones */
-            const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo2[0].fk_idcamp, 1, this.grupo2[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 2);
-            const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo2[1].fk_idcamp, 1, this.grupo2[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 2);
-            const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo2[2].fk_idcamp, 1, this.grupo2[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 2);
-            const tabla_pos4 = new Tabla_Posiciones(uuidv4(), this.grupo2[3].fk_idcamp, 1, this.grupo2[3].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 2);
+            const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo1[0].fk_idcamp, 1, this.grupo1[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 1);
+            const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo1[1].fk_idcamp, 1, this.grupo1[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 1);
+            const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo1[2].fk_idcamp, 1, this.grupo1[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 1);
+            const tabla_pos4 = new Tabla_Posiciones(uuidv4(), this.grupo1[3].fk_idcamp, 1, this.grupo1[3].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 1);
             this.tsT.addPosiciones(tabla_pos1).subscribe();
             this.tsT.addPosiciones(tabla_pos2).subscribe();
             this.tsT.addPosiciones(tabla_pos3).subscribe();
             this.tsT.addPosiciones(tabla_pos4).subscribe();
           }
+
         } else {
-          if (contador == 2) {
-            if (this.grupo3.length == 3) {
-              this.gruposTres(1, this.grupo3[0], this.grupo3[1], this.grupo3[2], 3);
+          if (contador == 1) {
+            if (this.grupo2.length == 3) {
+              this.gruposTres(1, this.grupo2[0], this.grupo2[1], this.grupo2[2], 2);
               /* Tabla de Posiciones */
-              const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo3[0].fk_idcamp, 1, this.grupo3[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 3);
-              const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo3[1].fk_idcamp, 1, this.grupo3[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 3);
-              const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo3[2].fk_idcamp, 1, this.grupo3[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 3);
+              const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo2[0].fk_idcamp, 1, this.grupo2[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 2);
+              const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo2[1].fk_idcamp, 1, this.grupo2[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 2);
+              const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo2[2].fk_idcamp, 1, this.grupo2[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 2);
               this.tsT.addPosiciones(tabla_pos1).subscribe();
               this.tsT.addPosiciones(tabla_pos2).subscribe();
               this.tsT.addPosiciones(tabla_pos3).subscribe();
             }
-            if (this.grupo3.length == 4) {
-              this.gruposCuatro(1, this.grupo3[0], this.grupo3[1], this.grupo3[2], this.grupo3[3], 3);
+            if (this.grupo2.length == 4) {
+              this.gruposCuatro(1, this.grupo2[0], this.grupo2[1], this.grupo2[2], this.grupo2[3], 2);
               /* Tabla de Posiciones */
-              const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo3[0].fk_idcamp, 1, this.grupo3[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 3);
-              const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo3[1].fk_idcamp, 1, this.grupo3[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 3);
-              const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo3[2].fk_idcamp, 1, this.grupo3[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 3);
-              const tabla_pos4 = new Tabla_Posiciones(uuidv4(), this.grupo3[3].fk_idcamp, 1, this.grupo3[3].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 3);
+              const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo2[0].fk_idcamp, 1, this.grupo2[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 2);
+              const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo2[1].fk_idcamp, 1, this.grupo2[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 2);
+              const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo2[2].fk_idcamp, 1, this.grupo2[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 2);
+              const tabla_pos4 = new Tabla_Posiciones(uuidv4(), this.grupo2[3].fk_idcamp, 1, this.grupo2[3].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 2);
               this.tsT.addPosiciones(tabla_pos1).subscribe();
               this.tsT.addPosiciones(tabla_pos2).subscribe();
               this.tsT.addPosiciones(tabla_pos3).subscribe();
               this.tsT.addPosiciones(tabla_pos4).subscribe();
             }
           } else {
-            if (contador == 3) {
-              if (this.grupo4.length == 3) {
-                this.gruposTres(1, this.grupo4[0], this.grupo4[1], this.grupo4[2], 4);
+            if (contador == 2) {
+              if (this.grupo3.length == 3) {
+                this.gruposTres(1, this.grupo3[0], this.grupo3[1], this.grupo3[2], 3);
                 /* Tabla de Posiciones */
-                const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo4[0].fk_idcamp, 1, this.grupo4[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 4);
-                const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo4[1].fk_idcamp, 1, this.grupo4[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 4);
-                const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo4[2].fk_idcamp, 1, this.grupo4[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 4);
+                const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo3[0].fk_idcamp, 1, this.grupo3[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 3);
+                const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo3[1].fk_idcamp, 1, this.grupo3[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 3);
+                const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo3[2].fk_idcamp, 1, this.grupo3[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 3);
                 this.tsT.addPosiciones(tabla_pos1).subscribe();
                 this.tsT.addPosiciones(tabla_pos2).subscribe();
                 this.tsT.addPosiciones(tabla_pos3).subscribe();
               }
-              if (this.grupo4.length == 4) {
-                this.gruposCuatro(1, this.grupo4[0], this.grupo4[1], this.grupo4[2], this.grupo4[3], 4);
+              if (this.grupo3.length == 4) {
+                this.gruposCuatro(1, this.grupo3[0], this.grupo3[1], this.grupo3[2], this.grupo3[3], 3);
                 /* Tabla de Posiciones */
-                const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo4[0].fk_idcamp, 1, this.grupo4[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 4);
-                const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo4[1].fk_idcamp, 1, this.grupo4[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 4);
-                const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo4[2].fk_idcamp, 1, this.grupo4[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 4);
-                const tabla_pos4 = new Tabla_Posiciones(uuidv4(), this.grupo4[3].fk_idcamp, 1, this.grupo4[3].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 4);
+                const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo3[0].fk_idcamp, 1, this.grupo3[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 3);
+                const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo3[1].fk_idcamp, 1, this.grupo3[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 3);
+                const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo3[2].fk_idcamp, 1, this.grupo3[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 3);
+                const tabla_pos4 = new Tabla_Posiciones(uuidv4(), this.grupo3[3].fk_idcamp, 1, this.grupo3[3].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 3);
                 this.tsT.addPosiciones(tabla_pos1).subscribe();
                 this.tsT.addPosiciones(tabla_pos2).subscribe();
                 this.tsT.addPosiciones(tabla_pos3).subscribe();
                 this.tsT.addPosiciones(tabla_pos4).subscribe();
               }
             } else {
-              if (contador == 4) {
-                if (this.grupo5.length == 3) {
-                  this.gruposTres(1, this.grupo5[0], this.grupo5[1], this.grupo5[2], 5);
+              if (contador == 3) {
+                if (this.grupo4.length == 3) {
+                  this.gruposTres(1, this.grupo4[0], this.grupo4[1], this.grupo4[2], 4);
                   /* Tabla de Posiciones */
-                  const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo5[0].fk_idcamp, 1, this.grupo5[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 5);
-                  const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo5[1].fk_idcamp, 1, this.grupo5[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 5);
-                  const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo5[2].fk_idcamp, 1, this.grupo5[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 5);
+                  const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo4[0].fk_idcamp, 1, this.grupo4[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 4);
+                  const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo4[1].fk_idcamp, 1, this.grupo4[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 4);
+                  const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo4[2].fk_idcamp, 1, this.grupo4[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 4);
                   this.tsT.addPosiciones(tabla_pos1).subscribe();
                   this.tsT.addPosiciones(tabla_pos2).subscribe();
                   this.tsT.addPosiciones(tabla_pos3).subscribe();
                 }
-                if (this.grupo5.length == 4) {
-                  this.gruposCuatro(1, this.grupo5[0], this.grupo5[1], this.grupo5[2], this.grupo5[3], 5);
+                if (this.grupo4.length == 4) {
+                  this.gruposCuatro(1, this.grupo4[0], this.grupo4[1], this.grupo4[2], this.grupo4[3], 4);
                   /* Tabla de Posiciones */
-                  const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo5[0].fk_idcamp, 1, this.grupo5[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 5);
-                  const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo5[1].fk_idcamp, 1, this.grupo5[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 5);
-                  const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo5[2].fk_idcamp, 1, this.grupo5[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 5);
-                  const tabla_pos4 = new Tabla_Posiciones(uuidv4(), this.grupo5[3].fk_idcamp, 1, this.grupo5[3].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 5);
+                  const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo4[0].fk_idcamp, 1, this.grupo4[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 4);
+                  const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo4[1].fk_idcamp, 1, this.grupo4[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 4);
+                  const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo4[2].fk_idcamp, 1, this.grupo4[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 4);
+                  const tabla_pos4 = new Tabla_Posiciones(uuidv4(), this.grupo4[3].fk_idcamp, 1, this.grupo4[3].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 4);
                   this.tsT.addPosiciones(tabla_pos1).subscribe();
                   this.tsT.addPosiciones(tabla_pos2).subscribe();
                   this.tsT.addPosiciones(tabla_pos3).subscribe();
                   this.tsT.addPosiciones(tabla_pos4).subscribe();
                 }
+              } else {
+                if (contador == 4) {
+                  if (this.grupo5.length == 3) {
+                    this.gruposTres(1, this.grupo5[0], this.grupo5[1], this.grupo5[2], 5);
+                    /* Tabla de Posiciones */
+                    const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo5[0].fk_idcamp, 1, this.grupo5[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 5);
+                    const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo5[1].fk_idcamp, 1, this.grupo5[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 5);
+                    const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo5[2].fk_idcamp, 1, this.grupo5[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 5);
+                    this.tsT.addPosiciones(tabla_pos1).subscribe();
+                    this.tsT.addPosiciones(tabla_pos2).subscribe();
+                    this.tsT.addPosiciones(tabla_pos3).subscribe();
+                  }
+                  if (this.grupo5.length == 4) {
+                    this.gruposCuatro(1, this.grupo5[0], this.grupo5[1], this.grupo5[2], this.grupo5[3], 5);
+                    /* Tabla de Posiciones */
+                    const tabla_pos1 = new Tabla_Posiciones(uuidv4(), this.grupo5[0].fk_idcamp, 1, this.grupo5[0].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 5);
+                    const tabla_pos2 = new Tabla_Posiciones(uuidv4(), this.grupo5[1].fk_idcamp, 1, this.grupo5[1].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 5);
+                    const tabla_pos3 = new Tabla_Posiciones(uuidv4(), this.grupo5[2].fk_idcamp, 1, this.grupo5[2].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 5);
+                    const tabla_pos4 = new Tabla_Posiciones(uuidv4(), this.grupo5[3].fk_idcamp, 1, this.grupo5[3].pk_idequ, 0, 0, 0, 0, 0, 0, 0, 0, 5);
+                    this.tsT.addPosiciones(tabla_pos1).subscribe();
+                    this.tsT.addPosiciones(tabla_pos2).subscribe();
+                    this.tsT.addPosiciones(tabla_pos3).subscribe();
+                    this.tsT.addPosiciones(tabla_pos4).subscribe();
+                  }
+                }
               }
             }
           }
         }
+        contador++;
       }
-      contador++;
+      /* View Encuentros */
+      this.tsE.getAllViewEncuentrosByCamp(this.name_camp).subscribe((resultData: any) => {
+        this.isResultLoaded = true;
+        this.ViewEncuentros = resultData;
+        this.showModalCargando = false;
+        this.showModalEncuentros = true;
+      });
+    } else {
+      this.toastr.error('Por favor, complete todos los campos para poder generar los encuentros!', 'Equipo!');
     }
-
-    /* View Encuentros */
-    this.tsE.getAllViewEncuentrosByCamp(this.name_camp).subscribe((resultData: any) => {
-      this.isResultLoaded = true;
-      // Filtrar campeonatos con estado en true
-      this.ViewEncuentros = resultData;
-      this.showModalEncuentros = true;
-    });
-
   }
 
   gruposTres(fase: any, grupo1: any, grupo2: any, grupo3: any, numGrupo: number) {

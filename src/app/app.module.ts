@@ -16,6 +16,7 @@ import { HomeComponent } from './components/home/home.component';
 import { NavComponent } from './components/nav/nav.component';
 import { AuthInterceptor } from './helpers/auth.interceptor';
 import { ToastrModule } from 'ngx-toastr';
+import { BsModalService, ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -36,9 +37,11 @@ import { ToastrModule } from 'ngx-toastr';
     IonicModule.forRoot(),
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
+    ModalModule.forRoot()
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    BsModalService
   ],
   bootstrap: [AppComponent]
 })

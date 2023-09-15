@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/app/environments/environment';
 import { ApiService } from 'src/app/service/api/api.service';
@@ -8,6 +8,8 @@ import { EncuentrosService } from 'src/app/service/api/encuentros.service';
 import { EquipoService } from 'src/app/service/api/equipo.service';
 import { Equipo } from 'src/app/models/Equipo';
 import { format } from 'date-fns';
+import { PlayersService } from 'src/app/service/api/players.service';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-home',
@@ -32,13 +34,19 @@ export class HomeComponent implements OnInit {
   EncuentrosArrayFiltro: any[] = [];
   EncuentrosArrayProximos: any[] = [];
   EncuentrosArrayProximosFiltro: any[] = [];
+  modalRef!: BsModalRef;
+  mensaje: string = "";
+  playersEquipo: any[] = [];
+
   constructor(
     private http: HttpClient,
-    private apiService: ApiService, 
-    private tsC: CampeonatoService, 
-    private tsT: PosicionesService, 
-    private tsE: EncuentrosService, 
-    private tsEq: EquipoService
+    private apiService: ApiService,
+    private tsC: CampeonatoService,
+    private tsT: PosicionesService,
+    private tsE: EncuentrosService,
+    private tsEq: EquipoService,
+    private tsP: PlayersService,
+    private renderer: Renderer2
   ) { }
 
   ngOnInit() {
@@ -60,7 +68,7 @@ export class HomeComponent implements OnInit {
         }
       );
     }
-    
+
     this.tsC.getAllCampeonato().subscribe((resultData: any) => {
       this.isResultLoaded = true;
       this.CampeonatoArray = resultData;
@@ -76,14 +84,14 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  cargarDatos(campeonatoActivoId: any,campeonatoActivo: any, section: any) {
+  cargarDatos(campeonatoActivoId: any, campeonatoActivo: any, section: any) {
     if (section === "general") {
       this.tsT.getPosicionesByCampView(campeonatoActivoId).subscribe((resultData: any) => {
         this.isResultLoaded = true;
         if (resultData && resultData.length > 0) {
           this.TablaPArray = resultData.sort(this.criterioDeOrden);
           let tabla: any[] = resultData.sort(this.criterioDeOrden);
-      
+
           tabla.forEach((elemento) => {
             const numgrupo = elemento.numgrupo;
             if (!this.TablaPFiltrados[numgrupo]) {
@@ -193,7 +201,7 @@ export class HomeComponent implements OnInit {
         if (resultData && resultData.length > 0) {
           this.TablaPArray = resultData.sort(this.criterioDeOrden);
           let tabla: any[] = resultData.sort(this.criterioDeOrden);
-      
+
           tabla.forEach((elemento) => {
             const numgrupo = elemento.numgrupo;
             if (!this.TablaPFiltrados[numgrupo]) {
@@ -365,6 +373,26 @@ export class HomeComponent implements OnInit {
 
   Format(date: any): string {
     const fecha: Date = new Date(date);
-   return format(fecha, "do MMM, yyyy");
+    return format(fecha, "do MMM, yyyy");
+  }
+
+  verJuagadores(idequipo: any) {
+    this.tsP.getAllPlayersEquipo(idequipo).subscribe((result: any) => {
+      if (result && result.length > 0) {
+        this.playersEquipo = result;
+      } else {
+        this.mensaje = "No se encontraron participantes";
+      }
+      const modal = document.getElementById('exampleModal');
+      this.renderer.addClass(modal, 'show');
+      this.renderer.setStyle(modal, 'display', 'block');
+    });
+  }
+
+  closeModal() {
+    const modal = document.getElementById('exampleModal');
+    this.renderer.removeClass(modal, 'show');
+    this.renderer.setStyle(modal, 'display', 'none');
+    this.playersEquipo = []; 
   }
 }

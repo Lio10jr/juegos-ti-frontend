@@ -82,11 +82,36 @@
         <ng-container *ngIf="EquipoItem.logo"><img [src]="apiUrlImg  + EquipoItem.logo" alt="logo"></ng-container>
         <ng-container *ngIf="!EquipoItem.logo"><img src="./assets/img/Logo_TIC_IS.png" alt="logo"></ng-container>
         <h3 class="fw-bold">{{EquipoItem.nom_equ}}</h3>
-        <a href="#" class="btn">Ver jugadores</a>
+        <a class="btn" (click)="verJuagadores(EquipoItem.pk_idequ)">Ver jugadores</a>
       </div>
     </div>
 
   </section>
+
+  <!-- Modal Jugadores -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Jugadores</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" *ngIf="playersEquipo.length > 0">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex fs-6"  *ngFor="let item of playersEquipo">
+              <b>Nombres: </b>&nbsp;<p>{{ item.nombre }} {{ item.apellido }}</p>&nbsp;<b>Semestre: </b>&nbsp; <p>{{ item.semestre }} </p>
+            </li>
+          </ul>
+        </div>
+        <div class="modal-body  fs-6" *ngIf="playersEquipo.length === 0">
+          {{ mensaje }}
+        </div>
+        <div class="modal-footer text-center">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <section class="products" id="products">
 
@@ -129,7 +154,7 @@
                 <td *ngIf="!Item.logo_visit"><img src="./assets/img/Logo_TIC_IS.png" alt="Logo Equipo"
                     style="width: 30px; height: 30px;"></td>
               </tr>
-          </ng-container>
+            </ng-container>
           </ng-container>
         </ng-container>
 
@@ -170,10 +195,12 @@
           </ng-container>
         </ng-container>
       </ng-container>
-      
+
 
     </div>
 
   </section>
+
+  <app-footer></app-footer>
+
 </body>
-<app-footer></app-footer>

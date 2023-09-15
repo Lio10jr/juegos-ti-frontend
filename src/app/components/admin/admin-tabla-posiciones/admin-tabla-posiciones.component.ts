@@ -21,6 +21,7 @@ export class AdminTablaPosicionesComponent implements OnInit, OnChanges {
   opcionSeleccionadaCampeonato: string = '';
   CampeonatoArray: any[] = [];
   isResultLoaded = false;
+  showModalCargando =  false;
   TablaPArray: any[] = [];
   TablaPFiltrados: any[] = [];
   EncuentrosArray: any[] = [];
@@ -266,6 +267,7 @@ export class AdminTablaPosicionesComponent implements OnInit, OnChanges {
   }
 
   generarFase() {
+    this.showModalCargando = true;
     if (this.numFase === 1) {  // FASE DE GRUPOS
       if (this.numGrupos === 2) {
         //  Pasan 4 equipos, los primeros y 3 mejores segundos (solo de 4 equipos x grupo)
@@ -519,6 +521,7 @@ export class AdminTablaPosicionesComponent implements OnInit, OnChanges {
         this.EncuentrosArray = [];
         this.EncuentrosArrayFiltro = [];
       }
+      this.showModalCargando = false;
       this.showModalEncuentrosCreados =  true;
     });
   }

@@ -118,3 +118,11 @@
         <button type="submit" (click)="closeModalEncuentrosCreados()" class="modal-close mx-2">Cerrar</button>
     </div>
 </section>
+
+<section class="modal" [class.modal--show]="showModalCargando">
+    <div class="modal-container">
+        <h2 class="modal-title">Generando Encuentros</h2>
+        <img src="./assets/img/pelota-futbolista.gif" alt="Cargando" width="150px" height="150px">
+        <h5>Espere un momento</h5>
+    </div>
+</section>
