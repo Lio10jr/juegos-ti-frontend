@@ -3,6 +3,7 @@ import { inject } from '@angular/core';
 import { ApiService } from '../service/api/api.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../environments/environment';
+import { map } from 'rxjs';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(ApiService) as ApiService;
@@ -28,21 +29,21 @@ export const authGuardRegistro: CanActivateFn = (route, state) => {
   });
   
   if (access_token) {
-    http.get(urlApi + 'user', {
+    return http.get(urlApi + 'user', {
       headers,
-      withCredentials: true
-    }).subscribe(
-      (response: any) => {
-        if ( response.user.fk_rol !== "04cbf312-2418-11ee-b6b0-088fc34793bc") {
+      withCredentials: true,
+    }).pipe(
+      map((response: any) => {
+        if (response.user.fk_rol !== '04cbf312-2418-11ee-b6b0-088fc34793bc') {
           router.navigate(['admin']);
           return false;
+        } else {
+          return true;
         }
-        return true;
-      }
+      })
     );
+  } else {
+    router.navigate(['login']);
+    return false;
   }
-  router.navigate(['login']);
-  return false;
 };
-
-
