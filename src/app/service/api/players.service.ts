@@ -9,6 +9,7 @@ import { environment } from 'src/app/environments/environment';
 })
 export class PlayersService {
   private apiUrl: string = environment.apiUrl;
+  private apiUrlNode: string = environment.apiUrlNode;
   options: any;
 
   private headers: HttpHeaders = new HttpHeaders({
@@ -29,6 +30,7 @@ export class PlayersService {
 
   addPlayers(data: any): Observable<Players> {
     const newPlayers = new Players(data.pk_ced,data.nombre, data.apellido, data.semestre, data.f_nacimiento, data.fk_idequ);
+    this._http.post<Players>(this.apiUrlNode + 'playerCreate', newPlayers);
     return this._http.post<Players>(this.apiUrl + 'playerssave', newPlayers);
   }
 
