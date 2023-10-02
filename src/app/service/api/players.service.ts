@@ -30,8 +30,12 @@ export class PlayersService {
 
   addPlayers(data: any): Observable<Players> {
     const newPlayers = new Players(data.pk_ced,data.nombre, data.apellido, data.semestre, data.f_nacimiento, data.fk_idequ);
-    this._http.post<Players>(this.apiUrlNode + 'playerCreate', newPlayers);
     return this._http.post<Players>(this.apiUrl + 'playerssave', newPlayers);
+  }
+
+  addPlayersDynamon(data: any): Observable<Players> {
+    const newPlayers = new Players(data.pk_ced,data.nombre, data.apellido, data.semestre, data.f_nacimiento, data.fk_idequ);
+    return this._http.post<Players>(this.apiUrlNode + 'playerCreate', newPlayers);
   }
 
   updatePlayers(dataID: string, data: any) {

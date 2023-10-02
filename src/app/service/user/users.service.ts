@@ -27,7 +27,12 @@ export class UsersService {
   addUsers(name:string,lastname:string,email:string,phone:number,rol:string,password:string):Observable<Users>
   {
     const newUsers = new Users(name,lastname,email,phone,rol,password);
-    this._http.post<Users>(this.apiUrl+'registro', newUsers);
+    return this._http.post<Users>(this.apiUrl+'registro', newUsers);
+  }
+
+  addUsersMongo(name:string,lastname:string,email:string,phone:number,rol:string,password:string):Observable<Users>
+  {
+    const newUsers = new Users(name,lastname,email,phone,rol,password);
     return this._http.post<Users>(this.apiUrlNode+'userCreate', newUsers);
   }
 }
