@@ -109,7 +109,11 @@ export class AdminEncuentrosComponent {
   onUpdateForm() {
     this.encuentroUpdate.goleslocal = this.goles_local;
     this.encuentroUpdate.golesvisit = this.goles_visitante;
-    this.encuentroUpdate.estado_encuentro = 'Terminado';
+    if (this.encuentroUpdate.fk_id_fase_e > 1 && this.goles_local == this.goles_visitante ) {
+      this.encuentroUpdate.estado_encuentro = 'Proximo';
+    }else {
+      this.encuentroUpdate.estado_encuentro = 'Terminado';
+    }
     this.tsE.updateEncuentros(this.encuentroUpdate.id_enc, this.encuentroUpdate).subscribe((result: any) => {
       this.closeModal();
     });
@@ -160,7 +164,7 @@ export class AdminEncuentrosComponent {
     if (estado === 'Actualizar') {
       this.tsE.getEncuentrosById(encuentro.id_enc).subscribe((result: any) => {
         this.encuentroUpdate = result[0];
-        console.log(this.encuentroUpdate)
+        console.log(this.encuentroUpdate.fk_id_fase_e)
 
       });
       this.name_local = encuentro.fk_idequlocal;
