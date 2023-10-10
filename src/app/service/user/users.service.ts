@@ -12,7 +12,6 @@ import { FormBuilder, Validators, FormControl, FormGroup } from '@angular/forms'
 export class UsersService {
 
   private apiUrl: string = environment.apiUrl;
-  private apiUrlNode: string = environment.apiUrlNode;
   options:any;
 
   private headers: HttpHeaders = new HttpHeaders({
@@ -28,11 +27,5 @@ export class UsersService {
   {
     const newUsers = new Users(name,lastname,email,phone,rol,password);
     return this._http.post<Users>(this.apiUrl+'registro', newUsers);
-  }
-
-  addUsersMongo(name:string,lastname:string,email:string,phone:number,rol:string,password:string):Observable<Users>
-  {
-    const newUsers = new Users(name,lastname,email,phone,rol,password);
-    return this._http.post<Users>(this.apiUrlNode+'userCreate', newUsers);
   }
 }

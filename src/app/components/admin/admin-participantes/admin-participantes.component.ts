@@ -182,18 +182,14 @@ export class AdminParticipantesComponent {
         } else {
           this.ts.addPlayers(formValues).subscribe(
             () => {              
-              this.ts.addPlayersDynamon(formValues).subscribe(
-                () => {
-                  this.ts.getAllPlayersEquipo(this.idEquipo).subscribe((resultData: any) => {
-                    this.isResultLoaded = true;
-                    this.PlayersArray = resultData;
-                    this.PlayersFiltrados = resultData;
-                  });
-                  this.closeModalINS();
-                  this.toastr.success('Participante Creado!', 'Participante!');
-                  this.onResetForm();
-                }
-              );
+              this.ts.getAllPlayersEquipo(this.idEquipo).subscribe((resultData: any) => {
+                this.isResultLoaded = true;
+                this.PlayersArray = resultData;
+                this.PlayersFiltrados = resultData;
+              });
+              this.closeModalINS();
+              this.toastr.success('Participante Creado!', 'Participante!');
+              this.onResetForm();
             }
           );
         }

@@ -68,22 +68,14 @@ export class SignupComponent implements OnInit {
         const rol = '28d2850c-2418-11ee-b6b0-088fc34793bc';
         this.ts.addUsers(formValues.name,formValues.lastname,formValues.email,formValues.phone,rol,formValues.password).subscribe( 
           () => {
-            this.ts.addUsersMongo(formValues.name,formValues.lastname,formValues.email,formValues.phone,rol,formValues.password).subscribe( 
-              () => {
-                this.router.navigate(['/admin'])
-              }
-            );
+            this.router.navigate(['/admin'])
           }
         );
       } else {
         const rol = '04cbf312-2418-11ee-b6b0-088fc34793bc';
         this.ts.addUsers(formValues.name,formValues.lastname,formValues.email,formValues.phone,rol,formValues.password).subscribe( 
           () => {
-            this.ts.addUsersMongo(formValues.name,formValues.lastname,formValues.email,formValues.phone,rol,formValues.password).subscribe( 
-              () => {
-                this.router.navigate(['/admin'])
-              }
-            );
+            this.router.navigate(['/admin'])
           }
         );
       }
