@@ -1,4 +1,4 @@
-# Juegos TI - FronEnd
+# Juegos TI - FrontEnd
 
 ## Tabla de Contenido
 
@@ -10,7 +10,7 @@
 
 ## Introducción
 
-Juegos TI - FronEnd, realizado en angular, aplicación para realizar peticiones a la api [Juegos TI BackEnd](https://github.com/Lio10jr/juegostic_api), desarrollada para gestionar campeonatos deportivos de futbol de hombres, destinado a la carrera de TI de la Universidad Técnica de Machala.
+Juegos TI - FrontEnd, realizado en angular, aplicación para realizar peticiones a la api [Juegos TI BackEnd](https://github.com/Lio10jr/juegostic_api), desarrollada para gestionar campeonatos deportivos de futbol de hombres, destinado a la carrera de TI de la Universidad Técnica de Machala.
 
 ## Características
 
