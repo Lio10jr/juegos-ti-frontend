@@ -1,27 +1,55 @@
-# YourDrinkFrontend
+# Juegos TI - FronEnd
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.1.
+## Tabla de Contenido
 
-## Development server
+1. [Introducción](#introducción)
+2. [Características](#características)
+3. [Tecnologías](#tecnologías)
+4. [Instalación](#instalación)
+5. [Contacto](#contacto)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Introducción
 
-## Code scaffolding
+Juegos TI - FronEnd, realizado en angular, aplicación para realizar peticiones a la api [Juegos TI BackEnd](https://github.com/Lio10jr/juegostic_api), desarrollada para gestionar campeonatos deportivos de futbol de hombres, destinado a la carrera de TI de la Universidad Técnica de Machala.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Características
 
-## Build
+- **Vista de Administración**: Administra, Equipos, Jugadores, Precidentes, Campeonatos, Tabla de posiciones y Encuentros.
+- **Vista Pública**: Información del Campeonato que se está desarrollando, como tabla de posiciones, fase de grupos, encuentros y resultados.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Tecnologías
 
-## Running unit tests
+- **Angular**
+- **Firebase**
+- **Laravel**
+- **Firebase**
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Installation
 
-## Running end-to-end tests
+1. **Clone the repository:**
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+   ```bash
+   git clone https://github.com/Lio10jr/juegos-ti-frontend.git
 
-## Further help
+2. **Abrir el proyecto en Visual Code:**
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Abrir la carpeta clonada en el Visual Code.
+
+3. **Instala los paquetes:**
+
+  ```bash
+     npm i
+
+4. **Ejecuta la aplicación:**
+
+  ```bash
+     ng serve
+
+## Contacto
+
+Si tienes alguna pregunta, sugerencia o necesitas soporte, no dudes en ponerte en contacto conmigo:
+
+- **Nombre**: Kevin Steven Zambrano Macas
+- **Email**: kevinzambrano593@gmail.com
+- **LinkedIn**: [Lio ZM](https://www.linkedin.com/in/lio-zm-09883431a/)
+- **GitHub**: [Lio10](https://github.com/Lio10jr)
