@@ -20,9 +20,9 @@ Juegos TI - FrontEnd, realizado en angular, aplicación para realizar peticiones
 ## Tecnologías
 
 - **Angular**
-- **Firebase**
+- **Ionic**
 - **Laravel**
-- **Firebase**
+- **PostgreSql**
 
 ## Installation
 
