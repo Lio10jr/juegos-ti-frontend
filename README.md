@@ -28,23 +28,23 @@ Juegos TI - FrontEnd, realizado en angular, aplicación para realizar peticiones
 
 1. **Clone the repository:**
 
-   ```bash
-   git clone https://github.com/Lio10jr/juegos-ti-frontend.git
-
+```bash
+git clone https://github.com/Lio10jr/juegos-ti-frontend.git
+```
 2. **Abrir el proyecto en Visual Code:**
 
 Abrir la carpeta clonada en el Visual Code.
 
 3. **Instala los paquetes:**
 
-  ```bash
-     npm i
-
+```bash
+   npm i
+```
 4. **Ejecuta la aplicación:**
 
-  ```bash
-     ng serve
-
+```bash
+   ng serve
+```
 ## Contacto
 
 Si tienes alguna pregunta, sugerencia o necesitas soporte, no dudes en ponerte en contacto conmigo:
